@@ -15,7 +15,7 @@ import { useDarkmode } from "@theme-hope/modules/outlook/composables/index";
 
 import type { ThemeNormalPageFrontmatter } from "../../shared/index.js";
 
-import "../styles/page.scss";
+import "../styles/normal-page.scss";
 
 export default defineComponent({
   name: "NormalPage",
@@ -37,9 +37,11 @@ export default defineComponent({
     const themeLocale = useThemeLocaleData();
 
     const tocEnable = computed(
-      () =>
-        frontmatter.value.toc ||
-        (frontmatter.value.toc !== false && themeLocale.value.toc !== false),
+      () => frontmatter.value.toc ?? themeLocale.value.toc ?? true,
+    );
+
+    const headerDepth = computed(
+      () => frontmatter.value.headerDepth ?? themeLocale.value.headerDepth ?? 2,
     );
 
     return (): VNode =>
@@ -48,7 +50,7 @@ export default defineComponent({
         { id: "main-content", class: "vp-page" },
         h(
           hasGlobalComponent("LocalEncrypt")
-            ? <ComponentOptions>resolveComponent("LocalEncrypt")
+            ? (resolveComponent("LocalEncrypt") as ComponentOptions)
             : RenderDefault,
           () => [
             slots.top?.(),
@@ -68,15 +70,10 @@ export default defineComponent({
             tocEnable.value
               ? h(
                   TOC,
+                  { headerDepth: headerDepth.value },
                   {
-                    headerDepth:
-                      frontmatter.value.headerDepth ??
-                      themeLocale.value.headerDepth ??
-                      2,
-                  },
-                  {
-                    before: () => slots.tocBefore?.(),
-                    after: () => slots.tocAfter?.(),
+                    before: slots.tocBefore,
+                    after: slots.tocAfter,
                   },
                 )
               : null,

@@ -1,7 +1,6 @@
-import { addViteOptimizeDepsInclude } from "@vuepress/helper";
-import { shikiPlugin } from "@vuepress/plugin-shiki";
-import type { UserConfig } from "vuepress/cli";
-import { defineUserConfig } from "vuepress/cli";
+import { addViteOptimizeDepsInclude, isFunction } from "@vuepress/helper";
+import type { UserConfig } from "vuepress";
+import { defineUserConfig } from "vuepress";
 import { getDirname, path } from "vuepress/utils";
 
 import { pwaHead } from "./head.js";
@@ -20,7 +19,7 @@ export const config = (
   const docsBase = IS_NETLIFY
     ? "/"
     : base
-      ? <`/${string}/`>`/v2/${base}/`
+      ? (`/v2/${base}/` as `/${string}/`)
       : "/v2/";
 
   return defineUserConfig({
@@ -30,23 +29,9 @@ export const config = (
 
     head: pwaHead,
 
-    markdown: {
-      code: {
-        lineNumbers: 10,
-      },
-    },
+    plugins,
 
-    plugins: [
-      shikiPlugin({
-        themes: {
-          light: "github-light",
-          dark: "one-dark-pro",
-        },
-      }),
-      ...plugins,
-    ],
-
-    alias: {
+    alias: async (app, isServer): Promise<Record<string, unknown>> => ({
       "@theme-hope/components/HeroInfo": path.resolve(
         __dirname,
         "./components/HopeHero.js",
@@ -55,8 +40,8 @@ export const config = (
         __dirname,
         "./components/HopeNotFoundHint.js",
       ),
-      ...alias,
-    },
+      ...(isFunction(alias) ? await alias(app, isServer) : alias),
+    }),
 
     define: () => ({ IS_GITEE, IS_GITHUB, IS_NETLIFY }),
 
@@ -70,7 +55,8 @@ export const config = (
 
     onInitialized: (app) => {
       if (IS_NETLIFY) {
-        app.pages.find((page) => page.path === "/")!.frontmatter["footer"] = `\
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        app.pages.find((page) => page.path === "/")!.frontmatter.footer = `\
 <a href="https://www.netlify.com" target="_blank">
   <img src="https://www.netlify.com/img/global/badges/netlify-light.svg" alt="Deploys by Netlify" data-mode="lightmode-only">
   <img src="https://www.netlify.com/img/global/badges/netlify-dark.svg" alt="Deploys by Netlify" data-mode="darkmode-only">
@@ -78,18 +64,19 @@ export const config = (
 <br/>
 Theme by <a href="https://theme-hope.vuejs.press" target="_blank">VuePress Theme Hope</a> | MIT Licensed, Copyright © 2019-present Mr.Hope
 `;
-        app.pages.find((page) => page.path === "/zh/")!.frontmatter["footer"] =
-          `\
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        app.pages.find((page) => page.path === "/zh/")!.frontmatter.footer = `\
 <a href="https://www.netlify.com" target="_blank">
   <img src="https://www.netlify.com/img/global/badges/netlify-light.svg" alt="由 Netlify 部署" data-mode="lightmode-only">
   <img src="https://www.netlify.com/img/global/badges/netlify-dark.svg" alt="由 Netlify 部署" data-mode="darkmode-only">
 </a>
 <br/>
-使用 <a href="https://theme-hope.vuejs.press/zh/" target="_blank">VuePress Theme Hope</a> 主题 | MIT 协议, 版权所有 © 2019-present Mr.Hope
+使用 <a href="https://theme-hope.vuejs.press/zh/" target="_blank">VuePress Theme Hope</a> 主题 | MIT 协议, 版权所有 © 2019-至今 Mr.Hope
 `;
       }
     },
 
+    shouldPrefetch: false,
     shouldPreload: false,
 
     clientConfigFile: path.resolve(__dirname, "./client.js"),

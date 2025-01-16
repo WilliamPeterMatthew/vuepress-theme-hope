@@ -1,8 +1,9 @@
 import { isPlainObject, keys } from "@vuepress/helper";
+import type { SeoPluginOptions } from "@vuepress/plugin-seo";
 import { seoPlugin } from "@vuepress/plugin-seo";
 import type { Page, Plugin } from "vuepress/core";
 
-import type { PluginsOptions, ThemeData } from "../../shared/index.js";
+import type { ThemeData } from "../../shared/index.js";
 
 /**
  * @private
@@ -11,7 +12,7 @@ import type { PluginsOptions, ThemeData } from "../../shared/index.js";
  */
 export const getSEOPlugin = (
   themeData: ThemeData,
-  { seo }: PluginsOptions,
+  seo?: Omit<SeoPluginOptions, "hostname" | "author"> | boolean,
   hostname = "",
 ): Plugin | null => {
   if (seo === false) return null;
@@ -20,13 +21,14 @@ export const getSEOPlugin = (
   // Disable seo if `hostname` is not set and no options for seo plugin
   if (!keys(seoOptions).length && !hostname) return null;
 
+  const author = themeData.author ?? themeData.locales["/"].author;
+
   return seoPlugin({
     hostname,
-    ...(themeData.author ? { author: themeData.author } : {}),
+    ...(author ? { author } : {}),
     isArticle: ({ filePathRelative, frontmatter }: Page): boolean =>
-      Boolean(filePathRelative) &&
-      !frontmatter["home"] &&
-      frontmatter["article"] !== false,
+      (frontmatter.article as boolean | undefined) ??
+      (Boolean(filePathRelative) && !frontmatter.home),
     ...seoOptions,
   });
 };

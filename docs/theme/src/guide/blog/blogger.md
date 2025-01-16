@@ -26,12 +26,6 @@ If you don't set those options, they automatically fall back to the site logo (`
 
 :::
 
-::: tip
-
-If you want the avatar to be clipped with round shape, set `blog.roundAvatar: true`.
-
-:::
-
 ## Motto, Social Media & Profile Link
 
 You can use `blog.description` to set your own introduction, motto or slogan.
@@ -153,46 +147,7 @@ You can also config your social media links with `blog.medias` option.
 
 ::::
 
-:::: details Example
-
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { getDirname, path } from "vuepress/utils";
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-const __dirname = getDirname(import.meta.url);
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    blog: {
-      medias: {
-        // GitHub Icon is available
-        GitHub: "https://github.com/Mister-Hope",
-        // A custom Media called "MediaX" (just an example)
-        MediaX: [
-          // link
-          "https://mediax.com/UserX/",
-          // icon string
-          "<svg ....</svg>",
-        ],
-        // A custom Media called "MediaY" (just an example)
-        MediaY: [
-          // link
-          "https://mediay.com/UserY/",
-          // icon path
-          path.resolve(__dirname, "icons/mediay.svg"),
-        ],
-      },
-    },
-  }),
-});
-```
-
-@tab JS
+::: details Example
 
 ```js title=".vuepress/config.js"
 import { getDirname, path } from "vuepress/utils";
@@ -207,19 +162,19 @@ export default {
         // GitHub Icon is available
         GitHub: "https://github.com/Mister-Hope",
         // A custom Media called "MediaX" (just an example)
-        MediaX: [
-          // link
-          "https://mediax.com/UserX/",
+        MediaX: {
           // icon string
-          "<svg ....</svg>",
-        ],
-        // A custom Media called "MediaY" (just an example)
-        MediaY: [
+          icon: "<svg ....</svg>",
           // link
-          "https://mediay.com/UserY/",
+          link: "https://mediax.com/UserX/",
+        },
+        // A custom Media called "MediaY" (just an example)
+        MediaY: {
           // icon path
-          path.resolve(__dirname, "icons/mediay.svg"),
-        ],
+          icon: "https://mediay.com/logo.svg",
+          // link
+          link: "https://mediay.com/UserY/",
+        },
       },
     },
   }),
@@ -227,5 +182,3 @@ export default {
 ```
 
 :::
-
-::::

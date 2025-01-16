@@ -1,7 +1,7 @@
 import { keys, startsWith } from "@vuepress/helper";
 import type { BlogPluginOptions } from "@vuepress/plugin-blog";
 import { blogPlugin } from "@vuepress/plugin-blog";
-import type { App, Page, Plugin } from "vuepress/core";
+import type { Page, Plugin } from "vuepress/core";
 
 import { getBlogCategoryCategory, getBlogTagCategory } from "./category.js";
 import { blogFilter } from "./filter.js";
@@ -12,15 +12,15 @@ import {
   getBlogTimelineType,
 } from "./type.js";
 import type {
+  ArticleInfoData,
   BlogOptions,
   ThemeData,
   ThemePageData,
 } from "../../../shared/index.js";
-import { ArticleInfoType } from "../../../shared/index.js";
+import { ArticleInfo } from "../../../shared/index.js";
 
 /** @private */
 export const getBlogPlugin = (
-  app: App,
   themeData: ThemeData,
   options?: BlogOptions | boolean,
   hotReload = false,
@@ -28,17 +28,16 @@ export const getBlogPlugin = (
   if (!options) return null;
 
   const blogOptions = options === true ? {} : options;
-  const encryptedPaths = keys(themeData.encrypt.config || {});
+  const encryptedPaths = keys(themeData.encrypt.config ?? {});
   const isPageEncrypted = ({ path }: Page): boolean =>
     encryptedPaths.some((key) => startsWith(decodeURI(path), key));
 
-  return blogPlugin(<BlogPluginOptions>{
-    excerpt: blogOptions.excerpt !== false,
+  return blogPlugin({
+    excerpt: blogOptions.excerpt ?? true,
 
     ...("excerptLength" in blogOptions
       ? { excerptLength: blogOptions.excerptLength }
       : {}),
-
     ...("excerptSeparator" in blogOptions
       ? { excerptSeparator: blogOptions.excerptSeparator }
       : {}),
@@ -46,34 +45,31 @@ export const getBlogPlugin = (
     excerptFilter: (page) => {
       const isEncrypted = isPageEncrypted(page);
 
-      return !isEncrypted && !("excerpt" in page.frontmatter);
+      return !isEncrypted && !page.frontmatter.excerpt;
     },
 
-    filter: blogOptions.filter || blogFilter,
+    filter: blogOptions.filter ?? blogFilter,
+
+    ...("slugify" in blogOptions ? { slugify: blogOptions.slugify } : {}),
 
     getInfo: (page: Page<ThemePageData>) => {
-      const info: Record<string, unknown> = {};
+      const info: Partial<ArticleInfoData> = {};
       const isEncrypted = isPageEncrypted(page);
 
       injectBlogBasicInfo(page, info);
 
       // Resolve encrypted
-      if (isEncrypted) info[ArticleInfoType.isEncrypted] = true;
+      if (isEncrypted) info[ArticleInfo.isEncrypted] = true;
 
       // Resolve reading-time
       if (
-        /*
-         * Reading time data is sensitive with markdown contents
-         * we use this to prevent user triggers a page reload every time
-         */
-        (hotReload || app.env.isBuild) &&
         // Ensure a valid reading time exists
         page.data.readingTime &&
         page.data.readingTime.words !== 0
       )
-        info[ArticleInfoType.readingTime] = page.data.readingTime;
+        info[ArticleInfo.readingTime] = page.data.readingTime;
 
-      return info;
+      return info as Record<string, unknown>;
     },
 
     category: [
@@ -85,14 +81,12 @@ export const getBlogPlugin = (
       getBlogArticleType(blogOptions, themeData),
       getBlogStarType(blogOptions, themeData),
       getBlogTimelineType(blogOptions, themeData),
-      ...(blogOptions.type?.map((type) => ({ layout: "BlogType", ...type })) ||
+      ...(blogOptions.type?.map((type) => ({ layout: "BlogType", ...type })) ??
         []),
     ],
 
     metaScope: "",
 
-    hotReload,
-    ...("hotReload" in blogOptions ? { hotReload: blogOptions.hotReload } : {}),
-    ...("slugify" in blogOptions ? { slugify: blogOptions.slugify } : {}),
-  });
+    hotReload: blogOptions.hotReload ?? hotReload,
+  } as BlogPluginOptions);
 };

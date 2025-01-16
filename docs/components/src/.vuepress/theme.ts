@@ -1,18 +1,6 @@
-import { createRequire } from "node:module";
-
 import { theme } from "docs-shared";
-import { fs } from "vuepress/utils";
 import { AVAILABLE_SERVICES } from "vuepress-plugin-components";
-
-const { version } = <{ version: string }>(
-  fs.readJsonSync(
-    createRequire(import.meta.url).resolve(
-      "vuepress-plugin-components/package.json",
-    ),
-  )
-);
-
-const IS_NETLIFY = "NETLIFY" in process.env;
+import pkg from "vuepress-plugin-components/package.json" with { type: "json" };
 
 // The theme wrapper is located in <root>/docs-shared/src/theme-wrapper.ts
 export default theme("components", {
@@ -24,14 +12,9 @@ export default theme("components", {
         "/config",
         "/demo",
         {
-          text: version,
+          text: pkg.version,
           icon: "bookmark",
-          children: [
-            {
-              text: "V1 Docs",
-              link: "https://vuepress-theme-hope.github.io/v1/components/",
-            },
-          ],
+          link: "",
         },
       ],
 
@@ -54,14 +37,9 @@ export default theme("components", {
         "/zh/config",
         "/zh/demo",
         {
-          text: version,
+          text: pkg.version,
           icon: "bookmark",
-          children: [
-            {
-              text: "V1 文档",
-              link: "https://vuepress-theme-hope.github.io/v1/components/zh/",
-            },
-          ],
+          link: "",
         },
       ],
 
@@ -78,15 +56,24 @@ export default theme("components", {
     },
   },
 
+  markdown: {
+    codeTabs: true,
+    imgMark: true,
+    include: true,
+    demo: true,
+  },
+
   plugins: {
     components: {
       components: [
         "ArtPlayer",
+        // @ts-expect-error: This component is deprecated
         "AudioPlayer",
         "Badge",
         "BiliBili",
         "CodePen",
         "PDF",
+        // @ts-expect-error: This component is deprecated
         "Replit",
         "Share",
         "SiteInfo",
@@ -94,57 +81,18 @@ export default theme("components", {
         "VPBanner",
         "VPCard",
         "VidStack",
+        // @ts-expect-error: This component is deprecated
         "VideoPlayer",
         "XiGua",
+        // @ts-expect-error: This component is deprecated
         "YouTube",
       ],
 
       componentOptions: {
-        pdf: {
-          pdfjs: "/assets/lib/pdfjs/",
-        },
         share: {
           services: AVAILABLE_SERVICES,
         },
       },
-
-      rootComponents: {
-        ...(IS_NETLIFY
-          ? {}
-          : {
-              notice: [
-                {
-                  path: "/",
-                  title: "New docs location",
-                  content: "Our docs has moved to a new domain vuejs.press",
-                  actions: [
-                    {
-                      text: "Visit Now",
-                      link: "https://plugin-components.vuejs.press",
-                    },
-                  ],
-                },
-                {
-                  path: "/zh/",
-                  title: "新的文档地址",
-                  content: "我们的文档已经迁移至新域名 vuejs.press 下。",
-                  actions: [
-                    {
-                      text: "立即访问",
-                      link: "https://plugin-components.vuejs.press/zh/",
-                    },
-                  ],
-                },
-              ],
-            }),
-      },
-    },
-
-    mdEnhance: {
-      codetabs: true,
-      demo: true,
-      imgMark: true,
-      include: true,
     },
   },
 });

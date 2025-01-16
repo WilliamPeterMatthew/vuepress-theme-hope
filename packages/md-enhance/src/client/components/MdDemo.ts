@@ -44,8 +44,8 @@ export default defineComponent({
     });
 
     return (): VNode =>
-      h("div", { class: "vp-md-demo", id: props.id }, [
-        h("div", { class: "vp-md-demo-header" }, [
+      h("div", { class: "vp-container vp-md-demo", id: props.id }, [
+        h("div", { class: "vp-container-header" }, [
           h("button", {
             type: "button",
             title: "toggle",
@@ -57,14 +57,21 @@ export default defineComponent({
             onClick: () => {
               height.value = isExpanded.value
                 ? "0"
-                : `${codeContainer.value!.clientHeight + 13.8}px`;
+                : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  `${codeContainer.value!.clientHeight + 13.8}px`;
               toggleIsExpand();
             },
           }),
-          props.title ? decodeURIComponent(props.title) : null,
+          props.title
+            ? h(
+                "div",
+                { class: "vp-container-title" },
+                decodeURIComponent(props.title),
+              )
+            : null,
         ]),
 
-        h("div", { class: "vp-md-demo-display" }, slots.default?.()),
+        h("div", { class: "vp-md-demo-display" }, slots.default()),
 
         h(
           "div",
@@ -78,7 +85,7 @@ export default defineComponent({
               ref: codeContainer,
               class: "vp-md-demo-codes",
             },
-            slots.code?.(),
+            slots.code(),
           ),
         ),
       ]);

@@ -30,29 +30,13 @@ You can use this component to embed a PDF viewer.
 
 Not all browsers support embed PDF viewer (E.g.: No mobile browser supports this now), so we add support for PDFJS Viewer.
 
-Since PDFJS Viewer is large, you will need to manually download it from [GitHub](https://github.com/mozilla/pdf.js/releases)
+By default the pdfjs viewer is fetched from `https://theme-hope-assets.vuejs.press/pdfjs/`. You can customize `componentOptions.pdf.pdfjs` in component options to specific another one.
 
-After finish downloading, unzip it to a location you want in `.vuepress/public` folder, then set destination relative to `.vuepress/public` to `componentOptions.pdf.pdfjs` in component options.
+::: important PDFJS Viewer
 
-::: details Example
+Our PDFJS viewer is served for community with non-commercial use only, and to use the PDFJS viewer, your PDF file should be served with CORS headers that allows `theme-hope-assets.vuejs.press`.
 
-If you unzip pdfjs to `.vuepress/public/assets/lib/pdfjs`, you shall set:
-
-```ts title=".vuepress/config.ts"
-import { componentsPlugin } from "vuepress-plugin-components";
-
-export default {
-  plugins: [
-    componentsPlugin({
-      componentOptions: {
-        pdf: {
-          pdfjs: "/assets/lib/pdfjs",
-        },
-      },
-    }),
-  ],
-};
-```
+If you can not satisfy the above conditions, you shall host the PDFJS viewer by yourself. To do this, you should download the latest PDFJS viewer from <https://github.com/mozilla/pdf.js/releases>, then copy it to `.vuepress/public` folder. After that, set `componentOptions.pdf.pdfjs` to `<BASE_URL><RELATIVE_PATH_TO_YOUR_FOLDER_INSIDE_PUBLIC>` in component options.
 
 :::
 
@@ -91,9 +75,17 @@ The default PDFJS viewer does not support toolbar customization, if you want to 
 - Type: `string`
 - Required: Yes
 
-PDF document link, relative path is NOT supported.
+PDF document link.
 
 When filling in a pathname, `base` will be automatically added to the beginning of the pathname.
+
+::: warning Limitations
+
+- Full URL is always recommended
+- relative path is NOT supported.
+- Pathname is not working with embed PDFJS viewer in devServer, and its URL in production must has a correct CORS policy.
+
+:::
 
 ### width
 
@@ -116,6 +108,13 @@ PDF viewer height
 
 PDF viewer ratio, ONLY valid when `height` not set.
 
+### viewer
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to force use PDFJS viewer.
+
 ### page
 
 - Type: `number`
@@ -128,6 +127,13 @@ Initial page of pdf document.
 This prop only works on Chromium-based browsers.
 
 :::
+
+### noFullscreen
+
+- Type: `boolean`
+- Default: `false`
+
+Whether disable fullscreen button.
 
 ### noToolbar
 

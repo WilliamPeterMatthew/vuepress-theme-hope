@@ -57,13 +57,12 @@ If your site has a lot of articles, you may consider this option to reduce feed 
 - Type: `(page: Page)=> boolean`
 - Default:
 
-  ```ts
-  ({ frontmatter, filePathRelative }: Page): boolean =>
-    !(
-      frontmatter.home ||
-      !filePathRelative ||
-      frontmatter.article === false ||
-      frontmatter.feed === false
+  ```js
+  ({ frontmatter, filePathRelative }) =>
+    Boolean(
+      frontmatter.feed ??
+        frontmatter.article ??
+        (filePathRelative && !frontmatter.home),
     );
   ```
 
@@ -83,4 +82,4 @@ Check [feed plugin documentation][feed-config] for all available options.
 
 :::
 
-[feed-config]: https://ecosystem.vuejs.press/plugins/feed/
+[feed-config]: https://ecosystem.vuejs.press/plugins/blog/feed/

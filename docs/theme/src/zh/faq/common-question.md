@@ -1,22 +1,16 @@
 ---
 title: 普遍问题
-icon: triangle-exclamation
+icon: circle-question
 order: 1
 category:
   - FAQ
 ---
 
-## Adding Markdown Extensions
-
 ## 添加 Markdown 扩展
 
-你可以在 [配置文件](../cookbook/vuepress/config.md#config-file) 中使用 `extendsMarkdown` 钩子来添加 Markdown 扩展:
+你可以在 [配置文件](../cookbook/vuepress/config.md#配置文件) 中使用 `extendsMarkdown` 钩子来添加 Markdown 扩展:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
+```ts {7-9} title=".vuepress/config.ts"
 import { defineUserConfig } from "vuepress";
 
 export default defineUserConfig({
@@ -28,23 +22,6 @@ export default defineUserConfig({
   },
 });
 ```
-
-@tab JS
-
-```js title=".vuepress/config.js"
-import { defineUserConfig } from "vuepress";
-
-export default defineUserConfig({
-  // 站点配置
-  // ...
-
-  extendsMarkdown: (md) => {
-    md.use(yourExtension, options);
-  },
-});
-```
-
-:::
 
 ## 如何让侧边栏可折叠 / 如何在移动端显示 TOC / 如何在 PC 上将侧边栏置于左侧
 
@@ -95,20 +72,22 @@ flowchart LR
 
 默认情况下，VuePress 只会从 Markdown 提取 h2 和 h3 标题，所以仅靠配置主题，你永远也看不见 h4 标题。
 
-你需要在 VuePress 配置文件中配置 [markdown.headers.levels](https://vuejs.press/zh/reference/config.html#markdown-headers):
+你需要在 VuePress 配置文件中配置 [markdown.headers.level](https://vuejs.press/zh/reference/config.html#markdown-headers):
 
-```ts title=".vuepress/config.ts"
-export default {
+```ts {7-12} title=".vuepress/config.ts"
+import { defineUserConfig } from "vuepress";
+
+export default defineUserConfig({
+  // 其他站点配置
+  // ...
+
   markdown: {
     headers: {
       // 用到哪一级就提取哪一级
-      levels: [2, 3, 4, 5, 6],
+      level: [2, 3, 4, 5, 6],
     },
   },
-
-  // 其他配置
-  // ...
-};
+});
 ```
 
 在上方提取更深层级的标题后，你就能在 [主题选项](../config/theme/layout.md#headerdepth) 或 [页面 Frontmatter](../config/frontmatter/layout.md#headerdepth) 中通过增加 `headerDepth` 的数值来展示更多标题了。
@@ -122,3 +101,23 @@ export default {
 如果你觉得内容宽度很窄，这大概率是你的个人审美问题，因为 vuepress-theme-hope 遵循了最佳布局设计实践。相关讨论与让内容占满屏幕的方式的解决办法，详见 [此讨论](https://github.com/orgs/vuepress-theme-hope/discussions/3742)。
 
 :::
+
+## 配置中的链接
+
+打包工具需要知道要打包的资源的路径，所以只有可以静态分析的内容才能被打包。这意味着：
+
+- 在 Markdown 中：只支持相对页面链接和图片链接
+- 在 html 中 (包括 vue 模板) ：只支持相对链接，包括 `img` 和 `video` 标签的 `src` 属性
+- 在样式文件中 (css, scss) ：一些资源，包括背景图片 url，字体文件等
+- 在脚本文件中：`import` 语句或 `import()` 表达式中的链接
+
+而对于 VuePress 中所有的配置，包括 [frontmatter](../cookbook/vuepress/page.md#frontmatter) 、[VuePress 配置文件](../cookbook/vuepress/config.md) 以及主题选项和插件选项，VuePress 都会将它们解析为数据，所以它们不能被打包工具静态分析。这意味着任何链接都会保持原样，所以你必须使其可解析。
+
+大多数链接将接受以下值：
+
+- 完整链接: 可以直接访问，如 `https://example.com/example.jpg`
+- 路由链接: 将从站点根目录解析，如 `/foo/example.jpg`。
+
+  在不同的基础路径下，路由链接对应的实际路径名会有所不同，例如：基础路径为 `/` 时为 `/foo/example.jpg`，基础路径为 `/bar/` 时为 `/bar/foo/example.jpg`
+
+只有少数选项会保持输入不变，这意味着以 `/` 开头的输入不会自动添加基础路径。这些选项会在文档中给出警告提示，如 [VuePress 配置文件](../cookbook/vuepress/config.md#配置文件) 中的 `head` 选项。

@@ -7,15 +7,13 @@
     "outDir": "./lib",
     "paths": {
       "@theme-hope/*": ["./src/client/*.js"]
-    }
+    },
+    "types": ["vuepress/client-types", "vite/client", "webpack-env"]
   },
   "include": ["./src", "./src/*.d.ts"],
   "references": [
-    { "path": "../comment2/tsconfig.build.json" },
     { "path": "../components/tsconfig.build.json" },
     { "path": "../md-enhance/tsconfig.build.json" },
-    { "path": "../sass-palette/tsconfig.build.json" },
-    { "path": "../search-pro/tsconfig.build.json" },
     { "path": "../shared/tsconfig.build.json" }
   ]
 }

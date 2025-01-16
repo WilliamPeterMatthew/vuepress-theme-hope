@@ -42,13 +42,13 @@ export default {
         "VideoPlayer",
         "YouTube",
         "MyComponent",
-        "AppearanceSwitch",
-        "HopeIcon",
+        "ColorModeSwitch",
         "FlowChartPlayground",
         "IconDisplay",
         "KatexPlayground",
         "PrintButton",
         "ThemeColorPicker",
+        "VPIcon",
         "ToggleFullScreenButton",
         "ToggleRTLButton",
       ],
@@ -65,5 +65,6 @@ export default {
     "**/__tests__/**",
     // markdown import demo
     "**/*.snippet.md",
+    "**/CHANGELOG.md",
   ],
 };

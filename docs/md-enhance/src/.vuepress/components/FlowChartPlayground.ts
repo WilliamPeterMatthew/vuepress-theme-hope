@@ -1,4 +1,4 @@
-import { useLocaleConfig } from "@vuepress/helper/client";
+import { useLocaleConfig, wait } from "@vuepress/helper/client";
 import { useDebounceFn, useEventListener } from "@vueuse/core";
 import type { Chart } from "flowchart.ts";
 import type { VNode } from "vue";
@@ -56,11 +56,11 @@ export default defineComponent({
       width < 419 ? 0.8 : width > 1280 ? 1 : 0.9;
 
     onMounted(() => {
-      let parseAction: ((input?: string | undefined) => Chart) | null = null;
+      let parseAction: ((input?: string) => Chart) | null = null;
 
       void Promise.all([
         import("flowchart.ts"),
-        new Promise((resolve) => setTimeout(resolve, MARKDOWN_ENHANCE_DELAY)),
+        wait(MARKDOWN_ENHANCE_DELAY),
       ]).then(([{ parse }]) => {
         parseAction = parse;
         try {
@@ -70,7 +70,7 @@ export default defineComponent({
           scale.value = getScale(window.innerWidth);
 
           // draw svg to #id
-          // @ts-ignore
+          // @ts-expect-error: Preset type issues
           flowchart.draw(id, {
             ...flowchartPresets[preset.value],
             scale: scale.value,
@@ -88,10 +88,11 @@ export default defineComponent({
             // Update scale
             scale.value = getScale(window.innerWidth);
 
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             element.value!.innerHTML = "";
 
             // draw svg to #id
-            // @ts-ignore
+            // @ts-expect-error: Preset type issues
             flowchart.draw(id, {
               ...flowchartPresets[preset.value],
               scale: scale.value,
@@ -110,7 +111,7 @@ export default defineComponent({
             if (scale.value !== newScale) {
               scale.value = newScale;
 
-              // @ts-ignore
+              // @ts-expect-error: Preset type issues
               flowchart.draw(id, {
                 ...flowchartPresets[preset.value],
                 scale: newScale,

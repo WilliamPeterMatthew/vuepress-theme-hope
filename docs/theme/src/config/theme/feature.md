@@ -63,15 +63,13 @@ Visitors can click on the avatar or name in "Blogger Information" to enter the p
 
 ### blog.medias
 
-- Type: `Record<string, string | [string, string]>`
+- Type: `Record<string, string | { icon: string ; link: string }>`
 - Required: No
 
 Set social links.
 
 - If the social media icon is available below, you can set `MediaName: MediaLink` directly.
-- Otherwise, you should pass in a tuple `MediaName: [MediaLink , MediaSvgIconString or MediaSvgIconPath]`,
-
-  The second element in the tuple must be a valid SVG string or a full path of an existing SVG file.
+- Otherwise, you should pass in a object `MediaName: { icon: MediaSvgIconString or MediaUrl MediaLink, link: MediaLink }`,
 
 :::: info Available Social Media
 
@@ -183,13 +181,6 @@ The following social medias has built-in icons:
 
 ::::
 
-### blog.roundAvatar
-
-- Type: `boolean`
-- Default: `false`
-
-Whether clipping the avatar with round shape
-
 ### blog.sidebarDisplay
 
 - Type: `"mobile" | "none" | "always"`
@@ -257,29 +248,54 @@ Whether to encrypt globally.
 
 ### encrypt.admin
 
-- Type: `string | string []`
+- Type: `PasswordOptions`
+
+  ```ts
+  type PasswordOptions =
+    | string
+    | string[]
+    | {
+        password: string | string[];
+        hint: string;
+      };
+  ```
+
 - Required: No
 
-Admin password with the highest authority, you can set multiple ones by using array.
+Admin password with the highest authority, you can set multiple ones by using array, or adding hint with object format.
 
 ### encrypt.config
 
-- Type: `Record <string, string | string []>`
+- Type: `Record <string, PasswordOptions>`
+
+  ```ts
+  type PasswordOptions =
+    | string
+    | string[]
+    | {
+        password: string | string[];
+        hint: string;
+      };
+  ```
+
 - Required: No
 
-The encryption configuration is an object with a key name matching the path and a key-value corresponding to a password that accepts a string or an array of strings.
+The encryption configuration is an object with a key name matching the path and a key-value corresponding to a password that accepts a string or an array of strings, or adding hint with object format.
 
 ::: details Example
 
-```js
+```json
 {
   // This will encrypt the entire guide directory and both passwords will be available
   "/guide/": ["1234", "5678"],
-  // this will only encrypt config/page.html
-  "/config/page.html": "1234"
+  // this will only encrypt /config/page.html
+  "/config/page.html": {
+    "password": "Mister-Hope",
+    "hint": "The password is author's name"
+  }
 }
 ```
 
 :::
 
-[blog]: https://ecosystem.vuejs.press/plugins/blog/
+[blog]: https://ecosystem.vuejs.press/plugins/blog/blog/

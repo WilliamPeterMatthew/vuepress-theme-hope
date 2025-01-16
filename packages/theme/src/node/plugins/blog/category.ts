@@ -4,12 +4,12 @@ import type { GitData } from "@vuepress/plugin-git";
 
 import { defaultPageSorter } from "./utils.js";
 import type {
-  ArticleInfo,
+  ArticleInfoData,
   BlogOptions,
   ThemeData,
   ThemeNormalPageFrontmatter,
 } from "../../../shared/index.js";
-import { ArticleInfoType } from "../../../shared/index.js";
+import { ArticleInfo } from "../../../shared/index.js";
 
 /** @private */
 export const getBlogCategoryCategory = (
@@ -18,20 +18,14 @@ export const getBlogCategoryCategory = (
 ): BlogCategoryOptions<
   { git: GitData },
   ThemeNormalPageFrontmatter,
-  { routeMeta: ArticleInfo }
+  { routeMeta: ArticleInfoData }
 > =>
-  <
-    BlogCategoryOptions<
-      { git: GitData },
-      ThemeNormalPageFrontmatter,
-      { routeMeta: ArticleInfo }
-    >
-  >{
+  ({
     key: "category",
     getter: ({ routeMeta }) => {
-      const category = routeMeta[ArticleInfoType.category];
+      const category = routeMeta[ArticleInfo.category];
 
-      return isArray(category) ? category : category ? [category] : [];
+      return isArray(category) ? category : [];
     },
     sorter: defaultPageSorter,
     path: options.category,
@@ -52,7 +46,11 @@ export const getBlogCategoryCategory = (
       sitemap: false,
     }),
     itemLayout: "BlogCategory",
-  };
+  }) as BlogCategoryOptions<
+    { git: GitData },
+    ThemeNormalPageFrontmatter,
+    { routeMeta: ArticleInfoData }
+  >;
 
 /** @private */
 export const getBlogTagCategory = (
@@ -61,20 +59,14 @@ export const getBlogTagCategory = (
 ): BlogCategoryOptions<
   { git: GitData },
   ThemeNormalPageFrontmatter,
-  { routeMeta: ArticleInfo }
+  { routeMeta: ArticleInfoData }
 > =>
-  <
-    BlogCategoryOptions<
-      { git: GitData },
-      ThemeNormalPageFrontmatter,
-      { routeMeta: ArticleInfo }
-    >
-  >{
+  ({
     key: "tag",
     getter: ({ routeMeta }) => {
-      const tag = routeMeta[ArticleInfoType.tag];
+      const tag = routeMeta[ArticleInfo.tag];
 
-      return isArray(tag) ? tag : tag ? [tag] : [];
+      return isArray(tag) ? tag : [];
     },
     sorter: defaultPageSorter,
     path: options.tag,
@@ -95,4 +87,8 @@ export const getBlogTagCategory = (
       feed: false,
       sitemap: false,
     }),
-  };
+  }) as BlogCategoryOptions<
+    { git: GitData },
+    ThemeNormalPageFrontmatter,
+    { routeMeta: ArticleInfoData }
+  >;

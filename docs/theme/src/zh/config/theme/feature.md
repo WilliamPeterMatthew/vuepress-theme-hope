@@ -63,15 +63,13 @@ tag:
 
 ### blog.medias
 
-- 类型: `Record<MediaType, string>`
+- 类型: `Record<string, string | { icon: string ; link: string }>`
 - 必填: 否
 
 博主的媒体链接配置。
 
 - 如果社交媒体已在下方列表中，你可以直接设置 `社交媒体名称: 社交媒体地址`。
-- 否则，你应该传入一个元组 `社交媒体名称: [社交媒体地址, 社交媒体 SVG 图标字符串或路径]`
-
-  元组的第二个元素应该是一个合法的 SVG 字符串或是一个完整的 SVG 文件路径。
+- 否则，你应该传入一个对象 `社交媒体名称: { icon: 社交媒体 SVG 图标字符串或社交媒体图标 URL, link: 社交媒体地址 }`
 
 :::: info 可用的社交媒体
 
@@ -158,7 +156,7 @@ tag:
 - `"HuYa"`: 虎牙
 - `"iQiYi"`: 爱奇艺
 - `"KuaiShou"`: 快手
-- `"Nico"`: NicoNico动画
+- `"Nico"`: NicoNico 动画
 - `"QQVideo"`: 腾讯视频
 - `"Twitch"`: Twitch
 - `"WechatCh"`: 微信视频号
@@ -169,7 +167,7 @@ tag:
 @tab 其他
 
 - `"115"`: 115 网盘
-- `"360Yun"`: 360云盘
+- `"360Yun"`: 360 云盘
 - `"AliDrive"`: 阿里云盘
 - `"AliPay"`: 支付宝
 - `"BaiduDisk"`: 百度网盘
@@ -184,13 +182,6 @@ tag:
 (请不要好奇为什么这里一定要加上特别奇怪的中文翻译)
 
 ::::
-
-### blog.roundAvatar
-
-- 类型: `boolean`
-- 默认值: `false`
-
-是否剪裁头像为圆形形状
 
 ### blog.sidebarDisplay
 
@@ -259,29 +250,54 @@ tag:
 
 ### encrypt.admin
 
-- 类型: `string | string[]`
+- 类型: `PasswordOptions`
+
+  ```ts
+  type PasswordOptions =
+    | string
+    | string[]
+    | {
+        password: string | string[];
+        hint: string;
+      };
+  ```
+
 - 必填: 否
 
-最高权限密码，可以以数组的形式设置多个。
+最高权限密码，可以以数组的形式设置多个，也可以通过对象形式来添加一个密码提示。
 
 ### encrypt.config
 
-- 类型: `Record<string, string | string[]>`
+- 类型: `Record<string, PasswordOptions>`
+
+  ```ts
+  type PasswordOptions =
+    | string
+    | string[]
+    | {
+        password: string | string[];
+        hint: string;
+      };
+  ```
+
 - 必填: 否
 
-加密配置，为一个对象，键名为匹配的路径，键值为对应的密码，接受字符串或字符串数组。
+加密配置，为一个对象，键名为匹配的路径，键值为对应的密码，接受字符串或字符串数组，也可以通过对象形式来添加一个密码提示。
 
 ::: details 例子
 
-```js
+```json
 {
   // 这会加密整个 guide 目录，并且两个密码都是可用的
   "/guide/": ["1234", "5678"],
-  // 这只会加密 config/page.html
-  "/config/page.html": "1234"
+  // 这只会加密 /config/page.html
+  "/config/page.html": {
+    "password": "Mister-Hope",
+    "hint": "密码是作者名字"
+  }
 }
 ```
 
 :::
 
-[blog]: https://ecosystem.vuejs.press/zh/plugins/blog/
+[blog]: https://ecosystem.vuejs.press/zh/plugins/blog/blog/

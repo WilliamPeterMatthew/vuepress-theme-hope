@@ -11,7 +11,7 @@ export interface BadgeProps {
    *
    * @default "info"
    */
-  type?: string;
+  type?: "tip" | "warning" | "danger" | "info" | "important" | "note";
   /**
    * Badge text
    *
@@ -31,9 +31,16 @@ export interface BadgeProps {
   vertical?: "top" | "middle" | "baseline" | "bottom";
 
   /**
-   * Badge color
+   * Badge background color
    *
-   * 徽章颜色
+   * 徽章背景颜色
+   */
+  bgColor?: string;
+
+  /**
+   * Badge text color
+   *
+   * 徽章字体颜色
    */
   color?: string;
 }
@@ -42,17 +49,19 @@ const Badge: FunctionalComponent<
   BadgeProps,
   Record<never, never>,
   { default?: () => VNode | VNode[] | undefined }
-> = ({ type = "info", text = "", vertical, color }, { slots }) =>
+> = ({ type = "info", text = "", vertical, color, bgColor }, { slots }) =>
   h(
     "span",
     {
-      class: ["vp-badge", type, { diy: color }],
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      class: ["vp-badge", type, { diy: Boolean(color || bgColor) }],
       style: {
+        backgroundColor: bgColor ?? false,
+        color: color ?? false,
         verticalAlign: vertical ?? false,
-        backgroundColor: color ?? false,
       },
     },
-    slots.default?.() || text,
+    slots.default?.() ?? text,
   );
 
 Badge.displayName = "Badge";

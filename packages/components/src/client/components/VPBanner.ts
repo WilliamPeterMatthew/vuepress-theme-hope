@@ -1,5 +1,5 @@
 import { isLinkExternal } from "@vuepress/helper/client";
-import type { FunctionalComponent } from "vue";
+import type { CSSProperties, FunctionalComponent } from "vue";
 import { h } from "vue";
 import { RouteLink, withBase } from "vuepress/client";
 
@@ -66,10 +66,10 @@ const VPBanner: FunctionalComponent<BannerProps> = ({
   color = "",
   actions = [],
 }) => {
-  const style: Record<string, string> = {};
+  const style: CSSProperties = {};
 
-  if (background) style["background"] = background;
-  if (color) style["color"] = color;
+  if (background) style.background = background;
+  if (color) style.color = color;
 
   return h("div", { class: "vp-banner", style }, [
     logo
@@ -89,7 +89,7 @@ const VPBanner: FunctionalComponent<BannerProps> = ({
             ? h(
                 "a",
                 {
-                  class: ["vp-banner-action", type],
+                  class: ["vp-banner-action", type, "no-external-link-icon"],
                   href: link,
                   target: "_blank",
                 },

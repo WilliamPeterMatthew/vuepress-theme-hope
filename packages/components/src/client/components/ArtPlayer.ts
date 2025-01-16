@@ -1,11 +1,10 @@
 /* eslint-disable vue/no-unused-properties */
-import { keys } from "@vuepress/helper/client";
+import { LoadingIcon, keys } from "@vuepress/helper/client";
 import type Artplayer from "artplayer";
 import type { Option as ArtPlayerInitOptions } from "artplayer/types/option.js";
 import type { PropType, VNode } from "vue";
 import { camelize, defineComponent, h, onMounted, onUnmounted, ref } from "vue";
 import { usePageLang } from "vuepress/client";
-import { LoadingIcon } from "vuepress-shared/client";
 
 import type { ArtPlayerOptions } from "../../shared/index.js";
 import { useSize } from "../composables/index.js";
@@ -16,7 +15,7 @@ import {
   registerMseDash,
   registerMseFlv,
   registerMseHls,
-} from "../utils/mse.js";
+} from "../utils/registerMse.js";
 
 import "../styles/art-player.scss";
 
@@ -208,12 +207,13 @@ export default defineComponent({
     const { el, width, height, resize } = useSize<HTMLDivElement>(props, 0);
 
     const loaded = ref(false);
-    let artPlayerInstance: Artplayer;
+    let artPlayerInstance: Artplayer | null = null;
 
     const getInitOptions = (): ArtPlayerInitOptions => {
       const initOptions: ArtPlayerInitOptions = {
         theme: "#3eaf7c",
         ...ART_PLAYER_OPTIONS,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         container: el.value!,
         poster: props.poster,
         url: getLink(props.src),
@@ -229,12 +229,12 @@ export default defineComponent({
       BOOLEAN_TRUE_ATTRS.forEach((config) => {
         if (attrsKeys.includes(config))
           initOptions[
-            <ArtPlayerBooleanOptionKey>camelize(config.replace(/^no-/, ""))
+            camelize(config.replace(/^no-/, "")) as ArtPlayerBooleanOptionKey
           ] = false;
       });
       BOOLEAN_FALSE_ATTRS.forEach((config) => {
         if (attrsKeys.includes(config))
-          initOptions[<ArtPlayerBooleanOptionKey>camelize(config)] = true;
+          initOptions[camelize(config) as ArtPlayerBooleanOptionKey] = true;
       });
 
       // Auto config mse

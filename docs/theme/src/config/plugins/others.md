@@ -31,20 +31,19 @@ Controls `vuepress-plugin-components`, providing a set of components for Markdow
 
 Available component which can be used in markdown files are:
 
-- `"ArtPlayer"`
-- `"Badge"`
-- `"BiliBili"`
-- `"CodePen"`
-- `"FontIcon"`
-- `"PDF"`
-- `"Replit"`
-- `"Share"`
-- `"StackBlitz"`
-- `"VPBanner"`
-- `"VPCard"`
-- `"VidStack"`
-- `"SiteInfo"`
-- `"XiGua"`
+- ArtPlayer: A video player powered by ArtPlayer
+- Badge: Colorful badge component
+- BiliBili: Embedded BiliBili video
+- CodePen: Embedded CodePen demo
+- FontIcon: Font icon component
+- PDF: Embedded PDF viewer
+- Share: Sharing current page with social medias
+- StackBlitz: Embedded StackBlitz demo
+- SiteInfo: Display sites
+- VPBanner: A banner component
+- VPCard: A card component
+- VidStack: Audio/Video player powered by VidStack
+- XiGua: Embedded XiGua video
 
 You can set `plugins.components.components` with an array of components you want, by default it will be `["Badge"]`.
 
@@ -60,10 +59,6 @@ No extra config is required by default. Se it to `false` if you don't need it.
 
 Check [copy-code plugin docs][copy-code-config] for available plugin options.
 
-## externalLinkIcon <Badge text="enabled by default" />
-
-Controls whether enable `@vuepress/external-link-icon` or not, only accept boolean value.
-
 ## git <Badge text="enabled in production" />
 
 Controls `@vuepress/plugin-git` which provides page meta via Git.
@@ -72,39 +67,11 @@ The plugin is only enabled in build mode by default to improve devServer perform
 
 Check [git plugin docs][git-config] for available plugin options.
 
-## linksCheck <Badge text="enabled by default" />
-
-Controls `@vuepress/plugin-links-check` which provides markdown links check. You can manually set a boolean to control the plugin state, or provide plugin options.
-
-Check [links-check plugin docs][links-check-config] for available plugin options.
-
 ## nprogress <Badge text="enabled by default" />
 
 Controls `@vuepress/plugin-nprogress` which provides a progress bar through `nprogress` when switching pages .
 
 You can set `false` to disable it.
-
-## prismjs <Badge text="enabled by default" />
-
-Controls `@vuepress/plugin-prismjs` which provides code block highlighting via `prismjs`.
-
-You can set `false` to disable it and highlight code blocks yourself or with other plugins.
-
-### prismjs.light
-
-- Type: `PrismjsTheme`
-- Default: `"one-light"`
-- Details: [Interface → Code Themes](../../guide/interface/code-theme.md)
-
-Prism.js theme used in lightmode.
-
-### prismjs.dark
-
-- Type: `PrismjsTheme`
-- Default: `"one-dark"`
-- Details: [Interface → Code Themes](../../guide/interface/code-theme.md)
-
-Prism.js theme used in darkmode.
 
 ## photoSwipe <Badge text="enabled by default" />
 
@@ -151,13 +118,19 @@ No extra config is required by default. Se it to `false` if you don't need it.
 
 Check [sitemap plugin docs][sitemap-config] for available plugin options.
 
+## watermark
+
+Controls `@vuepress/plugin-watermark` which provides watermark.
+
+Check [watermark plugin docs][watermark-config] for available plugin options.
+
 [back-to-top-config]: https://ecosystem.vuejs.press/plugins/back-to-top.html#options
-[catalog-config]: https://ecosystem.vuejs.press/plugins/catalog.html#options
-[copy-code-config]: https://ecosystem.vuejs.press/plugins/copy-code.html#options
-[git-config]: https://ecosystem.vuejs.press/plugins/git.html#options
-[links-check-config]: https://ecosystem.vuejs.press/plugins/links-check.html#options
-[photo-swipe-config]: https://ecosystem.vuejs.press/plugins/photo-swipe.html#options
-[pwa-config]: https://ecosystem.vuejs.press/plugins/pwa/config.html#options
-[reading-time-config]: https://ecosystem.vuejs.press/plugins/reading-time.html#options
-[seo-config]: https://ecosystem.vuejs.press/plugins/sitemap/config.html
-[sitemap-config]: https://ecosystem.vuejs.press/plugins/seo/config.html
+[catalog-config]: https://ecosystem.vuejs.press/plugins/features/catalog.html#options
+[copy-code-config]: https://ecosystem.vuejs.press/plugins/features/copy-code.html#options
+[git-config]: https://ecosystem.vuejs.press/plugins/development/git.html#options
+[photo-swipe-config]: https://ecosystem.vuejs.press/plugins/features/photo-swipe.html#options
+[pwa-config]: https://ecosystem.vuejs.press/plugins/pwa/pwa/config.html#options
+[reading-time-config]: https://ecosystem.vuejs.press/plugins/development/reading-time.html#options
+[seo-config]: https://ecosystem.vuejs.press/plugins/seo/seo/config.html
+[sitemap-config]: https://ecosystem.vuejs.press/plugins/seo/sitemap/config.html
+[watermark-config]: https://ecosystem.vuejs.press/plugins/features/watermark.html

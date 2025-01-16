@@ -1,5 +1,5 @@
 ---
-title: 首页
+title: 主页
 icon: home
 order: 7
 category:
@@ -9,12 +9,9 @@ tag:
   - 主页
 ---
 
-`vuepress-theme-hope` 保留了默认主题的首页配置，在此基础上改进样式与配置。
+`vuepress-theme-hope` 提供了一个强大主页，在此基础上改进样式与配置。
 
 如果想要使用它，请在 frontmatter 中设置 `home: true`。任何 frontmatter 之后的内容将会以普通的 Markdown 被渲染，并插入到主页渲染内容的底部。
-
-![首页截图](./assets/home-light.jpg#light)
-![首页截图](./assets/home-dark.jpg#dark)
 
 <!-- more -->
 
@@ -72,7 +69,7 @@ tag:
 
 ::: info
 
-关于完整的配置项目，请参见 [主页 Frontmatter 配置](../../config/frontmatter/home.md)。
+关于完整的配置项目，请参见 [主页 Frontmatter 配置](../../config/frontmatter/project-home.md)。
 
 :::
 

@@ -3,7 +3,7 @@ title: Frontmatter Config
 icon: gears
 index: false
 dir:
-  order: 5
+  order: 6
 category:
   - Config
 tag:
@@ -11,14 +11,4 @@ tag:
   - Frontmatter
 ---
 
-## Catalog
-
-- [Information Frontmatter Config](info.md)
-
-- [Layout Frontmatter Config](layout.md)
-
-- [Plugin Frontmatter Config](plugins.md)
-
-- [Home Frontmatter Config](home.md)
-
-- [Blog Home Frontmatter Config](blog-home.md)
+<Catalog />

@@ -12,11 +12,13 @@ import { getAuthor } from "vuepress-shared/node";
 import type { ThemeData } from "../../shared/index.js";
 import { logger } from "../utils.js";
 
-let feedPlugin: (options: FeedPluginOptions, legacy?: boolean) => Plugin;
+let feedPlugin:
+  | ((options: FeedPluginOptions, legacy?: boolean) => Plugin)
+  | null = null;
 
 try {
   ({ feedPlugin } = await import("@vuepress/plugin-feed"));
-} catch (e) {
+} catch {
   // Do nothing
 }
 
@@ -27,7 +29,7 @@ try {
  */
 export const getFeedPlugin = (
   themeData: ThemeData,
-  options?: Omit<FeedPluginOptions, "hostname"> | boolean | undefined,
+  options?: Omit<FeedPluginOptions, "hostname"> | boolean,
   hostname?: string,
   favicon?: string,
   legacy = false,
@@ -41,11 +43,19 @@ export const getFeedPlugin = (
     return null;
   }
 
-  const globalAuthor = getAuthor(themeData.author);
+  const globalAuthor = getAuthor(
+    themeData.author ?? themeData.locales["/"].author,
+  );
 
   const defaultOptions: FeedPluginOptions = {
-    // @ts-expect-error
+    // @ts-expect-error: hostname may not exist here
     hostname,
+    filter: ({ frontmatter, filePathRelative }) =>
+      Boolean(
+        frontmatter.feed ??
+          frontmatter.article ??
+          (filePathRelative && !frontmatter.home),
+      ),
     channel: {
       ...(favicon ? { icon: favicon } : {}),
       ...(themeData.locales["/"].logo

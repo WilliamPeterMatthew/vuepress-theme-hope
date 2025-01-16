@@ -1,26 +1,21 @@
-import { isNumber, isPlainObject } from "@vuepress/helper";
+import { isArray, isPlainObject } from "@vuepress/helper";
 import { colors } from "vuepress/utils";
 import { createConverter } from "vuepress-shared/node";
 
-import type { ComponentOptions } from "../options/index.js";
+import type { ComponentPluginOptions } from "../options/index.js";
 import { logger } from "../utils.js";
 
 /** @deprecated */
 export const convertOptions = (
-  options: ComponentOptions & Record<string, unknown>,
+  options: ComponentPluginOptions & Record<string, unknown>,
 ): void => {
   const { deprecatedLogger, droppedLogger } = createConverter("components");
 
-  deprecatedLogger({
+  droppedLogger({
     options,
-    old: "iconAssets",
-    new: "componentOptions.fontIcon.assets",
+    old: "addThis",
   });
-  deprecatedLogger({
-    options,
-    old: "iconPrefix",
-    new: "componentOptions.fontIcon.prefix",
-  });
+
   deprecatedLogger({
     options,
     old: "backToTop",
@@ -31,61 +26,76 @@ export const convertOptions = (
     old: "backToTopLocales",
     new: "locales.backToTop",
   });
-
-  droppedLogger({
+  deprecatedLogger({
     options,
     old: "notice",
     new: "rootComponents.notice",
   });
-  droppedLogger({
-    options,
-    old: "addThis",
-  });
 
   if (isPlainObject(options.rootComponents)) {
+    const rootComponents = options.rootComponents as Record<string, unknown>;
+
     droppedLogger({
-      options: <Record<string, unknown>>options.rootComponents,
+      options: rootComponents,
       old: "addThis",
     });
 
-    if (isNumber(options.rootComponents.backToTop)) {
+    if (rootComponents.backToTop) {
       logger.error(
         `"${colors.magenta(
           "rootComponents.backToTop",
         )}" is removed, please use ${colors.cyan("@vuepress/plugin-back-to-top")} instead.`,
       );
-      options.rootComponents.backToTop = {
-        threshold: options.rootComponents.backToTop,
-      };
+      delete rootComponents.backToTop;
     }
 
-    if (isPlainObject(options.rootComponents.notice)) {
+    if (rootComponents.notice) {
       logger.error(
         `"${colors.magenta(
           "rootComponents.notice",
-        )}" no longer support object config, please check the docs at https://plugin-components.vuejs.press/guide/notice.html.`,
+        )}" component is no longer supported, please use ${colors.magenta(
+          "@vuepress/plugin-notice",
+        )} instead.`,
       );
-      delete options.rootComponents.notice;
+      delete rootComponents.notice;
     }
   }
 
-  if ((options.components as unknown[])?.includes("Catalog"))
-    logger.warn(
-      `${colors.cyan(
-        "Catalog",
-      )} component is no longer supported, please use ${colors.magenta(
-        "@vuepress/plugin-catalog",
-      )} instead.`,
-    );
-
-  ["VideoPlayer", "AudioPlayer", "YouTube"].forEach((component) => {
-    if ((options.components as unknown[])?.includes(component))
+  if (isArray(options.components)) {
+    if ((options.components as unknown[]).includes("Catalog"))
       logger.warn(
         `${colors.cyan(
-          component,
-        )} component is deprecated, please use ${colors.cyan(
-          "VidStack",
-        )} component instead.`,
+          "Catalog",
+        )} component is no longer supported, please use ${colors.magenta(
+          "@vuepress/plugin-catalog",
+        )} instead.`,
       );
-  });
+
+    if ((options.components as unknown[]).includes("FontIcon"))
+      logger.warn(
+        `${colors.cyan(
+          "FontIcon",
+        )} component is no longer supported, please use ${colors.magenta(
+          "@vuepress/plugin-icon",
+        )} instead.`,
+      );
+
+    if ((options.components as unknown[]).includes("Replit"))
+      logger.warn(
+        `${colors.cyan(
+          "Replit",
+        )} component is deprecated because you can no longer run code in embed mode.`,
+      );
+
+    ["VideoPlayer", "AudioPlayer", "YouTube"].forEach((component) => {
+      if ((options.components as unknown[]).includes(component))
+        logger.warn(
+          `${colors.cyan(
+            component,
+          )} component is deprecated, please use ${colors.cyan(
+            "VidStack",
+          )} component instead.`,
+        );
+    });
+  }
 };

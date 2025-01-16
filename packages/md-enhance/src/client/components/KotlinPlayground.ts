@@ -50,13 +50,16 @@ export default defineComponent({
 
     const kotlinPlayground = shallowRef<HTMLDivElement>();
 
-    const files = computed(() => <string[]>JSON.parse(decodeData(props.files)));
+    const files = computed(
+      () => JSON.parse(decodeData(props.files)) as string[],
+    );
 
     const settings = computed(() => ({
       theme: isDarkmode.value ? "darcula" : "default",
-      ...(<Record<string, string>>(
-        JSON.parse(decodeURIComponent(props.settings))
-      )),
+      ...(JSON.parse(decodeURIComponent(props.settings)) as Record<
+        string,
+        string
+      >),
     }));
 
     const renderPlayground = async (): Promise<void> => {
@@ -64,6 +67,7 @@ export default defineComponent({
         /* webpackChunkName: "kotlin-playground" */ "kotlin-playground"
       );
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       playground(kotlinPlayground.value!);
     };
 

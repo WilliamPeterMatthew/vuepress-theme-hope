@@ -50,7 +50,12 @@ tag:
 ### filter
 
 - 类型: `(page: Page) => boolean`
-- 默认值: `(page) => Boolean(page.filePathRelative) && !page.frontmatter.home`
+- 默认值:
+
+  ```js
+  ({ frontmatter, filePathRelative }) =>
+    frontmatter.article ?? (Boolean(filePathRelative) && !frontmatter.home);
+  ```
 
 页面过滤器，此函数用于鉴别页面是否作为文章。
 
@@ -106,7 +111,7 @@ Slugify 函数，用于转换 key 在路由中注册的形式。
     layout?: string;
 
     /**
-     * Front Matter 配置
+     * frontmatter 配置
      */
     frontmatter?: (localePath: string) => Record<string, string>;
   }

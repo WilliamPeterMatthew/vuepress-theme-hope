@@ -27,34 +27,15 @@ You should use `sidebar` in theme options to control sidebar.
 
 Just like navbar, you can fill in an array of multiple file links as the basic configuration of the sidebar:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: ["README.md", "guide/README.md", "config/README.md"],
-  }),
-};
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {5} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
   theme: hopeTheme({
-    sidebar: ["README.md", "guide/README.md", "config/README.md"],
+    sidebar: ["/README.md", "/guide/README.md", "/config/README.md"],
   }),
 };
 ```
-
-:::
 
 Each item of the array will be rendered as a sidebar item.
 
@@ -73,41 +54,7 @@ Just like navbar, if you are not satisfied with the page's icon or feel that the
 - `icon`: item icon (optional)
 - `activeMatch`: item active math (optional), support regexp strings
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: [
-      {
-        text: "Guide",
-        link: "/guide/README.md",
-        icon: "lightbulb",
-        // only active in `/guide/`
-        activeMatch: "^/guide/$",
-      },
-      { text: "Config", link: "/config/README.md", icon: "config" },
-      {
-        text: "FAQ",
-        link: "/faq.md",
-        icon: "circle-question",
-        // active in path starting with `/faq`
-        // so it will active in path like `/faq/xxx.html`
-        activeMatch: "^/zh/faq/",
-      },
-    ],
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {5-22} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -117,8 +64,6 @@ export default {
         text: "Guide",
         link: "/guide/README.md",
         icon: "lightbulb",
-        // only active in `/guide/`
-        activeMatch: "^/guide/$",
       },
       { text: "Config", link: "/config/README.md", icon: "config" },
       {
@@ -134,17 +79,9 @@ export default {
 };
 ```
 
-:::
-
 ::: tip Advanced usage of activeMatch
 
-`activeMatch` gives you the ability to control whether the path is active, for example you may have the following dropdown:
-
-- `/path/`
-- `/path/a/`
-- `/path/b/`
-
-But you may have multiple folders with files under `/path/`. To avoid multiple dropdown items been activated under route starting with `/path/a/` or `/path/b/`, you can set `activeMatch` option for the first item with `^/path/(?:(?!a/|b/).*)?$`.
+`activeMatch` gives you the ability to control whether the path is active through RegExps.
 
 :::
 
@@ -152,53 +89,13 @@ But you may have multiple folders with files under `/path/`. To avoid multiple d
 
 If you need a sidebar that displays a nested structure, you can group similar links.
 
-You should use [object format](#object-format) and provide an additional `children` option to set the list of links. Like navbar, you can use `prefix` in the sidebar to add a default path prefix to each link in the group, and the sidebar additionally supports setting `collapsible: true` to make the menu group collapsible.
+You should use [object format](#object-format) and provide an additional `children` option to set the list of links.
 
-::: code-tabs#language
+Like navbar, you can use `prefix` in the sidebar to add a default path prefix to each link in the group.
 
-@tab TS
+The sidebar additionally supports setting `collapsible: true` to make the menu group collapsible, and you can se `expanded: true` to make the menu group default expanded.
 
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: [
-      {
-        // required, title of group
-        text: "Group 1",
-        // optional, icon of group
-        icon: "tip",
-        // optional, link of group title
-        path: "/foo/",
-        // optional, will be appended to each item link
-        prefix: "/foo/",
-        // optional, defaults to false
-        collapsible: false,
-        // required, items of group
-        children: [
-          "README.md" /* /foo/index.html */,
-          /* ... */
-          "geo.md" /* /foo/geo.html */,
-        ],
-      },
-      {
-        text: "Group 2",
-        children: [
-          /* ... */
-          "bar.md" /* /ray/bar.html */,
-          "baz.md" /* /ray/baz.html */,
-        ],
-      },
-    ],
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {18-22,26-30} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -214,7 +111,10 @@ export default {
         // optional, will be appended to each item link
         prefix: "/foo/",
         // optional, defaults to false
-        collapsible: false,
+        collapsible: true,
+        // optional, representing the original state of a collapsible sidebar group,
+        // defaults to false
+        expanded: true,
         // required, items of group
         children: [
           "README.md" /* /foo/index.html */,
@@ -234,50 +134,10 @@ export default {
   }),
 };
 ```
-
-:::
 
 You can also nest Sidebar grouping:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: [
-      {
-        text: "Group",
-        prefix: "/",
-        children: [
-          "baz" /* /baz.html */,
-          {
-            text: "Sub Group 1",
-            children: ["quz" /* /quz.html */, "xyzzy" /* /xyzzy.html */],
-          },
-          {
-            text: "Sub Group 2",
-            prefix: "corge/",
-            children: [
-              "fred" /* /corge/fred.html */,
-              "grault" /* /corge/grault.html */,
-            ],
-          },
-          "foo" /* /foo.html */,
-        ],
-      },
-    ],
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {11-22} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -307,8 +167,6 @@ export default {
   }),
 };
 ```
-
-:::
 
 You may want to use it with `prefix` to restore the structure of the document easily.
 
@@ -331,45 +189,6 @@ For example, suppose you have a following directory structure:
 
 Then you can use the following config:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: [
-      "/" /* / */,
-      {
-        text: "Foo",
-        prefix: "/foo/",
-        children: [
-          "" /* /foo/ */,
-          "one" /* /foo/one.html */,
-          "two" /* /foo/two.html */,
-        ],
-      },
-      {
-        text: "Bar",
-        prefix: "/bar/",
-        children: [
-          "" /* /bar/ */,
-          "three" /* /bar/three.html */,
-          "four" /* /bar/four.html */,
-        ],
-      },
-      "/contact" /* /contact.html */,
-      "/about" /* /about.html */,
-    ],
-  }),
-});
-```
-
-@tab JS
-
 ```js title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
@@ -401,8 +220,6 @@ export default {
   }),
 };
 ```
-
-:::
 
 ### Multiple Sidebars
 
@@ -427,42 +244,6 @@ For example, if you have the following structure:
 
 You can define your sidebar for each section using below configuration:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: {
-      "/foo/": [
-        "" /* /foo/ */,
-        "one" /* /foo/one.html */,
-        "two" /* /foo/two.html */,
-      ],
-
-      "/bar/": [
-        "" /* /bar/ */,
-        "three" /* /bar/three.html */,
-        "four" /* /bar/four.html */,
-      ],
-
-      // fallback
-      "/": [
-        "" /* / */,
-        "contact" /* /contact.html */,
-        "about" /* /about.html */,
-      ],
-    },
-  }),
-});
-```
-
-@tab JS
-
 ```js title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
@@ -491,8 +272,6 @@ export default {
   }),
 };
 ```
-
-:::
 
 ::: warning
 
@@ -525,35 +304,7 @@ For example, for the following example mentioned earlier in [multiple sidebars](
 
 You can change the original config to:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8,10} title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: {
-      "/foo/": "structure",
-
-      "/bar/": "structure",
-
-      // fallback
-      "/": [
-        "" /* / */,
-        "contact" /* /contact.html */,
-        "about" /* /about.html */,
-      ],
-    },
-  }),
-});
-```
-
-@tab JS
-
-```js {7,9} title=".vuepress/config.js"
+```js {6,8} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -573,8 +324,6 @@ export default {
   }),
 };
 ```
-
-:::
 
 In the above modification, since the original sidebar array is all files under the relevant path, you can easily replace it with the `"structure"` keyword.
 
@@ -625,6 +374,7 @@ For nested folders, the grouping information is controlled by `README.md` under 
 - `dir.text`: Directory title, default to `README.md` title
 - `dir.icon`: Directory icon, default to `README.md` icon
 - `dir.collapsible`: Whether the directory is collapsible, default to `true`
+- `dir.expanded`: Whether the directory is default expanded, default to `false`
 - `dir.link`: Whether the directory is clickable, default to `false`
 - `dir.index`: Whether index current dir, default to `true`
 - `dir.order`: Dir order in sidebar, default to `0`
@@ -658,7 +408,7 @@ Corresponding to the above advanced control, its default value is `["readme", "o
 
 ### Disabling Sidebar
 
-You can disable the sidebar on a specific page with `YAML front matter`:
+You can disable the sidebar on a specific page via frontmatter:
 
 ```md
 ---
@@ -696,27 +446,7 @@ Since the default value of [markdown.headers.level](https://vuejs.press/referenc
 
 By default, the nested header links and the hash in the URL are updated as the user scrolls to view the different sections of the page. This behavior can be disabled with the following theme config:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8} title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    plugins: {
-      // Default: true
-      activeHeaderLinks: false,
-    },
-  }),
-});
-```
-
-@tab JS
-
-```js {8} title=".vuepress/config.js"
+```js {7} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -728,46 +458,12 @@ export default {
   }),
 };
 ```
-
-:::
-
-## Icon Support
-
-Icon support is enabled in the sidebar by default, and the icon of the page will be displayed before the link in the sidebar (by reading `icon` field in frontmatter). It can be disabled by setting `sidebarIcon` to `false` in theme options.
 
 ## I18n Support
 
 The theme's navbar supports [I18n](https://vuejs.press/guide/i18n.html), so you can set sidebar individually in each language:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    locales: {
-      "/": {
-        sidebar: [
-          /* English config under root */
-        ],
-      },
-      "/zh/": {
-        sidebar: [
-          /* Chinese config under zh folder */
-        ],
-      },
-    },
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {7-9,12-14} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -787,8 +483,6 @@ export default {
   }),
 };
 ```
-
-:::
 
 ## Types and Helpers
 
@@ -834,19 +528,7 @@ export default sidebar(/* Your sidebar configuration */);
 
 ## Demo
 
-:::: details Configuration of this documentation
-
-::: code-tabs#language
-
-@tab TS
-
-```ts
-import { sidebar } from "vuepress-theme-hope";
-
-<!-- @include: ../../.vuepress/sidebar/en.ts#config -->
-```
-
-@tab JS
+::: details Configuration of this documentation
 
 ```js
 import { sidebar } from "vuepress-theme-hope";
@@ -855,5 +537,3 @@ import { sidebar } from "vuepress-theme-hope";
 ```
 
 :::
-
-::::
