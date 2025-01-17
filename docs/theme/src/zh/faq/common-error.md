@@ -40,17 +40,11 @@ npx vp-update
 
 这是一个例子:
 
-```
+```shell
  WARN  Issues with peer dependencies found
 .
 ├─┬ @vuepress/plugin-docsearch 2.0.0-rc.7
 │ └── ✕ unmet peer vuepress@2.0.0-rc.2: found 2.0.0-rc.5
-├─┬ vuepress-plugin-append-date 2.0.0-rc.20
-│ ├── ✕ unmet peer vuepress@2.0.0-rc.2: found 2.0.0-rc.5
-│ ├─┬ @vuepress/helper 2.0.0-rc.9
-│ │ └── ✕ unmet peer vuepress@2.0.0-rc.2: found 2.0.0-rc.5
-│ └─┬ vuepress-shared 2.0.0-rc.20
-│   └── ✕ unmet peer vuepress@2.0.0-rc.2: found 2.0.0-rc.5
 ├─┬ @vuepress/plugin-git 2.0.0-rc.7
 │ └── ✕ unmet peer vuepress@2.0.0-rc.2: found 2.0.0-rc.5
 ├─┬ vuepress 2.0.0-rc.5
@@ -63,13 +57,11 @@ npx vp-update
 
 - `vuepress` 需要一个与自己相同版本的 `@vuepress/bundler-vite`，但是你拥有 `rc.4` 版本的打包器和 `rc.5` 版本的 vuepress。
 
-- Some of the plugin requires `vuepress@2.0.0-rc.2`.
-
 - 一些插件要求 `vuepress@2.0.0-rc.2`，但你当前是 `2.0.0-rc.5`。
 
 你总可以编辑你的依赖版本以使它们相互匹配。通常你会尝试将 vuepress、vuepress 打包器和插件升级到最新版本，但也有可能插件尚未兼容最新版本的 vuepress。在这种情况下，你应该将 vuepress 降级到与插件兼容的版本，或者暂时删除插件直到它支持最新的 vuepress。
 
-## `You are not allowed to use plugin XXX yourself in vuepress config file.`
+## You are not allowed to use plugin XXX yourself in vuepress config file
 
 这意味着你在 VuePress 配置文件中自己调用主题捆绑插件。
 
@@ -94,24 +86,24 @@ npx vp-update
 
 使用 GitHub 工作流时，在你的工作流文件中设置 `env`:
 
-```diff
-  - name: Build project
-+   env:
-+     NODE_OPTIONS: --max_old_space_size=8192
-    run: pnpm run build
+```yml
+- name: Build project
+  env: // [!code ++]
+    NODE_OPTIONS: --max_old_space_size=8192 // [!code ++]
+  run: pnpm run build
 ```
 
 在 Windows，你可以参考 [此指南](https://blog.csdn.net/weixin_37204973/article/details/82504570).
 
 :::
 
-## `xxx isn't assign with a lang, and will return 'en-US' instead.`
+## xxx isn't assign with a lang, and will return 'en-US' instead
 
 如果你在开发进程启动时看到 `xxx is not assign with a lang, and will return 'en-US'.`，请检查是否为每种语言设置了语言。
 
 即使你只有一种语言，你仍然需要 [设置你的根目录语言](../config/i18n.md#设置语言)。
 
-## `xxx is missing sidebar config.`
+## xxx is missing sidebar config
 
 使用对象格式侧边栏配置意味着你想根据路由设置不同的侧边栏。
 
@@ -158,7 +150,7 @@ npm i -D xxx
 
 如果你仍然想使用它们，请查看 [此处](https://vuejs.press/zh/guide/markdown.html#%E9%9D%9E%E6%A0%87%E5%87%86%E7%9A%84-html-%E6%A0%87%E7%AD%BE) 以获得解决方法。
 
-## `Hydration completed but contains mismatches.`
+## Hydration completed but contains mismatches
 
 这个错误表明你遇到了 SSR 错配，而且这应该不是主题的问题。
 
@@ -177,6 +169,7 @@ CloudFlare 的 Auto Minify 会错误的对 HTML 的空格和换行进行处理�
 如果一个组件件大概率在 SSR[^ssr] 和 CSR[^csr] 拥有不同的渲染结果，你可以用 `vuepress/client` 提供的 `<ClientOnly />` 组件包裹你的组件。
 
 [^ssr]: **SSR**: **S**erver **S**ide **R**endering，服务端渲染
+
 [^csr]: **CSR**: **C**lient **S**ide **R**endering，客户端渲染
 
 ## 热更新在开发服务器中不工作
@@ -221,7 +214,7 @@ import { defineUserConfig } from "vuepress";
 
 export default defineUserConfig({
   extendsBundlerOptions: (config, app) => {
-    addViteConfig(bundlerOptions, app, {
+    addViteConfig(config, app, {
       css: {
         postcss: {
           plugins: [postcssPresetEnv()],
@@ -241,7 +234,7 @@ import { defineUserConfig } from "vuepress";
 
 export default defineUserConfig({
   extendsBundlerOptions: (config, app) => {
-    configWebpack(bundlerOptions, app, (config) => {
+    configWebpack(config, app, (config) => {
       (((config.postcss ??= {}).postcssOptions ??= {}).plugins ??= []).push(
         postcssPresetEnv(),
       );

@@ -16,7 +16,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: true
 
       - name: Restore Build Result
         uses: actions/download-artifact@v4
@@ -24,12 +23,12 @@ jobs:
           name: build-result
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - name: Install deps
@@ -42,13 +41,9 @@ jobs:
 
       - name: Combine output
         run: |
-          pnpm cpx "docs/append-date/dist/**" dist/append-date
-          pnpm cpx "docs/comment2/dist/**" dist/comment
           pnpm cpx "docs/components/dist/**" dist/components
           pnpm cpx "docs/lightgallery/dist/**" dist/lightgallery
           pnpm cpx "docs/md-enhance/dist/**" dist/md-enhance
-          pnpm cpx "docs/sass-palette/dist/**" dist/sass-palette
-          pnpm cpx "docs/search-pro/dist/**" dist/search-pro
           pnpm cpx "docs/shared/dist/**" dist/shared
           pnpm cpx "docs/theme/dist/**" dist
 

@@ -69,13 +69,12 @@ tag:
 - 类型: `(page: Page)=> boolean`
 - 默认值:
 
-  ```ts
-  ({ frontmatter, filePathRelative }: Page): boolean =>
-    !(
-      frontmatter.home ||
-      !filePathRelative ||
-      frontmatter.article === false ||
-      frontmatter.feed === false
+  ```js
+  ({ frontmatter, filePathRelative }) =>
+    Boolean(
+      frontmatter.feed ??
+        frontmatter.article ??
+        (filePathRelative && !frontmatter.home),
     );
   ```
 
@@ -95,4 +94,4 @@ Feed 项目的排序器。
 
 :::
 
-[feed-config]: https://ecosystem.vuejs.press/zh/plugins/feed/
+[feed-config]: https://ecosystem.vuejs.press/zh/plugins/blog/feed/

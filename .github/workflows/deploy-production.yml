@@ -15,7 +15,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: true
 
       - name: Restore Build Result
         uses: actions/download-artifact@v4
@@ -23,12 +22,12 @@ jobs:
           name: build-result
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - name: Install deps
@@ -39,24 +38,6 @@ jobs:
           NETLIFY: true
           NODE_OPTIONS: --max_old_space_size=8192
         run: pnpm run docs:vite-build
-
-      - name: Deploy append-date docs
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          repository-name: vuepress-theme-hope/append-date-docs
-          branch: netlify
-          folder: docs/append-date/dist
-          token: ${{ secrets.ACCESS_TOKEN }}
-          single-commit: true
-
-      - name: Deploy comment2 docs
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          repository-name: vuepress-theme-hope/comment2-docs
-          branch: netlify
-          folder: docs/comment2/dist
-          token: ${{ secrets.ACCESS_TOKEN }}
-          single-commit: true
 
       - name: Deploy components docs
         uses: JamesIves/github-pages-deploy-action@v4
@@ -82,24 +63,6 @@ jobs:
           repository-name: vuepress-theme-hope/md-enhance-docs
           branch: netlify
           folder: docs/md-enhance/dist
-          token: ${{ secrets.ACCESS_TOKEN }}
-          single-commit: true
-
-      - name: Deploy sass-palette docs
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          repository-name: vuepress-theme-hope/sass-palette-docs
-          branch: netlify
-          folder: docs/sass-palette/dist
-          token: ${{ secrets.ACCESS_TOKEN }}
-          single-commit: true
-
-      - name: Deploy search-pro docs
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          repository-name: vuepress-theme-hope/search-pro-docs
-          branch: netlify
-          folder: docs/search-pro/dist
           token: ${{ secrets.ACCESS_TOKEN }}
           single-commit: true
 
@@ -129,7 +92,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: true
 
       - name: Restore Build Result
         uses: actions/download-artifact@v4
@@ -137,12 +99,12 @@ jobs:
           name: build-result
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - name: Install deps
@@ -156,13 +118,9 @@ jobs:
 
       - name: Combine output
         run: |
-          pnpm cpx "docs/append-date/dist/**" dist/append-date
-          pnpm cpx "docs/comment2/dist/**" dist/comment
           pnpm cpx "docs/components/dist/**" dist/components
           pnpm cpx "docs/lightgallery/dist/**" dist/lightgallery
           pnpm cpx "docs/md-enhance/dist/**" dist/md-enhance
-          pnpm cpx "docs/sass-palette/dist/**" dist/sass-palette
-          pnpm cpx "docs/search-pro/dist/**" dist/search-pro
           pnpm cpx "docs/shared/dist/**" dist/shared
           pnpm cpx "docs/theme/dist/**" dist
 
@@ -193,12 +151,12 @@ jobs:
           name: build-result
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - name: Install deps
@@ -245,18 +203,13 @@ jobs:
       fail-fast: false
       matrix:
         plugin-name:
-          - comment2
           - components
           - lightgallery
           - md-enhance
-          - sass-palette
-          - search-pro
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: true
 
       - name: Restore Build Result
         uses: actions/download-artifact@v4
@@ -264,12 +217,12 @@ jobs:
           name: build-result
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - name: Install deps

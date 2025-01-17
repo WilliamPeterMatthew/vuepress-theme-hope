@@ -2,7 +2,7 @@ import { rollupBundle } from "../../scripts/rollup.js";
 
 export default [
   ...rollupBundle("node/index", {
-    external: [/^@mdit\/plugin-/, "js-yaml"],
+    external: [/^@mdit\/plugin-/],
     dtsExternal: ["vuepress-shared"],
   }),
   ...rollupBundle(
@@ -10,10 +10,8 @@ export default [
       base: "client",
       files: [
         "index",
-        "compact/index",
         "components/ChartJS",
         "components/CodeDemo",
-        "components/CodeTabs",
         "components/ECharts",
         "components/FlowChart",
         "components/KotlinPlayground",
@@ -21,13 +19,8 @@ export default [
         "components/MdDemo",
         "components/Mermaid",
         "components/Playground",
-        "components/RevealJs",
         "components/SandPack",
-        "components/Tabs",
         "components/VuePlayground",
-        "composables/hint",
-        "composables/katex",
-        "SlidePage",
       ],
     },
 
@@ -35,17 +28,16 @@ export default [
       external: [
         "@vue/repl",
         "@vue/repl/codemirror-editor",
+        "@vue/repl/monaco-editor",
         "balloon-css/balloon.css",
         "chart.js/auto",
         "echarts",
         "flowchart.ts",
-        "katex/dist/contrib/copy-tex.min.js",
         "kotlin-playground",
         "markmap-lib",
         "markmap-toolbar",
         "markmap-view",
-        "mermaid",
-        /^reveal\.js/,
+        "mermaid/dist/mermaid.esm.min.mjs",
         "sandpack-vue3",
       ],
       copy: [

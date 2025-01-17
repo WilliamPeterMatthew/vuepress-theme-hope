@@ -1,6 +1,6 @@
 ---
 title: Vue Playground
-icon: fab fa-vuejs
+icon: b:vuejs
 ---
 
 The plugin provides you vue playground support.
@@ -47,39 +47,18 @@ Then enabling via:
 
 <!-- #endregion settings -->
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8} title=".vuepress/config.ts"
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+```js {7} title=".vuepress/config.js"
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // enable vue playground
       vuePlayground: true,
     }),
   ],
 };
 ```
-
-@tab JS
-
-```js {8} title=".vuepress/config.js"
-import { mdEnhance } from "vuepress-plugin-md-enhance";
-
-export default {
-  plugins: [
-    mdEnhance({
-      // enable vue playground
-      vuePlayground: true,
-    }),
-  ],
-};
-```
-
-:::
 
 <!-- #region after -->
 

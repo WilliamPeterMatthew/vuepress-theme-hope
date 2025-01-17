@@ -67,7 +67,7 @@ tag:
 
 :::
 
-此外，该插件默认不处理清单中的任何内容，而是按原样输出。 这意味着，如果你计划部署到子目录，则应自行将 URL 前缀附加到自己的清单 Urls 中。如果你需要的所有东西都在 base 文件夹下，你可以在插件选项中设置 `plugins.pwa.appendBase: true` 让插件将 `base` 自动附加到任何地址。
+此外，此插件默认不处理清单中的任何内容，而是按原样输出。 这意味着，如果你计划部署到子目录，则应自行将 URL 前缀附加到自己的清单 Urls 中。如果你需要的所有东西都在 base 文件夹下，你可以在插件选项中设置 `plugins.pwa.appendBase: true` 让插件将 `base` 自动附加到任何地址。
 
 ## 缓存控制
 
@@ -92,6 +92,7 @@ tag:
 虽然说 VuePress 为所有的页面通过 SSG[^ssg] 生成了 HTML 文件，但是这些文件主要用于 SEO[^seo]，并能够让你在后端不做 SPA[^spa] 配置的情况下能够直接访问任何链接。
 
 [^ssg]: **SSG**: **S**tatic **S**ite **G**enerating，静态站点生成。
+
 [^seo]: **SEO**: **S**earch **E**ngine **O**ptimization，搜索引擎增强，
 
     详见 [SEO 介绍](https://mister-hope.com/code/website/html/definition/seo.html)
@@ -169,5 +170,5 @@ import { PWAReadyPopup } from "@vuepress/plugin-pwa/client";
 - [MDN PWA](https://developer.mozilla.org/zh-CN/docs/Web/Progressive_web_apps)
 - [W3C Manifest 规范](https://w3c.github.io/manifest/)
 
-[pwa]: https://ecosystem.vuejs.press/zh/plugins/pwa/
-[pwa-config]: https://ecosystem.vuejs.press/zh/plugins/pwa/config.html
+[pwa]: https://ecosystem.vuejs.press/zh/plugins/pwa/pwa/
+[pwa-config]: https://ecosystem.vuejs.press/zh/plugins/pwa/pwa/config.html

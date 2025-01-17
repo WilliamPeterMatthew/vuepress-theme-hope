@@ -6,11 +6,11 @@ import type { RollupReplaceOptions } from "@rollup/plugin-replace";
 import replace from "@rollup/plugin-replace";
 import type { ModuleSideEffectsOption, RollupOptions } from "rollup";
 import copy from "rollup-plugin-copy";
-import dts from "rollup-plugin-dts";
+import { dts } from "rollup-plugin-dts";
 import esbuild from "rollup-plugin-esbuild";
 import { shebang } from "rollup-plugin-resolve-shebang";
 
-const isProduction = process.env["NODE_ENV"] === "production";
+const isProduction = process.env.NODE_ENV === "production";
 
 export interface FileInfo {
   base: string;
@@ -28,7 +28,7 @@ export interface BundleOptions {
   inlineDynamicImports?: boolean;
   preserveShebang?: boolean;
   replace?: RollupReplaceOptions;
-  alias?: Alias[] | { [find: string]: string };
+  alias?: Alias[] | Record<string, string>;
   moduleSideEffects?: ModuleSideEffectsOption;
 }
 
@@ -68,7 +68,7 @@ export const rollupBundle = (
       {
         ...(typeof filePath === "object"
           ? {
-              dir: `./lib/${filePath.target || filePath.base}`,
+              dir: `./lib/${filePath.target ?? filePath.base}`,
               entryFileNames: "[name].js",
             }
           : { file: `./lib/${filePath}.js` }),
@@ -98,6 +98,10 @@ export const rollupBundle = (
         charset: "utf8",
         minify: isProduction,
         target: "node18",
+        loaders: {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          ".json": "json",
+        },
       }),
       copyOptions.length
         ? copy({
@@ -111,7 +115,7 @@ export const rollupBundle = (
     ],
 
     external: [
-      ...(resolve
+      resolve
         ? []
         : (
               typeof filePath === "object"
@@ -120,13 +124,13 @@ export const rollupBundle = (
             )
           ? [
               /^@temp/,
-              "@vuepress/helper",
+              "@vuepress/helper/client",
               "@vueuse/core",
               "vue",
               "vuepress/client",
               "vuepress/shared",
               "vuepress-shared/client",
-              /\.s?css(?:\?module)?$/,
+              /\.s?css$/,
             ]
           : (
                 typeof filePath === "object"
@@ -145,9 +149,9 @@ export const rollupBundle = (
                 /^vuepress-plugin-/,
                 "vuepress-shared/node",
               ]
-            : []),
-      ...external,
-    ],
+            : [],
+      external,
+    ].flat(),
 
     treeshake: {
       moduleSideEffects,
@@ -170,7 +174,7 @@ export const rollupBundle = (
             {
               ...(typeof filePath === "object"
                 ? {
-                    dir: `./lib/${filePath.target || filePath.base}`,
+                    dir: `./lib/${filePath.target ?? filePath.base}`,
                     entryFileNames: "[name].d.ts",
                   }
                 : { file: `./lib/${filePath}.d.ts` }),
@@ -191,7 +195,7 @@ export const rollupBundle = (
             }),
           ],
           external: [
-            ...(resolve
+            resolve
               ? []
               : (
                     typeof filePath === "object"
@@ -218,9 +222,9 @@ export const rollupBundle = (
                       "vuepress/utils",
                       "vuepress-shared/node",
                     ]
-                  : []),
-            ...dtsExternal,
-          ],
+                  : [],
+            dtsExternal,
+          ].flat(),
         } as RollupOptions,
       ]
     : []),

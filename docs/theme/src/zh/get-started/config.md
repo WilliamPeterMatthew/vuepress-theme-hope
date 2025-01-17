@@ -34,10 +34,6 @@ VuePress 使用文档文件夹中的 `.vuepress` 文件夹存放配置，所有 
 
 为了能够得到正确的提示，我们建议从 `vuepress` 导入 `defineUserConfig` 并包裹配置对象:
 
-::: code-tabs#language
-
-@tab TS
-
 ```ts title=".vuepress/config.ts"
 import { defineUserConfig } from "vuepress";
 
@@ -46,21 +42,9 @@ export default defineUserConfig({
 });
 ```
 
-@tab JS
-
-```js title=".vuepress/config.js"
-import { defineUserConfig } from "vuepress";
-
-export default defineUserConfig({
-  // 此处放置配置
-});
-```
-
-:::
-
 在模板中，为了避免配置文件过长，我们使用 JavaScript 原生提供的 ESM 特性，将主题配置、导航栏和侧边栏配置拆分到了单独的文件夹中。
 
-模板将主题函数抽离到了 `.vuepress/theme.js`，并通过 `export default` 导出。
+模板将主题函数抽离到了 `.vuepress/theme.ts`，并通过 `export default` 导出。
 
 `.vuepress/theme.ts`:
 
@@ -87,7 +71,7 @@ import theme from "./theme.js";
 export default defineUserConfig({
   // ...
 
-  // 这和 `theme: hopeTheme({/* 你的配置 */})` 是等价的
+  // 这和 `theme: hopeTheme({/* 主题配置 */})` 是等价的
   theme,
 
   // ...
@@ -149,9 +133,7 @@ VuePress Theme Hope 主题捆绑了一些插件，你可以在主题选项中通
 
 ::: info 样式配置
 
-VuePress Theme Hope 主题按照约定俗称，使用 `.vuepress/styles` 文件夹存放样式配置。
-
-你可以在此文件夹中:
+VuePress Theme Hope 主题使用 `.vuepress/styles` 文件夹存放样式配置。你可以在此文件夹中:
 
 - 创建 `index.scss` 来注入额外的 CSS 样式
 - 创建 `config.scss` 来进行样式配置

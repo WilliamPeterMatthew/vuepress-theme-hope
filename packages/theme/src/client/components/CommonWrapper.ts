@@ -17,11 +17,13 @@ import {
   resolveComponent,
   watch,
 } from "vue";
-import { usePageData, usePageFrontmatter, useRouter } from "vuepress/client";
+import { usePageFrontmatter, useRouter } from "vuepress/client";
 import { RenderDefault } from "vuepress-shared/client";
 
 import PageFooter from "@theme-hope/components/PageFooter";
 import {
+  usePure,
+  useThemeData,
   useThemeLocaleData,
   useWindowSize,
 } from "@theme-hope/composables/index";
@@ -34,7 +36,7 @@ import type {
   ThemeProjectHomePageFrontmatter,
 } from "../../shared/index.js";
 
-import "../styles/common.scss";
+import "../styles/common-wrapper.scss";
 
 export default defineComponent({
   name: "CommonWrapper",
@@ -70,13 +72,7 @@ export default defineComponent({
   slots: Object as SlotsType<{
     default: () => VNode[] | VNode | null;
 
-    // Navbar
-    navbarStartBefore?: () => VNode[] | VNode | null;
-    navbarStartAfter?: () => VNode[] | VNode | null;
-    navbarCenterBefore?: () => VNode[] | VNode | null;
-    navbarCenterAfter?: () => VNode[] | VNode | null;
-    navbarEndBefore?: () => VNode[] | VNode | null;
-    navbarEndAfter?: () => VNode[] | VNode | null;
+    // Nav Screen
     navScreenTop?: () => VNode[] | VNode | null;
     navScreenBottom?: () => VNode[] | VNode | null;
 
@@ -88,12 +84,13 @@ export default defineComponent({
 
   setup(props, { slots }) {
     const router = useRouter();
-    const page = usePageData();
     const frontmatter = usePageFrontmatter<
       ThemeProjectHomePageFrontmatter | ThemeNormalPageFrontmatter
     >();
+    const themeData = useThemeData();
     const themeLocale = useThemeLocaleData();
     const { isMobile, isPC } = useWindowSize();
+    const isPure = usePure();
 
     const [isMobileSidebarOpen, toggleMobileSidebar] = useToggle(false);
     const [isDesktopSidebarCollapsed, toggleDesktopSidebar] = useToggle(false);
@@ -113,9 +110,8 @@ export default defineComponent({
         return false;
 
       return Boolean(
-        page.value.title ||
-          themeLocale.value.logo ||
-          themeLocale.value.repo ||
+        themeLocale.value.logo ??
+          themeLocale.value.repo ??
           themeLocale.value.navbar,
       );
     });
@@ -130,11 +126,19 @@ export default defineComponent({
       );
     });
 
-    const enableToc = computed(() =>
-      props.noToc || frontmatter.value.home
-        ? false
-        : frontmatter.value.toc ||
-          (themeLocale.value.toc !== false && frontmatter.value.toc !== false),
+    // external-link-icon
+    const enableExternalLinkIcon = computed(
+      () =>
+        frontmatter.value.externalLinkIcon ??
+        themeData.value.externalLinkIcon ??
+        true,
+    );
+
+    const enableToc = computed(
+      () =>
+        !props.noToc &&
+        !frontmatter.value.home &&
+        (frontmatter.value.toc ?? themeLocale.value.toc ?? true),
     );
 
     const touchStart = { x: 0, y: 0 };
@@ -155,13 +159,6 @@ export default defineComponent({
         else toggleMobileSidebar(false);
     };
 
-    /** Get scroll distance */
-    const getScrollTop = (): number =>
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-
     // Close sidebar after navigation
     let lastDistance = 0;
 
@@ -169,7 +166,7 @@ export default defineComponent({
       "scroll",
       useThrottleFn(
         () => {
-          const distance = getScrollTop();
+          const distance = window.scrollY;
 
           // At top or scroll up
           if (distance <= 58 || distance < lastDistance)
@@ -209,7 +206,7 @@ export default defineComponent({
     return (): VNode =>
       h(
         hasGlobalComponent("GlobalEncrypt")
-          ? <ComponentOptions>resolveComponent("GlobalEncrypt")
+          ? (resolveComponent("GlobalEncrypt") as ComponentOptions)
           : RenderDefault,
         () =>
           h(
@@ -219,21 +216,35 @@ export default defineComponent({
                 "theme-container",
                 // Classes
                 {
-                  "no-navbar": !enableNavbar.value,
-                  "no-sidebar":
-                    !enableSidebar.value &&
-                    !(slots.sidebar || slots.sidebarTop || slots.sidebarBottom),
-                  "has-toc": enableToc.value,
+                  // navbar
                   "hide-navbar": hideNavbar.value,
+                  "no-navbar": !enableNavbar.value,
+
+                  // sidebar
                   "sidebar-collapsed":
                     !isMobile.value &&
                     !isPC.value &&
                     isDesktopSidebarCollapsed.value,
                   "sidebar-open": isMobile.value && isMobileSidebarOpen.value,
+                  "no-sidebar":
+                    !enableSidebar.value &&
+                    !slots.sidebar &&
+                    !slots.sidebarTop &&
+                    !slots.sidebarBottom,
+
+                  // external-link-icon
+                  "external-link-icon": enableExternalLinkIcon.value,
+
+                  // pure
+                  pure: isPure.value,
+
+                  // toc
+                  "has-toc": enableToc.value,
                 },
                 props.containerClass,
-                frontmatter.value.containerClass || "",
+                frontmatter.value.containerClass ?? "",
               ],
+              "vp-container": "",
               onTouchStart,
               onTouchEnd,
             },
@@ -244,14 +255,8 @@ export default defineComponent({
                     Navbar,
                     { onToggleSidebar: () => toggleMobileSidebar() },
                     {
-                      startBefore: () => slots.navbarStartBefore?.(),
-                      startAfter: () => slots.navbarStartAfter?.(),
-                      centerBefore: () => slots.navbarCenterBefore?.(),
-                      centerAfter: () => slots.navbarCenterAfter?.(),
-                      endBefore: () => slots.navbarEndBefore?.(),
-                      endAfter: () => slots.navbarEndAfter?.(),
-                      screenTop: () => slots.navScreenTop?.(),
-                      screenBottom: () => slots.navScreenBottom?.(),
+                      screenTop: slots.navScreenTop,
+                      screenBottom: slots.navScreenBottom,
                     },
                   )
                 : null,
@@ -287,9 +292,9 @@ export default defineComponent({
                 Sidebar,
                 {},
                 {
-                  ...(slots.sidebar ? { default: () => slots.sidebar!() } : {}),
-                  top: () => slots.sidebarTop?.(),
-                  bottom: () => slots.sidebarBottom?.(),
+                  default: slots.sidebar,
+                  top: slots.sidebarTop,
+                  bottom: slots.sidebarBottom,
                 },
               ),
               slots.default(),

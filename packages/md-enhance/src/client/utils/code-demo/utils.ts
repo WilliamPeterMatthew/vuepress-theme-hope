@@ -62,7 +62,7 @@ export const h = (
   if (isPlainObject(attrs))
     keys(attrs).forEach((key) => {
       if (key.indexOf("data")) {
-        // @ts-ignore
+        // @ts-expect-error: Type is not accurate
         node[key] = attrs[key];
       } else {
         const k = key.replace("data", "");
@@ -84,12 +84,8 @@ export const getConfig = (
 ): CodeDemoOptions => ({
   ...options,
   ...config,
-  jsLib: Array.from(
-    new Set([...(options.jsLib || []), ...(config.jsLib || [])]),
-  ),
-  cssLib: Array.from(
-    new Set([...(options.cssLib || []), ...(config.cssLib || [])]),
-  ),
+  jsLib: Array.from(new Set([options.jsLib, config.jsLib ?? []].flat())),
+  cssLib: Array.from(new Set([options.cssLib, config.cssLib ?? []].flat())),
 });
 
 export const loadScript = (

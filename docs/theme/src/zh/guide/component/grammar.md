@@ -15,41 +15,75 @@ tag:
 
 ## 配置
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8-10} title=".vuepress/config.ts"
+```ts {7} title=".vuepress/config.ts"
 import { defineUserConfig } from "vuepress";
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default defineUserConfig({
   theme: hopeTheme({
-    plugins: {
-      mdEnhance: {
-        component: true,
-      },
+    markdown: {
+      components: true,
     },
   }),
 });
 ```
 
-@tab JS
+## 使用
 
-```js {7-9} title=".vuepress/config.js"
-import { hopeTheme } from "vuepress-theme-hope";
+你可以使用 component 代码块来在 Markdown 中添加组件。YAML 和 JSON 的数据格式均受支持:
 
-export default {
-  theme: hopeTheme({
-    plugins: {
-      mdEnhance: {
-        component: true,
-      },
-    },
-  }),
-};
+- YAML <Badge text="推荐" type="tip" />:
+
+  ````md
+  ```component 组件名称
+  # 组件数据
+  ```
+  ````
+
+- JSON:
+
+  ````md
+  ```component 组件名称
+  {
+    // 组件数据
+  }
+  ```
+  ````
+
+## 案例
+
+::: md-demo 快速使用 VPCard 组件
+
+```component VPCard
+title: Mr.Hope
+desc: Where there is light, there is hope
+logo: https://mister-hope.com/logo.svg
+link: https://mister-hope.com
+background: rgba(253, 230, 138, 0.15)
+```
+
+```component VPCard
+{
+  "title": "Mr.Hope",
+  "desc": "Where there is light, there is hope",
+  "logo": "https://mister-hope.com/logo.svg",
+  "link": "https://mister-hope.com",
+  "background": "rgba(253, 230, 138, 0.15)"
+}
 ```
 
 :::
 
-<!-- @include: @md-enhance/zh/guide/content/component.md#after -->
+这里的 `<VPCard>` 是已经全局注册的卡片组件。
+
+上方的代码块和下方等价:
+
+```md
+<VPCard
+  title="Mr.Hope"
+  desc="Where there is light, there is hope"
+  logo="https://mister-hope.com/logo.svg"
+  link="https://mister-hope.com"
+  background="rgba(253, 230, 138, 0.15)"
+/>
+```

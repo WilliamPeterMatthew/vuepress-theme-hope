@@ -30,35 +30,16 @@ tag:
 
 配置导航栏最简单的方式，是依次填入需要展示的页面文件的路径，这样导航栏的文字、图标和链接会自动通过对应文件生成。
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {7} title=".vuepress/config.ts"
+```ts {6} title=".vuepress/config.ts"
 import { defineUserConfig } from "vuepress";
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default defineUserConfig({
   theme: hopeTheme({
-    navbar: ["/zh/guide/README.md", "/zh/config/README.md", "/zh/faq.md"],
+    navbar: ["/guide/README.md", "/config/README.md", "/faq.md"],
   }),
 });
 ```
-
-@tab JS
-
-```js title=".vuepress/config.js"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    navbar: ["/zh/guide/README.md", "/zh/config/README.md", "/zh/faq.md"],
-  }),
-});
-```
-
-:::
 
 ::: tip
 
@@ -75,41 +56,7 @@ export default defineUserConfig({
 - `icon`: 项目图标 (可选)
 - `activeMatch`: 项目激活匹配 (可选)，支持正则字符串。
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    navbar: [
-      {
-        text: "指南",
-        link: "/zh/guide/README.md",
-        icon: "lightbulb",
-        // 仅在 `/zh/guide/` 激活
-        activeMatch: "^/zh/guide/$",
-      },
-      { text: "配置", link: "/zh/config/README.md", icon: "config" },
-      {
-        text: "常见问题",
-        link: "/zh/faq.md",
-        icon: "circle-question",
-        // 会在 `/zh/faq` 开头的路径激活
-        // 所以当你前往 `/zh/faq/xxx.html` 时也会激活
-        activeMatch: "^/zh/faq",
-      },
-    ],
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {5-22} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -136,17 +83,17 @@ export default {
 };
 ```
 
-:::
-
 ::: tip activeMatch 的高级用法
 
-`activeMatch` 主要给予你控制路径是否激活的能力，比如你可能有如下链接:
+`activeMatch` 给予你通过正则表达式控制路径是否激活的能力。
+
+比如你可能有如下下拉列表:
 
 - `/path/`
 - `/path/a/`
 - `/path/b/`
 
-此时你可能想避免在 `/path/a/` 以及 `/path/b/` 开头的路径下，出现两个菜单同时激活的情况。将第一项的 `activeMatch` 选项设置为 `^/path/(?:(?!a/|b/).*)?$` 就可以有效避免。
+为了避免在 `/path/a/` 以及 `/path/b/` 开头的路径下出现多个菜单同时激活的情况。你可以将第一项的 `activeMatch` 选项设置为 `^/path/(?:(?!a/|b/).*)?$`。
 
 :::
 
@@ -156,30 +103,7 @@ export default {
 
 你需要设置对象式导航栏配置项，并提供额外的 `children` 选项设置链接列表:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    navbar: [
-      {
-        text: "基础",
-        icon: "circle-info",
-        children: ["/zh/basic/markdown.md", "/zh/basic/vuepress.md"],
-      },
-    ],
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {6-10} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -194,38 +118,12 @@ export default {
   }),
 };
 ```
-
-:::
 
 由于大多数情况下，导航栏的分组项目都属于同一类别，会放在同一个子目录下，它们具有相同的路径前缀。
 
 为了简化配置，你可以添加 `prefix` 字段为分组的每一个子链接添加一个前缀:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    navbar: [
-      {
-        text: "基础",
-        icon: "circle-info",
-        prefix: "/zh/basic/",
-        children: ["markdown.md", "vuepress.md"],
-      },
-    ],
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {9,10} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -241,48 +139,10 @@ export default {
   }),
 };
 ```
-
-:::
 
 此外，你还可以通过嵌套的 `children` 来在下拉列表中设置分组:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    navbar: [
-      {
-        text: "插件列表",
-        icon: "puzzle-piece",
-        children: [
-          {
-            text: "内置插件",
-            children: [
-              /* 一些子项目 */
-            ],
-          },
-          {
-            text: "外部插件",
-            children: [
-              /* 一些子项目 */
-            ],
-          },
-        ],
-      },
-    ],
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {12-14,18-20} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -310,31 +170,12 @@ export default {
   }),
 };
 ```
-
-:::
 
 ## 禁用导航栏
 
-你可以在主题选项中设置 `navbar: false` 来禁用所有页面的导航栏:
+你可以在主题选项中设置 `navbar: false` 以全局禁用导航栏:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    navbar: false,
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {5} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -344,48 +185,13 @@ export default {
 };
 ```
 
-:::
-
-你也可以通过 `YAML front matter` 来禁用某个指定页面的导航栏:
+你也可以通过 Frontmatter 来禁用某个指定页面的导航栏:
 
 ```md
 ---
 navbar: false
 ---
 ```
-
-## 禁用导航栏图标
-
-你可以在主题选项中设置 `navbarIcon: false` 来禁用所有页面的导航栏图标:
-
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    navbarIcon: false,
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default {
-  theme: hopeTheme({
-    navbarIcon: false,
-  }),
-};
-```
-
-:::
 
 ## 网站图标
 
@@ -399,24 +205,7 @@ export default {
 
 配置图标后，图标将移动设备上取代先前的站点名称显示在导航栏上。
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    logo: "/logo.png",
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {5} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -425,8 +214,6 @@ export default {
   }),
 };
 ```
-
-:::
 
 ::: tip
 
@@ -438,37 +225,7 @@ export default {
 
 主题的导航栏支持 [多语言](https://vuejs.press/zh/guide/i18n.html)，所以你可以为每个语言单独设置上面提到的导航栏选项:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    locales: {
-      "/": {
-        logo: "/logo.svg",
-        navbar: [
-          /* 根目录下的英文配置 */
-        ],
-      },
-      "/zh/": {
-        logo: "/zh-logo.svg",
-        navbar: [
-          /* 中文目录下的中文配置 */
-        ],
-      },
-    },
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {7-10,13-16} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -490,8 +247,6 @@ export default {
   }),
 };
 ```
-
-:::
 
 ## 搜索框
 
@@ -505,30 +260,7 @@ export default {
 
 你可以在主题选项中通过 `repoDisplay` 控制是否显示仓库按钮。
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    // 默认为 GitHub. 同时也可以是一个完整的 URL
-    repo: "vuepress-theme-hope/vuepress-theme-hope",
-    // 自定义仓库链接文字。默认从 `repo` 中自动推断为
-    // "GitHub" / "GitLab" / "Gitee" / "Bitbucket" 其中之一，或是 "Source"。
-    repoLabel: "GitHub",
-    // 是否在导航栏内显示仓库链接，默认为 `true`
-    repoDisplay: true,
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {6,9,11} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -544,8 +276,6 @@ export default {
 };
 ```
 
-:::
-
 ## 外观弹窗
 
 提供下列三种功能:
@@ -556,9 +286,9 @@ export default {
 
 ## 布局配置
 
-主题允许你自定义导航栏布局。 你可以在 `navbarLayout` 选项下的 `start`、`center` 和 `end` 键中添加组件。
+你可以在主题选项中通过 `navbarLayout` 自定义导航栏，你可以在选项中通过 `start`、`center` 和 `end` 键中添加组件。
 
-导航栏包含了下列可以使用的内置组件:
+你可以直接使用以下内置组件名称:
 
 - Brand: 站点品牌
 - Links: 导航栏链接
@@ -571,28 +301,7 @@ export default {
 
 我们默认使用以下选项:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    navbarLayout: {
-      start: ["Brand"],
-      center: ["Links"],
-      end: ["Language", "Repo", "Outlook", "Search"],
-    },
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {5-9} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -605,8 +314,6 @@ export default {
   }),
 };
 ```
-
-:::
 
 ## 相关助手与类型
 
@@ -654,19 +361,7 @@ export default navbar([
 
 ## 例子
 
-:::: details 本文档的导航栏配置
-
-::: code-tabs#language
-
-@tab TS
-
-```ts
-import { navbar } from "vuepress-theme-hope";
-
-<!-- @include: ../../../.vuepress/navbar/zh.ts#config -->
-```
-
-@tab JS
+::: details 本文档的导航栏配置
 
 ```js
 import { navbar } from "vuepress-theme-hope";
@@ -675,5 +370,3 @@ import { navbar } from "vuepress-theme-hope";
 ```
 
 :::
-
-::::

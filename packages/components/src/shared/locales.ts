@@ -1,17 +1,4 @@
-import type { ExactLocaleConfig } from "@vuepress/helper";
-
-/** @deprecated Please use '@vuepress/plugin-back-to-top' */
-export interface BackToTopLocaleData {
-  /**
-   * Back to top button label text
-   *
-   * 返回顶部文字
-   */
-  backToTop: string;
-}
-
-/** @deprecated Please use '@vuepress/plugin-back-to-top' */
-export type BackToTopLocaleConfig = ExactLocaleConfig<BackToTopLocaleData>;
+import type { DefaultLayoutTranslations } from "vidstack";
 
 export interface PDFLocaleData {
   /**
@@ -28,8 +15,6 @@ export interface PDFLocaleData {
   hint: string;
 }
 
-export type PDFLocaleConfig = ExactLocaleConfig<PDFLocaleData>;
-
 export interface SiteInfoLocaleData {
   /**
    * Source text
@@ -39,4 +24,4 @@ export interface SiteInfoLocaleData {
   source: string;
 }
 
-export type SiteInfoLocaleConfig = ExactLocaleConfig<SiteInfoLocaleData>;
+export type VidstackLocaleData = Partial<DefaultLayoutTranslations>;

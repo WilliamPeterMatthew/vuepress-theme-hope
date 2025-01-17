@@ -39,46 +39,25 @@ npm i -D chart.js
 
 <!-- #endregion before -->
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8} title=".vuepress/config.ts"
+```js {7} title=".vuepress/config.js"
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
     mdEnhancePlugin({
       // 启用图表
-      chart: true,
+      chartjs: true,
     }),
   ],
 };
 ```
-
-@tab JS
-
-```js {8} title=".vuepress/config.js"
-import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
-
-export default {
-  plugins: [
-    mdEnhancePlugin({
-      // 启用图表
-      chart: true,
-    }),
-  ],
-};
-```
-
-:::
 
 <!-- #region after -->
 
 ## 格式
 
 ````md
-::: chart 标题
+::: chartjs 标题
 
 ```json
 {
@@ -95,7 +74,7 @@ export default {
 
 :::: md-demo 块状图
 
-::: chart 一个块状图案例
+::: chartjs 一个块状图案例
 
 ```json
 {
@@ -142,7 +121,7 @@ export default {
 
 :::: md-demo 气泡图
 
-::: chart 一个气泡图案例
+::: chartjs 一个气泡图案例
 
 ```json
 {
@@ -168,7 +147,7 @@ export default {
 
 :::: md-demo 线状图
 
-::: chart 一个线状图案例
+::: chartjs 一个线状图案例
 
 ```json
 {
@@ -194,7 +173,7 @@ export default {
 
 :::: md-demo 玫瑰图
 
-::: chart 一个玫瑰图案例
+::: chartjs 一个玫瑰图案例
 
 ```json
 {
@@ -224,7 +203,7 @@ export default {
 
 :::: md-demo 雷达图
 
-::: chart 一个雷达图案例
+::: chartjs 一个雷达图案例
 
 ```json
 {
@@ -272,7 +251,7 @@ export default {
 
 :::: md-demo 散点图
 
-::: chart 一个散点图案例
+::: chartjs 一个散点图案例
 
 ```json
 {

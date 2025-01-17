@@ -13,10 +13,6 @@
 
 ## [在线案例](https://stackblitz.com/fork/vuepress-theme-hope)
 
-## 特别捐献者
-
-[![Grey Software](https://vuepress-theme-hope.github.io/grey-software.svg)](https://grey.software/)
-
 ## 联系
 
 我们建议你使用 [issues](https://github.com/vuepress-theme-hope/vuepress-theme-hope/issues) 和 [discussions](https://github.com/vuepress-theme-hope/vuepress-theme-hope/discussions) 联系，但也欢迎你加入我们的 [QQ 群](https://jq.qq.com/?_wv=1027&k=rATJyxGK) (群号: 1003437555)
@@ -24,12 +20,12 @@
 
 ## 详情
 
-V2 基于 [_VuePress2_](https://vuejs.press/zh/)， 通过 [_Vite5_](https://cn.vitejs.dev/) / [_Webpack5_](https://webpack.docschina.org/) 提供通过 [_Vue3_](https://cn.vuejs.org/) 提供强大功能。
+V2 基于 [**VuePress2**](https://vuejs.press/zh/)， 通过 [**Vite6**](https://cn.vite.dev/) / [**Webpack5**](https://webpack.docschina.org/) 提供通过 [**Vue3**](https://cn.vuejs.org/) 提供强大功能。
 
 V2 完全重写，包括:
 
-- 所有组件都用 _Vue3 中的 Composition API_ 重写
-- 所有样式都迁移到 _Sass_
+- 所有组件都用 **Vue3 中的 Composition API** 重写
+- 所有样式都迁移到 **Sass**
 
 V2 也有更好的性能 🚀:
 

@@ -1,3 +1,4 @@
+import { wait } from "@vuepress/helper/client";
 import type { GalleryItem } from "lightgallery/lg-utils.js";
 import lightGallery from "lightgallery/lightgallery.es5.js";
 import type { LightGallery } from "lightgallery/lightgallery.js";
@@ -19,19 +20,19 @@ import { useLightGalleryOptions } from "../helpers/index.js";
 
 import "lightgallery/scss/lightgallery.scss";
 
-declare const IMAGE_SELECTOR: string;
-declare const LIGHT_GALLERY_DELAY: number;
+declare const __LG_SELECTOR__: string;
+declare const __LG_DELAY__: number;
 
 const getImages = (images: HTMLImageElement[]): GalleryItem[] =>
   images.map(
     ({ alt, srcset, src }) =>
-      <GalleryItem>{
+      ({
         src,
         srcset,
         thumb: src || srcset,
         alt,
         subHtml: alt,
-      },
+      }) as GalleryItem,
   );
 
 export default defineComponent({
@@ -51,21 +52,17 @@ export default defineComponent({
 
       const [lightGalleryPlugins] = await Promise.all([
         useLightGalleryPlugins(),
-        nextTick().then(
-          () =>
-            new Promise<void>((resolve) =>
-              setTimeout(resolve, LIGHT_GALLERY_DELAY),
-            ),
-        ),
+        nextTick().then(() => wait(__LG_DELAY__)),
       ]);
 
       if (timeID === id) {
         instance?.destroy();
 
         const images = Array.from(
-          document.querySelectorAll<HTMLImageElement>(IMAGE_SELECTOR),
+          document.querySelectorAll<HTMLImageElement>(__LG_SELECTOR__),
         );
 
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         instance = new lightGallery(container.value!, {
           ...lightGalleryOptions,
           dynamic: true,

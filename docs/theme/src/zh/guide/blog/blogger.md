@@ -26,12 +26,6 @@ tag:
 
 :::
 
-::: tip
-
-如果你希望头像被剪裁成圆形，请设置 `blog.roundAvatar: true`。
-
-:::
-
 ## 座右铭、社交媒体与个人介绍页地址
 
 你可以通过 `blog.description` 设置自己的一句话介绍、座右铭或口号。
@@ -128,7 +122,7 @@ tag:
 - `"HuYa"`: 虎牙
 - `"iQiYi"`: 爱奇艺
 - `"KuaiShou"`: 快手
-- `"Nico"`: NicoNico动画
+- `"Nico"`: NicoNico 动画
 - `"QQVideo"`: 腾讯视频
 - `"Twitch"`: Twitch
 - `"WechatCh"`: 微信视频号
@@ -139,7 +133,7 @@ tag:
 @tab 其他
 
 - `"115"`: 115 网盘
-- `"360Yun"`: 360云盘
+- `"360Yun"`: 360 云盘
 - `"AliDrive"`: 阿里云盘
 - `"AliPay"`: 支付宝
 - `"BaiduDisk"`: 百度网盘
@@ -155,46 +149,7 @@ tag:
 
 ::::
 
-:::: details 例子
-
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { getDirname, path } from "vuepress/utils";
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-const __dirname = getDirname(import.meta.url);
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    blog: {
-      medias: {
-        // GitHub 已经内置了图标
-        GitHub: "https://github.com/Mister-Hope",
-        // 一个自定义媒体 MediaX (仅作示例)
-        MediaX: [
-          // 链接
-          "https://mediax.com/UserX/",
-          // 图标 SVG 字符串
-          "<svg ....</svg>",
-        ],
-        // 一个自定义媒体 MediaY (仅作示例)
-        MediaY: [
-          // 链接
-          "https://mediay.com/UserY/",
-          // 图标地址
-          path.resolve(__dirname, "icons/mediay.svg"),
-        ],
-      },
-    },
-  }),
-});
-```
-
-@tab JS
+::: details 例子
 
 ```js title=".vuepress/config.js"
 import { getDirname, path } from "vuepress/utils";
@@ -209,19 +164,19 @@ export default {
         // GitHub 已经内置了图标
         GitHub: "https://github.com/Mister-Hope",
         // 一个自定义媒体 MediaX (仅作示例)
-        MediaX: [
-          // 链接
-          "https://mediax.com/UserX/",
+        MediaX: {
           // 图标 SVG 字符串
-          "<svg ....</svg>",
-        ],
-        // 一个自定义媒体 MediaY (仅作示例)
-        MediaY: [
+          icon: "<svg ....</svg>",
           // 链接
-          "https://mediay.com/UserY/",
+          link: "https://mediax.com/UserX/",
+        },
+        // 一个自定义媒体 MediaY (仅作示例)
+        MediaY: {
           // 图标地址
-          path.resolve(__dirname, "icons/mediay.svg"),
-        ],
+          icon: "https://mediay.com/logo.svg",
+          // 链接
+          link: "https://mediay.com/UserY/",
+        },
       },
     },
   }),
@@ -229,5 +184,3 @@ export default {
 ```
 
 :::
-
-::::

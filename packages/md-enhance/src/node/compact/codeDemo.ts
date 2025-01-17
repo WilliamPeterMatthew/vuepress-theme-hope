@@ -1,7 +1,7 @@
 import { container } from "@mdit/plugin-container";
 import { encodeData } from "@vuepress/helper";
 import type { PluginSimple } from "markdown-it";
-import type Token from "markdown-it/lib/token.js";
+import type Token from "markdown-it/lib/token.mjs";
 
 import { logger } from "../utils.js";
 
@@ -24,10 +24,8 @@ export const legacyCodeDemo: PluginSimple = (md) => {
       for (let i = index; i < tokens.length; i++) {
         const { type, content, info } = tokens[i];
         const language = info
-          ? md.utils
-              .unescapeAll(info)
-              .trim()
-              .match(/^([^ :[{]+)/)?.[1] || "text"
+          ? (/^([^ :[{]+)/.exec(md.utils.unescapeAll(info).trim())?.[1] ??
+            "text")
           : "";
 
         if (type === `container_demo_close`) break;
@@ -38,7 +36,7 @@ export const legacyCodeDemo: PluginSimple = (md) => {
       }
 
       return `
-<CodeDemo id="code-demo-${index}" type="${type?.[1] || "normal"}"${
+<CodeDemo id="code-demo-${index}" type="${type?.[1] ?? "normal"}"${
         title ? ` title="${encodeURIComponent(title[1])}"` : ""
       }${config ? ` config="${config}"` : ""} code="${encodeData(
         JSON.stringify(code),

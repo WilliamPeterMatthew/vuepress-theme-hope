@@ -1,6 +1,6 @@
 import { get } from "node:https";
 
-import type { PackageManager } from "./packageManager.js";
+import type { PackageManager } from "../config/index.js";
 
 export const getVersion = async (
   packageManager: PackageManager,
@@ -19,16 +19,16 @@ export const getVersion = async (
           if (res.statusCode === 200) {
             let body = "";
 
-            res.on("data", (data) => (body += data));
+            res.on("data", (data: string) => (body += data));
             res.on("end", () => {
-              resolve((<Record<string, string>>JSON.parse(body))[tag]);
+              resolve((JSON.parse(body) as Record<string, string>)[tag]);
             });
           } else {
-            reject();
+            reject(new Error("fetch failed"));
           }
         },
       ).on("error", () => {
-        reject();
+        reject(new Error("fetch failed"));
       });
     });
 

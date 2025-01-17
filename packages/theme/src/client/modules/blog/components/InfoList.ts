@@ -3,7 +3,7 @@ import type { FunctionalComponent, VNode } from "vue";
 import { computed, defineComponent, h, ref } from "vue";
 import { RouteLink } from "vuepress/client";
 
-import DropTransition from "@theme-hope/components/transitions/DropTransition";
+import { DropTransition } from "@theme-hope/components/transitions/index";
 import { useNavigate, useThemeLocaleData } from "@theme-hope/composables/index";
 import CategoryList from "@theme-hope/modules/blog/components/CategoryList";
 import TagList from "@theme-hope/modules/blog/components/TagList";
@@ -21,7 +21,7 @@ import {
   useTagMap,
 } from "@theme-hope/modules/blog/composables/index";
 
-import { ArticleInfoType } from "../../../../shared/index.js";
+import { PageInfo } from "../../../../shared/index.js";
 
 import "../styles/info-list.scss";
 
@@ -56,7 +56,7 @@ export default defineComponent({
         h(
           "div",
           { class: "vp-blog-type-switcher" },
-          (<[InfoType, FunctionalComponent][]>entries(buttons)).map(
+          (entries(buttons) as [InfoType, FunctionalComponent][]).map(
             ([key, Icon]) =>
               h(
                 "button",
@@ -71,7 +71,7 @@ export default defineComponent({
                   "div",
                   {
                     class: [
-                      "icon-wrapper",
+                      "vp-blog-type-icon-wrapper",
                       { active: activeType.value === key },
                     ],
                     "aria-label": locale.value[key],
@@ -91,7 +91,9 @@ export default defineComponent({
                   "div",
                   {
                     class: "title",
-                    onClick: () => navigate(articles.value.path),
+                    onClick: () => {
+                      navigate(articles.value.path);
+                    },
                   },
                   [
                     h(ArticleIcon),
@@ -115,7 +117,7 @@ export default defineComponent({
                               h(
                                 RouteLink,
                                 { to: path },
-                                () => info[ArticleInfoType.title],
+                                () => info[PageInfo.title],
                               ),
                             ),
                         ),
@@ -135,7 +137,9 @@ export default defineComponent({
                           "div",
                           {
                             class: "title",
-                            onClick: () => navigate(categoryMap.value.path),
+                            onClick: () => {
+                              navigate(categoryMap.value.path);
+                            },
                           },
                           [
                             h(CategoryIcon),
@@ -165,7 +169,9 @@ export default defineComponent({
                             "div",
                             {
                               class: "title",
-                              onClick: () => navigate(tagMap.value.path),
+                              onClick: () => {
+                                navigate(tagMap.value.path);
+                              },
                             },
                             [
                               h(TagIcon),

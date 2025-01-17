@@ -9,38 +9,15 @@ tag:
   - 深色模式
 ---
 
-在深色模式下，页面会使用深色背景与浅色文字，以让你更加舒适。
+主题支持深色模式并允许你自定义它。
 
 <!-- more -->
-
-## 尝试
-
-切换下面的按钮以查看效果。
-
-<AppearanceSwitch />
 
 ## 选项
 
 你可以在主题选项中通过 `darkmode` 来配置深色模式。
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {7} title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    darkmode: "你的选项",
-  }),
-});
-```
-
-@tab JS
-
-```js {7} title=".vuepress/config.js"
+```js {5} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -50,8 +27,6 @@ export default {
 };
 ```
 
-:::
-
 可选的值:
 
 - `"switch"`: 在深色模式，浅色模式和自动之间切换 (默认)
@@ -60,12 +35,26 @@ export default {
 - `"enable"`: 强制深色模式
 - `"disable"`: 禁用深色模式
 
-::: info 全局变量
+::: tip 尝试一下
 
-你可以在任一 Markdown 文件中通过 `$isDarkmode` 来获取当前是否为深色模式。
+切换按钮以查看效果: <ColorModeSwitch />
 
 :::
 
+## 获取状态
+
+- 在 Markdown 文件或 Vue 模板中，你可以直接获取 `$isDarkmode` 来获取当前是否为深色模式。
+
+- 在脚本中，你可以从 `@vuepress/client/helper` 导入 `useDarkmode` 来获取深色模式状态:
+
+  ```ts
+  import { useDarkmode } from "@vuepress/client/helper";
+
+  const { isDarkmode } = useDarkmode();
+
+  console.log(isDarkmode.value); // get darkmode status
+  ```
+
 <script setup lang="ts">
-import AppearanceSwitch from "@theme-hope/modules/outlook/components/AppearanceSwitch"
+import ColorModeSwitch from "@theme-hope/modules/outlook/components/ColorModeSwitch"
 </script>
