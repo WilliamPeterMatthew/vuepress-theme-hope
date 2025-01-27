@@ -6,19 +6,40 @@ category:
   - 案例
 
 docs:
+  - name: Fast Request
+    desc: 为简化调试API而生
+    logo: https://api-buddy.cn/img/fastRequest.svg
+    url: https://api-buddy.cn/
+    repo: https://github.com/dromara/fast-request
+    preview: /assets/image/fast-request.jpg
+
+  - name: 植物大战僵尸 2 无尽花园
+    desc: 完全重制的全桌面平台PvZ2.
+    logo: https://pvzge.com/pvz_logo.webp
+    url: https://pvzge.com/
+    repo: https://github.com/Gzh0821/pvzg_site
+    preview: /assets/image/pvz2.jpg
+
+  - name: inNENU
+    desc: 最全东师新生攻略
+    logo: https://innenu.com/logo.svg
+    url: https://innenu.com
+    repo: https://github.com/inNENU/resource/
+    preview: /assets/image/innenu.jpg
+
+  - name: UIGF-org
+    desc: 统一标准化的原神数据格式
+    logo: https://uigf.org/uigf-logo128.png
+    url: https://uigf.org/zh/
+    repo: https://github.com/UIGF-org/UIGF-org.github.io
+    preview: /assets/image/uigf.jpg
+
   - name: Waline
     desc: 一款简洁、安全的评论系统。
     logo: https://waline.js.org/logo.png
     url: https://waline.js.org/
     repo: https://github.com/walinejs/waline
     preview: /assets/image/waline.jpg
-
-  - name: in东师
-    desc: 最全东师新生攻略
-    logo: https://innenu.com/logo.svg
-    url: https://innenu.com
-    repo: https://github.com/inNENU/resource/
-    preview: /assets/image/innenu.jpg
 
   - name: MaaAssistantArknights
     desc: 一款明日方舟游戏小助手
@@ -76,20 +97,6 @@ docs:
     repo: https://github.com/itwanger/toBeBetterJavaer
     preview: /assets/image/to-be-better-javaer.jpg
 
-  - name: Fast Request
-    desc: 为简化调试API而生
-    logo: https://dromara.org/fast-request/img/logo/logo.svg
-    url: https://dromara.org/fast-request/
-    repo: https://github.com/dromara/fast-request
-    preview: /assets/image/fast-request.jpg
-
-  - name: UIGF-org
-    desc: 统一标准化的原神数据格式
-    logo: https://uigf.org/uigf-logo128.png
-    url: https://uigf.org/zh/
-    repo: https://github.com/UIGF-org/UIGF-org.github.io
-    preview: /assets/image/uigf.jpg
-
   - name: Golang 中文文档
     desc: Go 爱好者驱动的中文学习站
     logo: https://golang.halfiisland.com/logo.png
@@ -132,6 +139,13 @@ docs:
     repo: https://github.com/huiyadanli/bettergi-docs
     preview: /assets/image/better-gi.jpg
 
+  - name: TG Wiki
+    desc: Telegram 知识库
+    logo: https://tgnav.github.io/tgwiki/assets/icon/logo.svg
+    url: https://tgnav.github.io/tgwiki/
+    repo: https://github.com/tgnav/tgwiki
+    preview: /assets/image/tgwiki.jpg
+
   - name: Korepi
     desc: 我们提供高质量且易于使用的 Korepi 便捷工具！
     logo: https://korepi.com/logo2.svg
@@ -141,6 +155,7 @@ docs:
 
   - name: WebGAL
     desc: 全新的网页端视觉小说引擎
+    logo: https://docs.openwebgal.com/favicon.ico
     url: https://docs.openwebgal.com/
     repo: https://github.com/OpenWebGAL/WebGAL_Doc
     preview: /assets/image/webgal.jpg
@@ -187,13 +202,6 @@ docs:
     repo: https://github.com/NixOS-CN/nixos-cn.github.io
     preview: /assets/image/nixos.jpg
 
-  - name: MapstructPlus
-    desc: 可能是最简单最强大的 Java Bean 转换工具
-    logo: https://mapstruct.plus/logo.svg
-    url: https://mapstruct.plus/
-    repo: https://github.com/linpeilie/mapstruct-plus
-    preview: /assets/image/mapstruct-plus.jpg
-
   - name: EasyRelation
     desc: 简单、高效的数据关联框架
     logo: https://easy-relation.easii.cn/logo.svg
@@ -221,13 +229,6 @@ docs:
     url: https://docs.crawlab.cn/zh/guide/
     repo: https://github.com/crawlab-team/crawlab-docs
     preview: /assets/image/crawlab-zh.jpg
-
-  - name: CnosDB
-    desc: 一款高性能、高压缩率、高易用性的开源分布式时序数据库
-    logo: https://www.cnosdb.com/wp-content/uploads/2022/05/CnosDB_%E7%99%BD-300x108.png
-    url: https://docs.cnosdb.com/zh/latest/
-    repo: https://github.com/cnosdb/docs
-    preview: /assets/image/cnosdb.jpg
 
   - name: TimeHelper
     desc: 一个简单快捷的PHP日期时间助手类库 ✨
@@ -276,7 +277,61 @@ docs:
     repo: https://github.com/JustUndertaker/ComWeChatBotClient
     preview: /assets/image/comwechat-client.jpg
 
-blog:
+  - name: CoderMast 编程桅杆
+    desc: 「编程桅杆」包含了大部分 Java 程序员所需要掌握的核心知识！
+    logo: https://www.codermast.com/logo.png
+    url: https://www.codermast.com/
+    repo: https://github.com/CoderMast/CoderMast-Notes
+    preview: /assets/image/codermast.png
+
+  - name: Hydro
+    desc: 高性能在线测评系统
+    logo: https://hydro.js.org/favicon.png
+    url: https://hydro.js.org/
+    repo: https://github.com/hydro-dev/Hydro
+    preview: /assets/image/hydro.jpg
+
+  - name: BukkiWiki
+    desc: BukkitWiki是一个Minecraft（我的世界）多人联机资源站
+    logo: https://bukkit.wiki/logo.svg
+    url: https://bukkit.wiki/
+    repo: https://github.com/BukkitWiki/BukkitWiki
+    preview: /assets/image/bukkitwiki.jpg
+
+  - name: Wwiot-Camerasys
+    desc: Wwiot-Camerasys是一个意想不到的视频监控平台
+    logo: https://doc.wzciot.site/img/fastRequestnew.svg
+    url: https://doc.wzciot.site
+    repo: https://wzciot.site
+    preview: /assets/image/wwiot-camerasys-home.jpg
+
+  - name: Warm-Flow
+    desc: Warm-Flow工作流
+    logo: http://www.warm-flow.cn/logo.png
+    url: http://www.warm-flow.cn
+    repo: https://github.com/dromara/warm-flow
+    preview: /assets/image/warm-flow.png
+
+  - name: CherryDAP
+    desc: CherryDAP 是一个使用了 CherryUSB 作为协议栈的 DAPLink 实现
+    url: https://cherrydap.cherry-embedded.org/
+    repo: https://github.com/cherry-embedded/CherryDAP/tree/master/docs
+    preview: /assets/image/cherrydap.jpg
+
+  - name: Sixflowers
+    desc: Yunzai机器人教程
+    logo: https://sixflowers.icu/4.jpg
+    url: https://sixflowers.icu/
+    repo: https://github.com/dmmdekkd
+    preview: https://sixflowers.icu/4.jpg
+
+portfolios:
+  - name: 尚程
+    url: https://cheng-shang.me/zh/
+    preview: https://cheng-shang.me/portfolio.avif
+    repo: https://github.com/Mister-Hope/cheng-shang-portfolio
+
+blogs:
   - name: Mr.Hope's Blog
     desc: Where there is light, there is hope
     logo: https://mister-hope.com/logo.svg
@@ -291,24 +346,10 @@ blog:
     repo: https://github.com/mo7cc/BlogSource.git
     preview: https://file.mo7.cc/disk/blog_preview.png
 
-  - name: 被遗忘的博客
-    desc: 个人博客，记录生活和随想
-    logo: https://wenchao.ren/logo.jpg
-    url: https://wenchao.ren/
-    repo: https://github.com/xkrivzooh/wenchao.ren
-    preview: /assets/image/wenchao_blog_preview.png
-
-  - name: zfh's blog
-    desc: 无他，唯手熟尔
-    logo: https://zfhblog.top/logo.jpg
-    url: https://zfhblog.top
-    repo: https://github.com/zhangfanhang/zfhblog
-    preview: /assets/image/zfh.jpg
-
   - name: 计算机应试全家桶
     desc: 磨刀不误砍柴工、读完硕士再打工...
-    logo: https://408.142vip.cn/assets/408_logo.png
-    url: https://408.142vip.cn/
+    logo: https://142vip.github.io/408CSFamily/408_logo.png
+    url: https://142vip.github.io/408CSFamily/
     repo: https://github.com/142vip/408CSFamily
     preview: /assets/image/cs.jpg
 
@@ -319,9 +360,9 @@ blog:
     preview: /assets/image/javascript-collection.jpg
 
   - name: 回归线
-    logo: https://aneot.terrach.net/logo.svg
-    url: https://aneot.terrach.net/
-    repo: https://github.com/Nemo1166/aneot
+    logo: https://aneot.arktca.com/logo.svg
+    url: https://aneot.arktca.com/
+    repo: https://github.com/TCA-Arknights/aneot
     preview: /assets/image/return-line.jpg
 
   - name: CSView
@@ -337,20 +378,6 @@ blog:
     url: https://xiangweizeng.github.io/damone-blog/
     repo: https://github.com/xiangweizeng/damone-blog
     preview: /assets/image/damone.jpg
-
-  - name: 老怪兽
-    desc: 会敲代码的怪兽
-    logo: https://zswei.xyz/logo.png
-    url: https://zswei.xyz/
-    repo: https://github.com/001monster/monster_blog
-    preview: /assets/image/monster.jpg
-
-  - name: Java-Navigation
-    desc: 记录自学所得，并不断完善、更新。包含：Java基础知识、web开发用到的前端知识以及常用的各种框架和中间件，涵盖计算机基础、数据库、部署工具以及代码风格和规范的全栈知识体系（含面试和实战项目推荐）✨
-    logo: https://java-navigation.gitee.io/logo.svg
-    url: https://java-navigation.gitee.io/
-    repo: https://github.com/HelloCode66/Java-Navigation
-    preview: /assets/image/java-navigation.jpg
 
   - name: 小孙同学 の 第二大脑
     desc: 任何没有经过自己大脑处理过的知识永远都不会真正属于你！
@@ -393,13 +420,6 @@ blog:
     url: https://timpcfan.site/
     repo: https://github.com/timpcfan/timpcfan.github.io
     preview: /assets/image/transtan-lei.jpg
-
-  - name: weiser's blog
-    desc: 一个有纸、笔、橡皮擦并且坚持严格的行为准则的人，实质上就是一台通用图灵机。
-    logo: https://weiser.fun/logo.png
-    url: https://weiser.fun/
-    repo: https://github.com/xwzbupt/personal-site
-    preview: /assets/image/weiser.jpg
 
   - name: White's Blog
     desc: Good good study, Day day up!
@@ -471,13 +491,6 @@ blog:
     repo: https://github.com/XXXWeii/XXXWeiiBlog
     preview: https://xxxweii.github.io/XXXWeiiBlog/assets/images/XXXWeii.png
 
-  - name: xiaou的学习笔记
-    desc: 热爱可抵岁月漫长
-    logo: https://mydocs.guoyaxue.top/site_logo.png
-    url: https://mydocs.guoyaxue.top
-    repo: https://github.com/xiaou61/mydocs
-    preview: https://xiaou-1305448902.cos.ap-nanjing.myqcloud.com/img/202308291337109.png
-
   - name: Simeis 147' Blog
     desc: In Time
     logo: https://simeis147.github.io/logo.svg
@@ -508,10 +521,18 @@ blog:
   v-bind="item"
 />
 
+## 使用 VuePress Theme Hope 的档案
+
+<SiteInfo
+  v-for="item in $frontmatter.portfolios"
+  :key="item.link"
+  v-bind="item"
+/>
+
 ## 使用 VuePress Theme Hope 的博客
 
 <SiteInfo
-  v-for="item in $frontmatter.blog"
+  v-for="item in $frontmatter.blogs"
   :key="item.link"
   v-bind="item"
 />

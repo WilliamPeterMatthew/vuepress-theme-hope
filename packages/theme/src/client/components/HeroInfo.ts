@@ -8,28 +8,27 @@ import {
 } from "vuepress/client";
 
 import AutoLink from "@theme-hope/components/AutoLink";
-import DropTransition from "@theme-hope/components/transitions/DropTransition";
+import { DropTransition } from "@theme-hope/components/transitions/index";
 
-import HopeIcon from "./HopeIcon.js";
 import type { ThemeProjectHomePageFrontmatter } from "../../shared/index.js";
 
 import "../styles/hero-info.scss";
 
-export interface HeroInfo {
+export interface HeroInfoData {
   text: string | null;
   tagline: string | null;
   isFullScreen: boolean;
 }
 
-export interface HeroImage {
+export interface HeroImageData {
   image: string | null;
   imageDark: string | null;
-  style: string | Record<string, string> | undefined;
+  imageStyle: string | Record<string, string> | undefined;
   alt: string;
   isFullScreen: boolean;
 }
 
-export interface BackgroundInfo {
+export interface HeroBackgroundData {
   image: string | null;
   bgStyle: string | Record<string, string> | undefined;
   isFullScreen: boolean;
@@ -39,9 +38,9 @@ export default defineComponent({
   name: "HeroInfo",
 
   slots: Object as SlotsType<{
-    heroBg?: (props: BackgroundInfo) => VNode[] | VNode | null;
-    heroImage?: (props: HeroImage) => VNode[] | VNode | null;
-    heroInfo?: (props: HeroInfo) => VNode[] | VNode | null;
+    bg?: (props: HeroBackgroundData) => VNode[] | VNode | null;
+    logo?: (props: HeroImageData) => VNode[] | VNode | null;
+    info?: (props: HeroInfoData) => VNode[] | VNode | null;
   }>,
 
   setup(_props, { slots }) {
@@ -52,30 +51,30 @@ export default defineComponent({
       () => frontmatter.value.heroFullScreen ?? false,
     );
 
-    const heroInfo = computed(() => {
+    const info = computed(() => {
       const { heroText, tagline } = frontmatter.value;
 
       return {
-        text: heroText ?? siteLocale.value.title ?? "Hello",
-        tagline: tagline ?? siteLocale.value.description ?? "",
+        text: heroText ?? (siteLocale.value.title || "Hello"),
+        tagline: tagline ?? siteLocale.value.description,
         isFullScreen: isFullScreen.value,
       };
     });
 
-    const heroImage = computed(() => {
+    const logo = computed(() => {
       const { heroText, heroImage, heroImageDark, heroAlt, heroImageStyle } =
         frontmatter.value;
 
       return {
         image: heroImage ? withBase(heroImage) : null,
         imageDark: heroImageDark ? withBase(heroImageDark) : null,
-        style: heroImageStyle,
-        alt: heroAlt || heroText || "",
+        imageStyle: heroImageStyle,
+        alt: heroAlt ?? heroText ?? "",
         isFullScreen: isFullScreen.value,
       };
     });
 
-    const bgInfo = computed(() => {
+    const bg = computed(() => {
       const { bgImage, bgImageDark, bgImageStyle } = frontmatter.value;
 
       return {
@@ -93,66 +92,71 @@ export default defineComponent({
         "header",
         { class: ["vp-hero-info-wrapper", { fullscreen: isFullScreen.value }] },
         [
-          slots.heroBg?.(bgInfo.value) || [
-            bgInfo.value.image
+          slots.bg?.(bg.value) ?? [
+            bg.value.image
               ? h("div", {
-                  class: ["vp-hero-mask", { light: bgInfo.value.imageDark }],
+                  class: ["vp-hero-mask", { light: bg.value.imageDark }],
                   style: [
-                    { "background-image": `url(${bgInfo.value.image})` },
-                    bgInfo.value.bgStyle,
+                    { "background-image": `url(${bg.value.image})` },
+                    bg.value.bgStyle,
                   ],
                 })
               : null,
-            bgInfo.value.imageDark
+            bg.value.imageDark
               ? h("div", {
                   class: "vp-hero-mask dark",
                   style: [
                     {
-                      "background-image": `url(${bgInfo.value.imageDark})`,
+                      "background-image": `url(${bg.value.imageDark})`,
                     },
-                    bgInfo.value.bgStyle,
+                    bg.value.bgStyle,
                   ],
                 })
               : null,
           ],
 
           h("div", { class: "vp-hero-info" }, [
-            slots.heroImage?.(heroImage.value) ||
-              h(DropTransition, { appear: true, type: "group" }, () => [
-                heroImage.value.image
-                  ? h("img", {
-                      key: "light",
-                      class: [
-                        "vp-hero-image",
-                        { light: heroImage.value.imageDark },
-                      ],
-                      style: heroImage.value.style,
-                      src: heroImage.value.image,
-                      alt: heroImage.value.alt,
-                    })
-                  : null,
-                heroImage.value.imageDark
-                  ? h("img", {
-                      key: "dark",
-                      class: "vp-hero-image dark",
-                      style: heroImage.value.style,
-                      src: heroImage.value.imageDark,
-                      alt: heroImage.value.alt,
-                    })
-                  : null,
-              ]),
-            slots.heroInfo?.(heroInfo.value) ??
+            slots.logo?.(logo.value) ??
+              h(DropTransition, { appear: true, type: "group" }, () => {
+                const { image, imageDark, imageStyle, alt } = logo.value;
+
+                return [
+                  image
+                    ? h("img", {
+                        key: "light",
+                        class: ["vp-hero-image", { light: imageDark }],
+                        style: imageStyle,
+                        src: image,
+                        alt: alt,
+                      })
+                    : null,
+                  imageDark
+                    ? h("img", {
+                        key: "dark",
+                        class: "vp-hero-image dark",
+                        style: imageStyle,
+                        src: imageDark,
+                        alt: alt,
+                      })
+                    : null,
+                ];
+              }),
+            slots.info?.(info.value) ??
               h("div", { class: "vp-hero-infos" }, [
-                heroInfo.value.text
+                info.value.text
                   ? h(DropTransition, { appear: true, delay: 0.04 }, () =>
-                      h("h1", { id: "main-title" }, heroInfo.value.text),
+                      h(
+                        "h1",
+                        { id: "main-title", class: "vp-hero-title" },
+                        info.value.text,
+                      ),
                     )
                   : null,
-                heroInfo.value.tagline
+                info.value.tagline
                   ? h(DropTransition, { appear: true, delay: 0.08 }, () =>
                       h("p", {
                         id: "main-description",
-                        innerHTML: heroInfo.value.tagline,
+                        innerHTML: info.value.tagline,
                       }),
                     )
                   : null,
@@ -162,23 +166,14 @@ export default defineComponent({
                         "p",
                         { class: "vp-hero-actions" },
                         actions.value.map((action) =>
-                          h(
-                            AutoLink,
-                            {
-                              class: [
-                                "vp-hero-action",
-                                action.type || "default",
-                              ],
-                              config: action,
-                              noExternalLinkIcon: true,
-                            },
-                            action.icon
-                              ? {
-                                  before: () =>
-                                    h(HopeIcon, { icon: action.icon }),
-                                }
-                              : {},
-                          ),
+                          h(AutoLink, {
+                            class: [
+                              "vp-hero-action",
+                              action.type ?? "default",
+                              "no-external-link-icon",
+                            ],
+                            config: action,
+                          }),
                         ),
                       ),
                     )

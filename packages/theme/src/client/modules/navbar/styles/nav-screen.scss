@@ -1,10 +1,4 @@
-.vp-nav-screen-container {
-  max-width: 320px;
-  margin: 0 auto;
-  padding: 2rem 0 4rem;
-}
-
-#nav-screen {
+.vp-nav-screen {
   position: fixed;
   inset: var(--navbar-height) 0 0 0;
   z-index: 150;
@@ -15,9 +9,7 @@
 
   padding: 0 2rem;
 
-  background: var(--bg-color);
-
-  transition: background 0.5s;
+  background: var(--vp-c-bg);
 
   @media (max-width: hope-config.$tablet) {
     display: block;
@@ -41,15 +33,15 @@
     }
   }
 
-  .icon {
+  .vp-icon {
     margin-inline-end: 0.25em;
-    font-size: 1em;
   }
+}
 
-  img.icon {
-    vertical-align: -0.125em;
-    height: 1em;
-  }
+.vp-nav-screen-container {
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
 }
 
 .vp-outlook-wrapper {

@@ -74,11 +74,7 @@ icon: gears
     | `http://${string}`
     | `https://${string}`;
 
-  type BuiltInFontIcon =
-    | "iconify"
-    | "iconfont"
-    | "fontawesome"
-    | "fontawesome-with-brands";
+  type BuiltInFontIcon = "iconify" | "fontawesome" | "fontawesome-with-brands";
 
   type FontIconAssets = BuiltInFontIcon | Link | (BuiltInFontIcon | Link)[];
   ```
@@ -87,7 +83,7 @@ icon: gears
 - 详情:
   - [指南 → FontIcon](./guide/utilities/font-icon.md)
 
-字体图标资源链接，支持 `'iconfont'` 和 `'fontawesome'` 关键字。
+字体图标资源链接，支持 `'iconify'` `'fontawesome'` 和 `'fontawesome-with-brands'` 关键字。
 
 ### componentsOptions.fontIcon.prefix
 
@@ -115,102 +111,12 @@ PDFJS 查看器的路径
 
 分享服务
 
-### componentsOptions.share.contentSelector
-
-- 类型: `string`
-- 默认值: `.theme-default-content`
-
-页面内容选择器
-
 ### componentsOptions.share.twitterUserName
 
 - 类型: `string`
 - 必填: 否
 
 Twitter 用户名。
-
-## rootComponents
-
-会被挂载到根节点的组件。
-
-是否启用返回顶部按钮，当设置为数字时，会被作为返回顶部按钮触发距离 (单位: 像素)，默认为 300。
-
-### rootComponents.notice
-
-- Type: `NoticeOptions`
-
-  ```ts
-  interface NoticeActionOption {
-    /**
-     * 操作文字
-     */
-    text: string;
-    /**
-     * 操作链接
-     */
-    link?: string;
-    /**
-     * 操作类型
-     *
-     * @default 'default
-     */
-    type?: "primary" | "default";
-  }
-
-  interface NoticeItemOptions {
-    /**
-     * 通知标题
-     */
-    title: string;
-
-    /**
-     * 通知内容
-     */
-    content: string;
-
-    /**
-     * Notice 的 key
-     *
-     * @description 用于标识和存储 notice 的状态
-     */
-    key?: string;
-
-    /**
-     * 是否只显示一次通知
-     *
-     * @default false
-     */
-    showOnce?: boolean;
-
-    /**
-     * 通知是否需要确认
-     *
-     * @default false
-     */
-    confirm?: boolean;
-
-    /**
-     * 通知是否应该全屏显示
-     *
-     * @default false
-     */
-    fullscreen?: boolean;
-
-    /**
-     * 通知操作
-     */
-    actions?: NoticeActionOption[];
-  }
-
-  type NoticeOptions = NoticeItemOptions &
-    ({ path: string } | { match: RegExp });
-  ```
-
-- 必填: 否
-- 详情:
-  - [指南 → Notice](./guide/utilities/notice.md)
-
-全局通知的配置
 
 ## locales
 
@@ -239,6 +145,102 @@ Twitter 用户名。
 - 必填: 否
 
 PDF 组件国际化配置。
+
+### locales.siteInfo
+
+- 类型: `SiteInfoLocaleConfig`
+
+  ```ts
+  interface SiteInfoLocaleData {
+    /**
+     * Source text
+     *
+     * 源代码文字
+     */
+    source: string;
+  }
+
+  interface SiteInfoLocaleConfig {
+    [localePath: string]: SiteInfoLocaleData;
+  }
+  ```
+
+- 必填: 否
+
+站点信息组件国际化配置。
+
+### locales.vidstack
+
+- 类型: `VidstackLocaleConfig`
+
+  ```ts
+  interface VidstackLocaleData {
+    "Caption Styles": string;
+    "Captions look like this": string;
+    "Closed-Captions Off": string;
+    "Closed-Captions On": string;
+    "Display Background": string;
+    "Enter Fullscreen": string;
+    "Enter PiP": string;
+    "Exit Fullscreen": string;
+    "Exit PiP": string;
+    "Google Cast": string;
+    "Keyboard Animations": string;
+    "Seek Backward": string;
+    "Seek Forward": string;
+    "Skip To Live": string;
+    "Text Background": string;
+    Accessibility: string;
+    AirPlay: string;
+    Announcements: string;
+    Audio: string;
+    Auto: string;
+    Boost: string;
+    Captions: string;
+    Chapters: string;
+    Color: string;
+    Connected: string;
+    Connecting: string;
+    Continue: string;
+    Default: string;
+    Disabled: string;
+    Disconnected: string;
+    Download: string;
+    Family: string;
+    Font: string;
+    Fullscreen: string;
+    LIVE: string;
+    Loop: string;
+    Mute: string;
+    Normal: string;
+    Off: string;
+    Opacity: string;
+    Pause: string;
+    PiP: string;
+    Play: string;
+    Playback: string;
+    Quality: string;
+    Replay: string;
+    Reset: string;
+    Seek: string;
+    Settings: string;
+    Shadow: string;
+    Size: string;
+    Speed: string;
+    Text: string;
+    Track: string;
+    Unmute: string;
+    Volume: string;
+  }
+
+  interface VidstackLocaleConfig {
+    [localePath: string]: VidstackLocaleData;
+  }
+  ```
+
+- 必填: 否
+
+VidStack 组件国际化配置。
 
 ::: details 内置支持语言
 

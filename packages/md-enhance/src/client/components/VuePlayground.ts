@@ -1,5 +1,5 @@
 import type { Repl, ReplProps, Store } from "@vue/repl";
-import { deepAssign } from "@vuepress/helper/client";
+import { LoadingIcon, deepAssign } from "@vuepress/helper/client";
 import type { Component, VNode } from "vue";
 import {
   computed,
@@ -10,15 +10,17 @@ import {
   shallowRef,
   version,
 } from "vue";
-import { LoadingIcon } from "vuepress-shared/client";
 
 import { useVuePlaygroundConfig } from "../helpers/index.js";
-import { getVuePlaygroundSettings } from "../utils/index.js";
+import type { VuePlaygroundOptions } from "../typings/index.js";
 
 import "@vue/repl/style.css";
 import "../styles/vue-playground.scss";
 
 declare const VUE_PLAYGROUND_MONACO: boolean;
+
+const getVuePlaygroundSettings = (settings: string): VuePlaygroundOptions =>
+  JSON.parse(decodeURIComponent(settings)) as VuePlaygroundOptions;
 
 export default defineComponent({
   name: "VuePlayground",
@@ -104,20 +106,28 @@ export default defineComponent({
     });
 
     return (): (VNode | null)[] => [
-      h("div", { class: "vue-playground-wrapper" }, [
+      h("div", { class: "vp-container vue-playground-wrapper" }, [
         props.title
-          ? h("div", { class: "header" }, decodeURIComponent(props.title))
+          ? h(
+              "div",
+              { class: "vp-container-header" },
+              h(
+                "div",
+                { class: "vp-container-title" },
+                decodeURIComponent(props.title),
+              ),
+            )
           : null,
         h("div", { class: "repl-container" }, [
           loading.value
-            ? h(LoadingIcon, { class: "preview-loading", height: 192 })
+            ? h(LoadingIcon, { class: "vue-preview-loading", height: 192 })
             : null,
           component.value
-            ? h(component.value, <ReplProps>{
+            ? h(component.value, {
                 ...playgroundOptions.value,
                 editor: editor.value,
                 store: store.value,
-              })
+              } as ReplProps)
             : null,
         ]),
       ]),

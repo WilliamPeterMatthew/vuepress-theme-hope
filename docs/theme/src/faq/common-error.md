@@ -40,17 +40,11 @@ This means you have wrong deps installed in your project.
 
 Here is a example:
 
-```
+```shell
  WARN  Issues with peer dependencies found
 .
 ├─┬ @vuepress/plugin-docsearch 2.0.0-rc.7
 │ └── ✕ unmet peer vuepress@2.0.0-rc.2: found 2.0.0-rc.5
-├─┬ vuepress-plugin-append-date 2.0.0-rc.20
-│ ├── ✕ unmet peer vuepress@2.0.0-rc.2: found 2.0.0-rc.5
-│ ├─┬ @vuepress/helper 2.0.0-rc.9
-│ │ └── ✕ unmet peer vuepress@2.0.0-rc.2: found 2.0.0-rc.5
-│ └─┬ vuepress-shared 2.0.0-rc.20
-│   └── ✕ unmet peer vuepress@2.0.0-rc.2: found 2.0.0-rc.5
 ├─┬ @vuepress/plugin-git 2.0.0-rc.7
 │ └── ✕ unmet peer vuepress@2.0.0-rc.2: found 2.0.0-rc.5
 ├─┬ vuepress 2.0.0-rc.5
@@ -67,7 +61,7 @@ The example shows that:
 
 You can always edit your deps version to let them fit each other. Usually you are trying to upgrade vuepress, vuepress bundler and plugins to latest version, but there could be chances where a plugin is not compatible with the latest version of vuepress. In this case, you should downgrade vuepress to the version that is compatible with the plugin or temporarily removing the plugin till it supports latest vuepress.
 
-## `You are not allowed to use plugin XXX yourself in vuepress config file.`
+## You are not allowed to use plugin XXX yourself in vuepress config file
 
 This means you are calling a theme-bundled plugin yourself in VuePress config file.
 
@@ -94,24 +88,24 @@ This value can be greater than the actual memory size of your machine.
 
 With GitHub workflow, set `env` in your workflow file.
 
-```diff
-  - name: Build project
-+   env:
-+     NODE_OPTIONS: --max_old_space_size=8192
-    run: pnpm run build
+```yml
+- name: Build project
+  env: // [!code ++]
+    NODE_OPTIONS: --max_old_space_size=8192 // [!code ++]
+  run: pnpm run build
 ```
 
 On windows, you can follow [this guide](https://www.technewstoday.com/how-to-set-windows-environment-variables/).
 
 :::
 
-## `xxx isn't assign with a lang, and will return 'en-US' instead.`
+## xxx isn't assign with a lang, and will return 'en-US' instead
 
 If you see `xxx isn't assign with a lang, and will return 'en-US' instead.` while the dev process is starting up, please check whether you set lang for every language.
 
 Even if you only have one language, you still need to [set language](../config/i18n.md#setting-language).
 
-## `xxx is missing sidebar config.`
+## xxx is missing sidebar config
 
 Using object format sidebar config means you want to set different sidebar based on routes.
 
@@ -158,7 +152,7 @@ To remove them, run theme with `--debug` flag, and you will get warning logs tel
 
 To use them anyway, check [here](https://vuejs.press/guide/markdown.html#non-standard-html-tags) to get a workaround.
 
-## `Hydration completed but contains mismatches.`
+## Hydration completed but contains mismatches
 
 This error indicates that you have an SSR mismatch, and it should not be a problem with theme.
 
@@ -175,6 +169,7 @@ To debug this, set `__VUE_PROD_HYDRATION_MISMATCH_DETAILS__` to `true` so that y
 If a component is likely to have different render results between SSR[^ssr] and CSR[^csr]. You can wrap your components with the `<ClientOnly />` component provided by `vuepress/client`.
 
 [^ssr]: **SSR**: **S**erver **S**ide **R**endering
+
 [^csr]: **CSR**: **C**lient **S**ide **R**endering
 
 ## HotReload not working in DevServer
@@ -219,7 +214,7 @@ import { defineUserConfig } from "vuepress";
 
 export default defineUserConfig({
   extendsBundlerOptions: (config, app) => {
-    addViteConfig(bundlerOptions, app, {
+    addViteConfig(config, app, {
       css: {
         postcss: {
           plugins: [postcssPresetEnv()],
@@ -239,7 +234,7 @@ import { defineUserConfig } from "vuepress";
 
 export default defineUserConfig({
   extendsBundlerOptions: (config, app) => {
-    configWebpack(bundlerOptions, app, (config) => {
+    configWebpack(config, app, (config) => {
       (((config.postcss ??= {}).postcssOptions ??= {}).plugins ??= []).push(
         postcssPresetEnv(),
       );

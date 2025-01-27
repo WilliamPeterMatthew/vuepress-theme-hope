@@ -1,9 +1,7 @@
 import { isLinkExternal } from "@vuepress/helper/client";
 import type { FunctionalComponent, VNode } from "vue";
-import { h } from "vue";
+import { h, resolveComponent } from "vue";
 import { RouteLink, withBase } from "vuepress/client";
-
-import HopeIcon from "@theme-hope/components/HopeIcon";
 
 import type {
   ThemeProjectHomeHighlightItem,
@@ -60,7 +58,7 @@ const HighlightPanel: FunctionalComponent<
         : null,
 
       h("div", { class: "vp-highlight" }, [
-        slots.image?.(props) || [
+        slots.image?.(props) ?? [
           image
             ? h("img", {
                 class: ["vp-highlight-image", { light: imageDark }],
@@ -77,7 +75,7 @@ const HighlightPanel: FunctionalComponent<
             : null,
         ],
 
-        slots.info?.(props) || [
+        slots.info?.(props) ?? [
           h(
             "div",
             { class: "vp-highlight-info-wrapper" },
@@ -94,7 +92,7 @@ const HighlightPanel: FunctionalComponent<
                     innerHTML: description,
                   })
                 : null,
-              slots.highlights?.(highlights) ||
+              slots.highlights?.(highlights) ??
                 h(
                   type === "order" ? "ol" : type === "no-order" ? "dl" : "ul",
                   { class: "vp-highlights" },
@@ -105,7 +103,7 @@ const HighlightPanel: FunctionalComponent<
                         { class: "vp-highlight-title" },
                         [
                           icon
-                            ? h(HopeIcon, {
+                            ? h(resolveComponent("VPIcon"), {
                                 class: "vp-highlight-icon",
                                 icon,
                               })

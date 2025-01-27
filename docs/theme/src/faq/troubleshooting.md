@@ -8,13 +8,13 @@ category:
 
 ## Ensure running under correct environment
 
-`vuepress-theme-hope` only supports node version of `>=18.16.0`.
+`vuepress-theme-hope` only supports node version of `>=18.19.0`.
 
 If the output of `node -v` does not satisfy the requirement, you should [download and install the LTS version of Node.js](../get-started/env.md#nodejs).
 
-Also, you should use a package manager satisfying the following requirements:
+Also, you should use a package manager satisfying the following requirements (`pnpm@v9` recommended):
 
-- pnpm: >= 7 (v8 recommended)
+- pnpm: >= 7
 
   Check: `pnpm -v`
 
@@ -22,7 +22,7 @@ Also, you should use a package manager satisfying the following requirements:
 
   Check: `npm -v`
 
-- yarn: >= 2 (Not recommended)
+- yarn: >= 2
 
   Check: `yarn -v` (Also requires `nodeLinker: 'node-modules'` in `.yarnrc.yml`)
 
@@ -30,7 +30,7 @@ To use the correct package manager, run `corepack enable` (might need to run as 
 
 - npm: `corepack use npm@10`
 - yarn: `corepack use yarn@4`
-- pnpm: `corepack use pnpm@8`
+- pnpm: `corepack use pnpm@9`
 
 ## Ensure using the latest version and having correct deps tree
 

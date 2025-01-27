@@ -1,7 +1,9 @@
 import type { SlotsType, VNode } from "vue";
 import { defineComponent, h, onMounted, ref } from "vue";
+import { RenderDefault } from "vuepress-shared/client";
 
-import FadeSlideY from "@theme-hope/components/transitions/FadeSlideY";
+import { FadeSlideY } from "@theme-hope/components/transitions/index";
+import { usePure } from "@theme-hope/composables/index";
 import PasswordModal from "@theme-hope/modules/encrypt/components/PasswordModal";
 import { useGlobalEncrypt } from "@theme-hope/modules/encrypt/composables/index";
 
@@ -13,7 +15,8 @@ export default defineComponent({
   }>,
 
   setup(_props, { slots }) {
-    const { isDecrypted, isEncrypted, validate } = useGlobalEncrypt();
+    const { status, validate } = useGlobalEncrypt();
+    const isPure = usePure();
 
     const isMounted = ref(false);
 
@@ -21,15 +24,22 @@ export default defineComponent({
       isMounted.value = true;
     });
 
-    return (): VNode =>
-      h(FadeSlideY, () =>
-        isEncrypted.value
+    return (): VNode => {
+      const { isEncrypted, isLocked, hint } = status.value;
+
+      return h(isPure.value ? RenderDefault : FadeSlideY, () =>
+        isEncrypted
           ? isMounted.value
-            ? isDecrypted.value
-              ? slots.default()
-              : h(PasswordModal, { full: true, onVerify: validate })
+            ? isLocked
+              ? h(PasswordModal, {
+                  full: true,
+                  hint,
+                  onVerify: validate,
+                })
+              : slots.default()
             : null
           : slots.default(),
       );
+    };
   },
 });

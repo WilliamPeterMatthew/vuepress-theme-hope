@@ -1,7 +1,7 @@
 import type { PropType, SlotsType, VNode } from "vue";
 import { Transition, TransitionGroup, defineComponent, h } from "vue";
 
-export default defineComponent({
+export const DropTransition = defineComponent({
   name: "DropTransition",
 
   props: {
@@ -34,31 +34,33 @@ export default defineComponent({
   }>,
 
   setup(props, { slots }) {
-    const setStyle = (item: HTMLElement): void => {
-      item.style.transition = `transform ${props.duration}s ease-in-out ${props.delay}s, opacity ${props.duration}s ease-in-out ${props.delay}s`;
-      item.style.transform = "translateY(-20px)";
-      item.style.opacity = "0";
+    const setStyle = (el: Element): void => {
+      (el as HTMLElement).style.transition =
+        `transform ${props.duration}s ease-in-out ${props.delay}s, opacity ${props.duration}s ease-in-out ${props.delay}s`;
+      (el as HTMLElement).style.transform = "translateY(-20px)";
+      (el as HTMLElement).style.opacity = "0";
     };
 
-    const unsetStyle = (item: HTMLElement): void => {
-      item.style.transform = "translateY(0)";
-      item.style.opacity = "1";
+    const unsetStyle = (el: Element): void => {
+      (el as HTMLElement).style.transform = "translateY(0)";
+      (el as HTMLElement).style.opacity = "1";
     };
 
-    return (): VNode =>
-      h(
-        // @ts-ignore
-        props.type === "single" ? Transition : TransitionGroup,
-        {
-          name: "drop",
-          appear: props.appear,
-          onAppear: setStyle,
-          onAfterAppear: unsetStyle,
-          onEnter: setStyle,
-          onAfterEnter: unsetStyle,
-          onBeforeLeave: setStyle,
-        },
-        () => slots.default(),
-      );
+    return (): VNode => {
+      const attrs = {
+        name: "drop",
+        appear: props.appear,
+        onAppear: setStyle,
+        onAfterAppear: unsetStyle,
+        onEnter: setStyle,
+        onAfterEnter: unsetStyle,
+        onBeforeLeave: setStyle,
+      };
+      const children = (): VNode | VNode[] => slots.default();
+
+      return props.type === "group"
+        ? h(TransitionGroup, attrs, children)
+        : h(Transition, attrs, children);
+    };
   },
 });

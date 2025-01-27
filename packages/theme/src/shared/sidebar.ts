@@ -1,8 +1,8 @@
-import type { AutoLinkOptions, TextItemOptions } from "./utils.js";
+import type { AutoLinkOptions, NavItemOptions } from "./nav.js";
 
-export type SidebarPageItem = AutoLinkOptions;
+export type SidebarLinkOptions = AutoLinkOptions;
 
-export interface SidebarStructureItem extends TextItemOptions {
+export interface SidebarGroupOptions extends NavItemOptions {
   /**
    * Link prefix of current group
    *
@@ -18,31 +18,13 @@ export interface SidebarStructureItem extends TextItemOptions {
   link?: string;
 
   /**
-   * Whether current group is collapsible
+   * Whether current group is expanded by default
    *
-   * 当前分组的链接是否可折叠
+   * 当前分组的链接是否默认展开
    *
    * @default false
    */
-  collapsible?: boolean;
-
-  children: "structure";
-}
-
-export interface SidebarGroupItem extends TextItemOptions {
-  /**
-   * Link prefix of current group
-   *
-   * 当前分组的页面前缀
-   */
-  prefix?: string;
-
-  /**
-   * Link of current group
-   *
-   * 当前分组的链接
-   */
-  link?: string;
+  expanded?: boolean;
 
   /**
    * Whether current group is collapsible
@@ -58,21 +40,52 @@ export interface SidebarGroupItem extends TextItemOptions {
    *
    * 当前分组的子项
    */
-  children: (
-    | SidebarPageItem
-    | SidebarGroupItem
-    | SidebarStructureItem
-    | string
-  )[];
+  children: SidebarItemOptions[];
 }
 
-export type SidebarItem =
-  | SidebarPageItem
-  | SidebarGroupItem
-  | SidebarStructureItem
+export interface SidebarStructureOptions extends NavItemOptions {
+  /**
+   * Link prefix of current group
+   *
+   * 当前分组的页面前缀
+   */
+  prefix?: string;
+
+  /**
+   * Link of current group
+   *
+   * 当前分组的链接
+   */
+  link?: string;
+
+  /**
+   * Whether current group is expanded by default
+   *
+   * 当前分组的链接是否默认展开
+   *
+   * @default false
+   */
+  expanded?: boolean;
+
+  /**
+   * Whether current group is collapsible
+   *
+   * 当前分组的链接是否可折叠
+   *
+   * @default false
+   */
+  collapsible?: boolean;
+
+  children: "structure";
+}
+
+export type SidebarItemOptions =
+  | SidebarLinkOptions
+  | SidebarGroupOptions
+  | SidebarStructureOptions
   | string;
 
-export type SidebarArrayOptions = SidebarItem[];
+export type SidebarArrayOptions = SidebarItemOptions[];
 
 export type SidebarObjectOptions = Record<
   string,

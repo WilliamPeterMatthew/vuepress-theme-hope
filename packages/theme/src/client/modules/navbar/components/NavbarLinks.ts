@@ -2,7 +2,7 @@ import type { VNode } from "vue";
 import { defineComponent, h } from "vue";
 
 import AutoLink from "@theme-hope/components/AutoLink";
-import DropdownLink from "@theme-hope/modules/navbar/components/DropdownLink";
+import NavbarDropdown from "@theme-hope/modules/navbar/components/NavbarDropdown";
 import { useNavbarItems } from "@theme-hope/modules/navbar/composables/index";
 
 import "../styles/navbar-links.scss";
@@ -21,10 +21,10 @@ export default defineComponent({
             navbarConfig.value.map((config) =>
               h(
                 "div",
-                { class: "nav-item hide-in-mobile" },
+                { class: "vp-nav-item hide-in-mobile" },
                 "children" in config
-                  ? h(DropdownLink, { config })
-                  : h(AutoLink, { config }),
+                  ? h(NavbarDropdown, { config })
+                  : h(AutoLink, { config, iconSizing: "height" }),
               ),
             ),
           )

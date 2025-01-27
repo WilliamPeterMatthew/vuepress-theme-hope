@@ -38,25 +38,19 @@ The project is a monorepo, managed by pnpm.
 ├── demo → Demo projects
 │
 ├── docs → document directory
-│ ├── comment → comment2 plugin document
 │ ├── components → components plugin document
 │ ├── lightgallery → lightgallery plugin document
 │ ├── md-enhance → md-enhance plugin document
-│ ├── sass-palette → sass-palette plugin document
 │ ├── shared → vuepress-shared document
-│ ├── search-pro → search-pro plugin document
 │ └── theme → theme document
 │
 ├── docs-shared → common files for docs
 |
 ├── packages → project source code
-│ ├── comment2 → comment2 plugin
 │ ├── components → components plugin
 │ ├── create → create-vuepress-theme-hope helper
 │ ├── lightgallery → lightgallery plugin
 │ ├── md-enhance → md-enhance plugin
-│ ├── sass-palette → sass-palette plugin
-│ ├── search-pro → search-pro plugin
 │ ├── shared → shared file
 │ └── theme → vuepress-theme-hope theme
 │

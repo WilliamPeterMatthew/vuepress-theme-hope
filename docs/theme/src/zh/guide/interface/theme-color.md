@@ -15,7 +15,7 @@ tag:
 
 ## 设置默认主题色
 
-你应该在 `.vuepress/styles/palette.scss` 中通过 `$theme-color` 设置站点的默认主题颜色：
+你应该在 `.vuepress/styles/config.scss` 中通过 `$theme-color` 设置站点的默认主题颜色：
 
 ```scss
 $theme-color: #f00;
@@ -29,11 +29,7 @@ $theme-color: #f00;
 $theme-colors: #2196f3, #f26d6d, #3eaf7c, #fb9b5f;
 ```
 
-::: tip
-
 上方的默认主题色会成为选择器的第一个颜色。
-
-:::
 
 ### 尝试
 
@@ -46,7 +42,7 @@ $theme-colors: #2196f3, #f26d6d, #3eaf7c, #fb9b5f;
 <script setup lang="ts">
 import { computed } from "vue";
 import { entries, fromEntries } from '@vuepress/helper/client';
-import cssVariables from "vuepress-theme-hope/styles/variables.module.scss?module";
+import cssVariables from "vuepress-theme-hope/styles/variables.module.scss";
 
 import ThemeColorPicker from "@theme-hope/modules/outlook/components/ThemeColorPicker";
 

@@ -1,7 +1,7 @@
 ---
 title: Common question
 order: 1
-icon: triangle-exclamation
+icon: circle-question
 category:
   - FAQ
 ---
@@ -10,11 +10,7 @@ category:
 
 You can use `extendsMarkdown` hook in [config file](../cookbook/vuepress/config.md#config-file) to add Markdown extensions:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
+```ts {7-9} title=".vuepress/config.ts"
 import { defineUserConfig } from "vuepress";
 
 export default defineUserConfig({
@@ -26,23 +22,6 @@ export default defineUserConfig({
   },
 });
 ```
-
-@tab JS
-
-```js title=".vuepress/config.js"
-import { defineUserConfig } from "vuepress";
-
-export default defineUserConfig({
-  // site config
-  // ...
-
-  extendsMarkdown: (md) => {
-    md.use(yourExtension, options);
-  },
-});
-```
-
-:::
 
 ## Foldable Sidebar / TOC on Mobile / Left Sidebar on PC
 
@@ -93,20 +72,22 @@ Of course, if you are expect enough, you can achieve the layout you want by over
 
 By default, VuePress only extracts h2 and h3 titles from Markdown, so you will never see h4 titles by configuring the theme alone.
 
-You need to configure [markdown.headers.levels](https://vuejs.press/reference/config/#markdown-headers) in the VuePress configuration file:
+You need to configure [markdown.headers.level](https://vuejs.press/reference/config/#markdown-headers) in the VuePress configuration file:
 
-```ts title=".vuepress/config.ts"
-export default {
+```ts {7-12} title=".vuepress/config.ts"
+import { defineUserConfig } from "vuepress";
+
+export default defineUserConfig({
+  // other site config
+  // ...
+
   markdown: {
     headers: {
       // extract levels you need
-      levels: [2, 3, 4, 5, 6],
+      level: [2, 3, 4, 5, 6],
     },
   },
-
-  // other config
-  // ...
-};
+});
 ```
 
 After extracting deeper level titles above, you can display more titles by increasing the value of `headerDepth` in [theme config](../config/theme/layout.md#headerdepth) or [page Frontmatter](../config/frontmatter/layout.md#headerdepth).
@@ -120,3 +101,23 @@ If you are not satisfied with the default content width, you can adjust the cont
 If you feel that the content width is very narrow, this is probably your personal aesthetic problem, because vuepress-theme-hope follows the best layout design practices. For related discussions and solutions to make the content fill the screen, see [this discussion](https://github.com/orgs/vuepress-theme-hope/discussions/3742).
 
 :::
+
+## Links in Config
+
+The bundler needs to know the path of the assets to be bundled, so only contents that can be statically analyzed can be bundled. This means that:
+
+- In Markdown: Only relative page links and images links are supported
+- In html (including vue template): Only relative links are supported, including `src` attribute of `img` and `video` tag
+- In style files (css, scss): Some kinds of assets, including background image urls, font files, etc.
+- In script files: Links in `import` statements or `import()` expressions
+
+But for all kinds of configuration in VuePress, including [frontmatter](../cookbook/vuepress/page.md#frontmatter), [vuepress config file](../cookbook/vuepress/config.md) as well as theme options and plugin options, VuePress parse them as data, so they can not be statically analyzed by bundlers. This means any links will be kept as is, so you must make it resolvable.
+
+Most link will accept the following values:
+
+- A full link: can be accessed directly, like `https://example.com/example.jpg`
+- A route link: will be resolved from the root of the site, like `/foo/example.jpg`.
+
+  Pathname of route link will be different with different base path, e.g.: `/foo/example.jpg` for base `/` and `/bar/foo/example.jpg` for base `/bar/`
+
+Only a few options keep the input unchanged, which means that the input starting with `/` will not automatically add the base path. These options will have a warning in the document, such as the `head` option in the [VuePress configuration file](../cookbook/vuepress/config.md#config-file).

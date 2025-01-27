@@ -74,11 +74,7 @@ Global config for components.
     | `http://${string}`
     | `https://${string}`;
 
-  type BuiltInFontIcon =
-    | "iconify"
-    | "iconfont"
-    | "fontawesome"
-    | "fontawesome-with-brands";
+  type BuiltInFontIcon = "iconify" | "fontawesome" | "fontawesome-with-brands";
 
   type FontIconAssets = BuiltInFontIcon | Link | (BuiltInFontIcon | Link)[];
   ```
@@ -87,7 +83,7 @@ Global config for components.
 - Details:
   - [Guide → FontIcon](./guide/utilities/font-icon.md)
 
-Link of font icon asset, `'iconfont'` and `'fontawesome'` keywords are supported.
+Link of font icon asset, `'iconify'` `'fontawesome'` and `'fontawesome-with-brands'` keywords are supported.
 
 ### componentsOptions.fontIcon.prefix
 
@@ -115,102 +111,12 @@ Location to pdfjs viewer.
 
 Share services
 
-### componentsOptions.share.contentSelector
-
-- Type: `string`
-- Default: `.theme-default-content`
-
-Page content selector.
-
 ### componentsOptions.share.twitterUserName
 
 - Type: `string`
 - Required: No
 
 Twitter username.
-
-## rootComponents
-
-Components to be mounted at root.
-
-### rootComponents.notice
-
-- Type: `NoticeOptions`
-
-  ```ts
-  interface NoticeActionOption {
-    /**
-     * Action text
-     */
-    text: string;
-    /**
-     * Action link
-     */
-    link?: string;
-    /**
-     * Action type
-     *
-     * @default 'default
-     */
-    type?: "primary" | "default";
-  }
-
-  interface NoticeItemOptions {
-    /**
-     * Notice title
-     */
-    title: string;
-
-    /**
-     * Notice content
-     */
-    content: string;
-
-    /**
-     * Notice key
-     *
-     * @description Used to identify and store the notice status
-     */
-    key?: string;
-
-    /**
-     * Whether show notice only once or show it in every visit
-     *
-     * @description If `key` is not provided, this option will be ignored
-     *
-     * @default false
-     */
-    showOnce?: boolean;
-
-    /**
-     * Whether the notice shall be confirmed
-     *
-     * @default false
-     */
-    confirm?: boolean;
-
-    /**
-     * Whether the notice should appear fullscreen
-     *
-     * @default false
-     */
-    fullscreen?: boolean;
-
-    /**
-     * Notice actions
-     */
-    actions?: NoticeActionOption[];
-  }
-
-  type NoticeOptions = NoticeItemOptions &
-    ({ path: string } | { match: RegExp });
-  ```
-
-- Required: No
-- Details:
-  - [Guide → Notice](./guide/utilities/notice.md)
-
-Config for global notice.
 
 ## locales
 
@@ -239,6 +145,102 @@ Component locales.
 - Required: No
 
 Locales config for pdf component.
+
+### locales.siteInfo
+
+- Type: `SiteInfoLocaleConfig`
+
+  ```ts
+  interface SiteInfoLocaleData {
+    /**
+     * Source text
+     *
+     * 源代码文字
+     */
+    source: string;
+  }
+
+  interface SiteInfoLocaleConfig {
+    [localePath: string]: SiteInfoLocaleData;
+  }
+  ```
+
+- Required: No
+
+Locales config for site info component.
+
+### locales.vidstack
+
+- Type: `VidstackLocaleConfig`
+
+  ```ts
+  interface VidstackLocaleData {
+    "Caption Styles": string;
+    "Captions look like this": string;
+    "Closed-Captions Off": string;
+    "Closed-Captions On": string;
+    "Display Background": string;
+    "Enter Fullscreen": string;
+    "Enter PiP": string;
+    "Exit Fullscreen": string;
+    "Exit PiP": string;
+    "Google Cast": string;
+    "Keyboard Animations": string;
+    "Seek Backward": string;
+    "Seek Forward": string;
+    "Skip To Live": string;
+    "Text Background": string;
+    Accessibility: string;
+    AirPlay: string;
+    Announcements: string;
+    Audio: string;
+    Auto: string;
+    Boost: string;
+    Captions: string;
+    Chapters: string;
+    Color: string;
+    Connected: string;
+    Connecting: string;
+    Continue: string;
+    Default: string;
+    Disabled: string;
+    Disconnected: string;
+    Download: string;
+    Family: string;
+    Font: string;
+    Fullscreen: string;
+    LIVE: string;
+    Loop: string;
+    Mute: string;
+    Normal: string;
+    Off: string;
+    Opacity: string;
+    Pause: string;
+    PiP: string;
+    Play: string;
+    Playback: string;
+    Quality: string;
+    Replay: string;
+    Reset: string;
+    Seek: string;
+    Settings: string;
+    Shadow: string;
+    Size: string;
+    Speed: string;
+    Text: string;
+    Track: string;
+    Unmute: string;
+    Volume: string;
+  }
+
+  interface VidstackLocaleConfig {
+    [localePath: string]: VidstackLocaleData;
+  }
+  ```
+
+- Required: No
+
+Locales config for vidstack component.
 
 ::: details Built-in Supported Languages
 

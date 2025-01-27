@@ -67,13 +67,13 @@ In about fifteen minutes, you can learn how to write Markdown, remember to come 
 
 - VuePress itself extends some Markdown syntax. For details, see [VuePress → Markdown](../cookbook/vuepress/markdown.md).
 
-- The theme additionally enables some syntax extensions via `vuepress-plugin-md-enhance`, see [Guide → Markdown](../guide/intro/markdown.md).
+- The theme additionally enables some syntax extensions via VuePress plugins, see [Guide → Markdown](../guide/intro/markdown.md).
 
 :::
 
 ## Frontmatter
 
-Frontmatter is a very important concept in VuePress, it is used to carry config of Markdown files. Markdown files can contain a [YAML](https://yaml.org/) Frontmatter.
+Frontmatter is an important concept in VuePress, it is used to carry config of Markdown files. Markdown files can contain a [YAML](https://yaml.org/) Frontmatter.
 
 Frontmatter must be at the top of the Markdown file, surrounded by a pair of triple dashes. Here is a basic example:
 

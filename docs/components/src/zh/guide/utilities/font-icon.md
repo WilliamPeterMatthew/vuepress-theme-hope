@@ -49,6 +49,12 @@ Icon name
 
 图标大小。
 
+### verticalAlign
+
+- 类型: `string`
+
+图标的垂直对齐方式。
+
 ## 全局设置
 
 你可以通过 `componentsOptions.fontIcon.assets` 和 `componentsOptions.fontIcon.prefix` 全局设置图标资源 url 和图标前缀。
@@ -59,11 +65,11 @@ Icon name
 
 例如，你可以使用 [iconfont.cn](https://www.iconfont.cn/) 和 [fontawesome](https://fontawesome.com) 来生成你自己的资源
 
-为了便于上手，我们添加了内置关键字 `"iconfont"`、`"iconify"`、`"fontawesome"` 和 `"fontawesome-with-brand` 支持。
+为了便于上手，我们添加了内置关键字 `"iconify"`、`"fontawesome"` 和 `"fontawesome-with-brands"` 支持。
 
 ::: caution
 
-如果你将此插件用于商业项目文档，则**不推荐**使用 `iconfont`，因为 iconfont 本身是设计人员和开发人员的学习/共享平台。
+如果你将此插件用于商业项目文档，则**强烈不推荐**使用 iconfont，因为 iconfont 本身是设计人员和开发人员的学习/共享平台。
 
 每个图标都是用户上传的，你必须获得作者的授权才能用于商业用途。上传者也有可能违背用户协议，上传版权在第三方的非原创图标。
 
@@ -81,13 +87,7 @@ Icon name
 
 - Iconify: <https://icon-sets.iconify.design/>
 - Iconfont: <https://www.iconfont.cn/>
-- Fontawesome: <https://fontawesome.com/icons>
-
-::: details iconfont 精选图标
-
-<IconDisplay link="//at.alicdn.com/t/c/font_2410206_5vb9zlyghj.css" />
-
-:::
+- Fontawesome: <https://fontawesome.com/search?o=r&m=free>
 
 ## 高级
 
@@ -166,10 +166,6 @@ Icon name
 详情请关注 [fontawesome 文档](https://fontawesome.com/)。
 
 - [使用说明](https://fontawesome.com/docs/web/add-icons/how-to)
-- [图标列表](https://fontawesome.com/icons)
+- [图标列表](https://fontawesome.com/search?o=r&m=free)
 
 :::
-
-<script setup lang="ts">
-import IconDisplay from "@IconDisplay";
-</script>

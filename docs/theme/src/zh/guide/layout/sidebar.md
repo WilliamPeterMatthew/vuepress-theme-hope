@@ -27,24 +27,7 @@ tag:
 
 同导航栏，你可以填入一个包含多个文件链接的数组，作为侧边栏基本的配置:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: ["/zh/README.md", "/zh/guide/README.md", "/zh/config/README.md"],
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {5} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -53,8 +36,6 @@ export default {
   }),
 };
 ```
-
-:::
 
 数组的每一项会自动提取对应文件的图标与标题，渲染为一个侧边栏项目。
 
@@ -73,41 +54,7 @@ export default {
 - `icon`: 项目图标 (可选)
 - `activeMatch`: 项目激活匹配 (可选)，支持正则字符串。
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: [
-      {
-        text: "指南",
-        link: "/zh/guide/README.md",
-        icon: "lightbulb",
-        // 仅在 `/zh/guide/` 激活
-        activeMatch: "^/zh/guide/$",
-      },
-      { text: "配置", link: "/zh/config/README.md", icon: "config" },
-      {
-        text: "常见问题",
-        link: "/zh/faq.md",
-        icon: "circle-question",
-        // 会在 `/zh/faq` 开头的路径激活
-        // 所以当你前往 `/zh/faq/xxx.html` 时也会激活
-        activeMatch: "^/zh/faq",
-      },
-    ],
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {5-22} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -117,8 +64,6 @@ export default {
         text: "指南",
         link: "/zh/guide/README.md",
         icon: "lightbulb",
-        // 仅在 `/zh/guide/` 激活
-        activeMatch: "^/zh/guide/$",
       },
       { text: "配置", link: "/zh/config/README.md", icon: "config" },
       {
@@ -134,17 +79,9 @@ export default {
 };
 ```
 
-:::
-
 ::: tip activeMatch 的高级用法
 
-`activeMatch` 主要给予你控制路径是否激活的能力，比如你可能有如下链接:
-
-- `/path/`
-- `/path/a/`
-- `/path/b/`
-
-此时你可能想避免在 `/path/a/` 以及 `/path/b/` 开头的路径下，出现两个菜单同时激活的情况。将第一项的 `activeMatch` 选项设置为 `^/path/(?:(?!a/|b/).*)?$` 就可以有效避免。
+`activeMatch` 给予你通过正则表达式控制路径是否激活的能力。
 
 :::
 
@@ -152,54 +89,13 @@ export default {
 
 如果你需要展示嵌套结构的侧边栏，你可以将同类链接整理成菜单分组。
 
-你需要使用 [对象格式](#对象格式) ，并提供额外的 `children` 选项设置链接列表。和导航栏一样，你可以在侧边栏中使用 `prefix` 来为组内的每个链接添加默认的路径前缀，并且侧边栏额外支持设置 `collapsible: true` 来使菜单分组可折叠。
+你需要使用 [对象格式](#对象格式) ，并提供额外的 `children` 选项设置链接列表。
 
-::: code-tabs#language
+和导航栏一样，你可以在侧边栏中使用 `prefix` 来为组内的每个链接添加默认的路径前缀，
 
-@tab TS
+侧边栏额外支持设置 `collapsible: true` 来使菜单分组可折叠，并且你可以设置 `expanded: true` 来使可折叠的分组默认展开。
 
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: [
-      {
-        // 必要的，分组的标题文字
-        text: "分组 1",
-        // 可选的, 分组标题对应的图标
-        icon: "tip",
-        // 可选的, 分组标题对应的链接
-        link: "/foo/",
-        // 可选的，会添加到每个 item 链接地址之前
-        prefix: "/foo/",
-        // 可选的, 设置分组是否可以折叠，默认值是 false,
-        collapsible: true,
-        // 必要的，分组的子项目
-        children: [
-          "README.md" /* /foo/index.html */,
-          /* ... */
-          "geo.md" /* /foo/geo.html */,
-        ],
-      },
-      {
-        text: "分组 2",
-        prefix: "/ray/",
-        children: [
-          /* ... */
-          "bar.md" /* /ray/bar.html */,
-          "baz.md" /* /ray/baz.html */,
-        ],
-      },
-    ],
-  }),
-});
-```
-
-@tab JS
-
-```js
+```js {18-22,26-30} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -216,6 +112,8 @@ export default {
         prefix: "/foo/",
         // 可选的, 设置分组是否可以折叠，默认值是 false,
         collapsible: true,
+        // 可选的。设置分组是否默认展开，默认值是 false
+        expanded: true,
         // 必要的，分组的子项目
         children: [
           "README.md" /* /foo/index.html */,
@@ -225,7 +123,6 @@ export default {
       },
       {
         text: "分组 2",
-        prefix: "/ray/",
         children: [
           /* ... */
           "bar.md" /* /ray/bar.html */,
@@ -237,19 +134,12 @@ export default {
 };
 ```
 
-:::
-
 侧边栏分组也可以进行嵌套:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
+```js {11-22} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
-export default defineUserConfig({
+export default {
   theme: hopeTheme({
     sidebar: [
       {
@@ -259,58 +149,23 @@ export default defineUserConfig({
           "baz" /* /baz.html */,
           {
             text: "Sub Group 1",
-            children: ["quz.md" /* /quz.html */, "xyzzy.md" /* /xyzzy.html */],
+            children: ["quz" /* /quz.html */, "xyzzy" /* /xyzzy.html */],
           },
           {
             text: "Sub Group 2",
             prefix: "corge/",
             children: [
-              "fred.md" /* /corge/fred.html */,
-              "grault.md" /* /corge/grault.html */,
+              "fred" /* /corge/fred.html */,
+              "grault" /* /corge/grault.html */,
             ],
           },
-          "foo.md" /* /foo.html */,
-        ],
-      },
-    ],
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default {
-  theme: hopeTheme({
-    sidebar: [
-      {
-        text: "Group",
-        prefix: "/",
-        children: [
-          "baz.md" /* /baz.html */,
-          {
-            text: "Sub Group 1",
-            children: ["quz.md" /* /quz.html */, "xyzzy.md" /* /xyzzy.html */],
-          },
-          {
-            text: "Sub Group 2",
-            prefix: "corge/",
-            children: [
-              "fred.md" /* /corge/fred.html */,
-              "grault.md" /* /corge/grault.html */,
-            ],
-          },
-          "foo.md" /* /foo.html */,
+          "foo" /* /foo.html */,
         ],
       },
     ],
   }),
 };
 ```
-
-:::
 
 通常情况下，你可能希望搭配 `prefix` 使用来快速还原文档的结构。
 
@@ -333,45 +188,6 @@ export default {
 
 你就可以进行以下配置:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: [
-      "/" /* / */,
-      {
-        text: "Foo",
-        prefix: "/foo/",
-        children: [
-          "" /* /foo/ */,
-          "one" /* /foo/one.html */,
-          "two" /* /foo/two.html */,
-        ],
-      },
-      {
-        text: "Bar",
-        prefix: "/bar/",
-        children: [
-          "" /* /bar/ */,
-          "three" /* /bar/three.html */,
-          "four" /* /bar/four.html */,
-        ],
-      },
-      "/contact" /* /contact.html */,
-      "/about" /* /about.html */,
-    ],
-  }),
-});
-```
-
-@tab JS
-
 ```js title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
@@ -403,8 +219,6 @@ export default {
   }),
 };
 ```
-
-:::
 
 ### 多个侧边栏
 
@@ -429,42 +243,6 @@ export default {
 
 你就可以遵循以下的侧边栏配置，来为不同路径显示不同的分组:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: {
-      "/foo/": [
-        "" /* /foo/ */,
-        "one" /* /foo/one.html */,
-        "two" /* /foo/two.html */,
-      ],
-
-      "/bar/": [
-        "" /* /bar/ */,
-        "three" /* /bar/three.html */,
-        "four" /* /bar/four.html */,
-      ],
-
-      // fallback
-      "/": [
-        "" /* / */,
-        "contact" /* /contact.html */,
-        "about" /* /about.html */,
-      ],
-    },
-  }),
-});
-```
-
-@tab JS
-
 ```js title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
@@ -494,8 +272,6 @@ export default {
 };
 ```
 
-:::
-
 ## 通过文件结构自动生成侧边栏 <Badge text="新增" type="tip" />
 
 你可以在上述任意侧边栏配置中，将原来的“侧边栏数组”替换为 `"structure"` 关键词。这会让主题自动读取本地文件，为你生成对应的侧边栏结构，以大大减少你的配置工作量。
@@ -519,35 +295,7 @@ export default {
 
 你可以将原来的配置改为:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8,10} title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    sidebar: {
-      "/foo/": "structure",
-
-      "/bar/": "structure",
-
-      // fallback
-      "/": [
-        "" /* / */,
-        "contact" /* /contact.html */,
-        "about" /* /about.html */,
-      ],
-    },
-  }),
-});
-```
-
-@tab JS
-
-```js {7,9} title=".vuepress/config.js"
+```js {6,8} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -567,8 +315,6 @@ export default {
   }),
 };
 ```
-
-:::
 
 在上述的修改中，由于原侧边栏数组即为相关路径下的全部文件，你可以轻松将其替换为 `"structure"` 关键词。
 
@@ -619,6 +365,7 @@ export default {
 - `dir.text`: 目录标题，默认为 README.md 标题
 - `dir.icon`: 目录图标，默认为 README.md 图标
 - `dir.collapsible`: 目录是否可折叠，默认为 `true`
+- `dir.expanded`: 目录是否默认展开，默认为 `false`
 - `dir.link`: 目录是否可点击，默认为 `false`
 - `dir.index`: 是否索引此目录，默认为 `true`
 - `dir.order`: 目录在侧边栏中的顺序，默认为 `0`
@@ -652,7 +399,7 @@ dir:
 
 ## 禁用侧边栏
 
-你可以通过 `YAML front matter` 来禁用指定页面的侧边栏:
+你可以通过 `Frontmatter 来禁用指定页面的侧边栏:
 
 ```md
 ---
@@ -692,27 +439,7 @@ headerDepth: 2
 
 这个功能是通过插件 `@vuepress/plugin-active-header-links` 实现的，并可以通过以下的配置来禁用:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {9} title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    plugins: {
-      // 默认值: true
-      activeHeaderLinks: false,
-    },
-  }),
-});
-```
-
-@tab JS
-
-```js {8} title=".vuepress/config.js"
+```js {7} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -724,46 +451,12 @@ export default {
   }),
 };
 ```
-
-:::
-
-## 图标支持
-
-侧边栏默认启用图标支持，将在侧边栏的链接前显示页面的图标。你可以在主题选项中将 `sidebarIcon` 设置为 `false` 来禁用它。
 
 ## 多语言
 
 主题的侧边栏支持 [多语言](https://vuejs.press/zh/guide/i18n.html)，所以你可以为每个语言单独设置侧边栏:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    locales: {
-      "/": {
-        sidebar: [
-          /* 根目录下的英文配置 */
-        ],
-      },
-      "/zh/": {
-        sidebar: [
-          /* 中文目录下的中文配置 */
-        ],
-      },
-    },
-  }),
-});
-```
-
-@tab JS
-
-```js title=".vuepress/config.js"
+```js {7-9,12-14} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -783,8 +476,6 @@ export default {
   }),
 };
 ```
-
-:::
 
 ## 相关助手与类型
 
@@ -830,19 +521,7 @@ export default sidebar(/* 你的侧边栏配置 */);
 
 ## 例子
 
-:::: details 本文档的侧边栏配置
-
-::: code-tabs#language
-
-@tab TS
-
-```ts
-import { sidebar } from "vuepress-theme-hope";
-
-<!-- @include: ../../../.vuepress/sidebar/zh.ts#config -->
-```
-
-@tab JS
+::: details 本文档的侧边栏配置
 
 ```js
 import { sidebar } from "vuepress-theme-hope";
@@ -851,5 +530,3 @@ import { sidebar } from "vuepress-theme-hope";
 ```
 
 :::
-
-::::

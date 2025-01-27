@@ -12,7 +12,6 @@ const sync = async (): Promise<void> => {
 
   await Promise.all(
     packages.map((packageName) =>
-      // eslint-disable-next-line import/dynamic-import-chunkname
       import(`../packages/${packageName}/package.json`, {
         assert: { type: "json" },
       }).then(
@@ -24,7 +23,7 @@ const sync = async (): Promise<void> => {
           new Promise<void>((resolve) => {
             const req = request(
               new URL(
-                `https://registry-direct.npmmirror.com/${content["name"]}/sync?sync_upstream=true`,
+                `https://registry-direct.npmmirror.com/${content.name}/sync?sync_upstream=true`,
               ),
               {
                 method: "PUT",

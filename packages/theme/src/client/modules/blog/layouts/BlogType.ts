@@ -1,13 +1,10 @@
-import type {
-  BlogPluginFrontmatter,
-  BlogTypeFrontmatterOptions,
-} from "@vuepress/plugin-blog/client";
+import type { BlogPluginFrontmatter } from "@vuepress/plugin-blog/client";
 import { useBlogType } from "@vuepress/plugin-blog/client";
 import type { VNode } from "vue";
 import { computed, defineComponent, h } from "vue";
 import { usePageData, usePageFrontmatter } from "vuepress/client";
 
-import DropTransition from "@theme-hope/components/transitions/DropTransition";
+import { DropTransition } from "@theme-hope/components/transitions/index";
 import ArticleList from "@theme-hope/modules/blog/components/ArticleList";
 import ArticleType from "@theme-hope/modules/blog/components/ArticleType";
 import BlogWrapper from "@theme-hope/modules/blog/components/BlogWrapper";
@@ -17,29 +14,29 @@ import {
   useStars,
 } from "@theme-hope/modules/blog/composables/index";
 
-import type { ArticleInfo } from "../../../../shared/index.js";
+import type { ArticleInfoData } from "../../../../shared/index.js";
 
 import "../styles/page.scss";
 
 export default defineComponent({
-  name: "BlogPage",
+  name: "BlogType",
 
   setup() {
-    const blogType = useBlogType<ArticleInfo>();
+    const blogType = useBlogType<ArticleInfoData>();
     const frontmatter = usePageFrontmatter<BlogPluginFrontmatter>();
     const page = usePageData();
     const articles = useArticles();
     const stars = useStars();
 
     const items = computed(() => {
-      const { key = "", type } =
-        <BlogTypeFrontmatterOptions>frontmatter.value.blog || {};
+      const blogOptions = frontmatter.value.blog;
 
-      return key === "star"
+      if (blogOptions?.type !== "type" || !blogOptions.key)
+        return articles.value.items;
+
+      return blogOptions.key === "star"
         ? stars.value.items
-        : type === "type" && key
-          ? blogType.value.items
-          : articles.value.items;
+        : blogType.value.items;
     });
 
     return (): VNode =>

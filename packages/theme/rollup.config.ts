@@ -6,7 +6,7 @@ const __dirname = getDirname(import.meta.url);
 
 export default [
   ...rollupBundle("node/index", {
-    external: ["bcrypt-ts/node", "chokidar", "nodejs-jieba"],
+    external: ["bcrypt-ts/node", "chokidar", "nodejs-jieba", "vuepress-shared"],
     moduleSideEffects: () => false,
   }),
   ...rollupBundle(
@@ -25,14 +25,10 @@ export default [
       external: [
         "@vuepress/helper/noopComponent",
         "@vuepress/plugin-blog/client",
-        "@vuepress/plugin-external-link-icon/client",
+        "@vuepress/plugin-comment/pageview",
         "@vuepress/plugin-reading-time/client",
         "@vuepress/plugin-theme-data/client",
         "bcrypt-ts/browser",
-        "body-scroll-lock",
-        "vuepress-plugin-comment2/pageview",
-        "vuepress-plugin-md-enhance/SlidePage",
-        /\.jpg$/,
       ],
       dts: false,
       moduleSideEffects: (id) =>

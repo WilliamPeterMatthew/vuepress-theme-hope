@@ -9,12 +9,9 @@ tag:
   - Layout
 ---
 
-`vuepress-theme-hope` improves the default home page.
+`vuepress-theme-hope` provides a powerful home page.
 
-To use it, set `home: true` in page frontmatter. Any extra content after the `YAML front matter` will be parsed as normal Markdown and rendered after the features section.
-
-![Screenshot](./assets/home-light.jpg#light)
-![Screenshot](./assets/home-dark.jpg#dark)
+To use it, set `home: true` in page frontmatter. Any extra content after frontmatter will be parsed as normal Markdown and rendered after the features section.
 
 <!-- more -->
 
@@ -76,7 +73,7 @@ Highlights also support the following properties:
 
 ::: info
 
-For complete configuration items, see [Home Frontmatter Configuration](../../config/frontmatter/home.md).
+For complete configuration items, see [Home Frontmatter Configuration](../../config/frontmatter/project-home.md).
 
 :::
 

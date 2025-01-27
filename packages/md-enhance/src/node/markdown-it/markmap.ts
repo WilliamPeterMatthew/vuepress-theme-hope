@@ -1,6 +1,6 @@
 import { encodeData } from "@vuepress/helper";
 import type { PluginSimple } from "markdown-it";
-import type Token from "markdown-it/lib/token.js";
+import type Token from "markdown-it/lib/token.mjs";
 
 const markmapRender = (tokens: Token[], index: number): string => {
   const token = tokens[index];
@@ -21,8 +21,9 @@ export const markmap: PluginSimple = (md) => {
 
     if (realInfo === "markmap") return markmapRender(tokens, index);
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return fence!(...args);
   };
 
-  md.renderer.rules["markmap"] = markmapRender;
+  md.renderer.rules.markmap = markmapRender;
 };

@@ -1,6 +1,6 @@
 // Polish [pl]
-// eslint-disable-next-line import/no-named-default
-import type { Dayjs, default as dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import type dayjs from "dayjs";
 
 import type { Locale } from "./locale.js";
 
@@ -43,10 +43,9 @@ const monthStandalone =
   "styczeń_luty_marzec_kwiecień_maj_czerwiec_lipiec_sierpień_wrzesień_październik_listopad_grudzień".split(
     "_",
   );
-const MONTHS_IN_FORMAT = /D MMMM/;
 
 const months = (dayjsInstance: Dayjs, format: string): string => {
-  if (MONTHS_IN_FORMAT.test(format)) return monthFormat[dayjsInstance.month()];
+  if (format.includes("D MMMM")) return monthFormat[dayjsInstance.month()];
 
   return monthStandalone[dayjsInstance.month()];
 };
@@ -61,7 +60,7 @@ const locale: Partial<Locale> = {
   ),
   weekdaysShort: "ndz_pon_wt_śr_czw_pt_sob".split("_"),
   weekdaysMin: "Nd_Pn_Wt_Śr_Cz_Pt_So".split("_"),
-  // @ts-ignore
+  // @ts-expect-error: dayjs locale is not correctly typed
   months,
   monthsShort: "sty_lut_mar_kwi_maj_cze_lip_sie_wrz_paź_lis_gru".split("_"),
   ordinal: (n) => `${n}.`,
@@ -71,21 +70,21 @@ const locale: Partial<Locale> = {
     future: "za %s",
     past: "%s temu",
     s: "kilka sekund",
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     m: translate,
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     mm: translate,
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     h: translate,
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     hh: translate,
     d: "1 dzień",
     dd: "%d dni",
     M: "miesiąc",
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     MM: translate,
     y: "rok",
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     yy: translate,
   },
   formats: {

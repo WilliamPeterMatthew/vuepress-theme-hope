@@ -1,39 +1,43 @@
-import {
-  Logger,
-  ensureEndingSlash,
-  getInstalledStatus,
-} from "@vuepress/helper";
+import { Logger, ensureEndingSlash, isModuleAvailable } from "@vuepress/helper";
 import { getDirname, path } from "vuepress/utils";
 
-import type { AvailableComponent } from "./options/index.js";
+import type {
+  AvailableComponent,
+  DeprecatedComponent,
+} from "./options/index.js";
 
 const __dirname = getDirname(import.meta.url);
 
-export const AVAILABLE_COMPONENTS: AvailableComponent[] = [
+export const AVAILABLE_COMPONENTS: (
+  | AvailableComponent
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
+  | DeprecatedComponent
+)[] = [
   "ArtPlayer",
-  "AudioPlayer",
   "Badge",
   "BiliBili",
   "CodePen",
-  "FontIcon",
   "PDF",
-  "Replit",
   "Share",
   "SiteInfo",
   "StackBlitz",
   "VPBanner",
   "VPCard",
   "VidStack",
-  "VideoPlayer",
   "XiGua",
+
+  // deprecated
+  "AudioPlayer",
+  "Replit",
+  "VideoPlayer",
   "YouTube",
 ];
 
 export const COMPONENT_PKG: Record<string, string[]> = {
   ArtPlayer: ["artplayer"],
-  AudioPlayer: ["plyr"],
+  AudioPlayer: ["vidstack"],
   VidStack: ["vidstack"],
-  VideoPlayer: ["plyr"],
+  VideoPlayer: ["vidstack"],
 };
 
 export const CLIENT_FOLDER = ensureEndingSlash(
@@ -44,13 +48,5 @@ export const PLUGIN_NAME = "vuepress-plugin-components";
 
 export const logger = new Logger(PLUGIN_NAME);
 
-export const isInstalled = (pkg: string, hint = true): boolean => {
-  const isInstalled = getInstalledStatus(pkg, import.meta.url);
-
-  if (hint && !isInstalled)
-    logger.error(
-      `Package ${pkg} is not installed, please install it manually!`,
-    );
-
-  return isInstalled;
-};
+export const isInstalled = (pkg: string): boolean =>
+  isModuleAvailable(pkg, import.meta);

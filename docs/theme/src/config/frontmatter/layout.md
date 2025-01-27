@@ -14,7 +14,11 @@ You can configure page layout by setting the following frontmatter options.
 ## pageInfo
 
 - Type: `PageInfo[] | false`
-- Default value: value in theme options
+- Default: value in theme options
+- Details:
+  - [Feature → PageInfo](../../guide/feature/page-info.md)
+
+Customize page info items in current page.
 
 | Item            | Corresponding Content | Page frontmatter Value                  |
 | --------------- | --------------------- | --------------------------------------- |
@@ -26,51 +30,55 @@ You can configure page layout by setting the following frontmatter options.
 | `"Word"`        | Word count            | N/A (automatically generated)           |
 | `"PageView"`    | Visit Number          | `pageview` (only available with Waline) |
 
-Set whether to show page details on the current page
-
-## pageview
-
-- Type: `boolean`
-- Default value: value in theme options
-
-Whether display page views.
-
-::: tip
-
-The pageview feature requires you to have a valid Waline Comment Service config.
-
-:::
-
 ## breadcrumb
 
 - Type: `boolean`
-- Default value: value in theme options
+- Default: value in theme options
+- Details:
+  - [Layout → Page](../../guide/layout/page.md#breadcrumb)
 
-Whether path navigation is enabled on the current page.
+Whether enable breadcrumb.
 
 ## breadcrumbIcon
 
 - Type: `boolean`
-- Default value: value in theme options
+- Default: value in theme options
+- Details:
+  - [Layout → Page](../../guide/layout/page.md#breadcrumb)
 
-Whether path navigation icon is enabled on the current page.
+Whether show icons in breadcrumb.
+
+## breadcrumbExclude
+
+- Type: `boolean`
+- Default: `false`
+- Details:
+  - [Layout → Page](../../guide/layout/page.md#breadcrumb)
+
+Whether to exclude the current page from the breadcrumb.
 
 ## navbar
 
 - Type: `boolean`
+- Details:
+  - [Layout → Navbar](../../guide/layout/navbar.md#disabling-navbar)
 
 Setting it to `false` will disable navbar
 
 ## sidebar
 
-- Type: `boolean`
+- Type: `boolean | SidebarArrayOptions`
+- Details:
+  - [Layout → Sidebar](../../guide/layout/sidebar.md#disabling-sidebar)
 
-Setting it to `false` will disable sidebar
+Setting it to `false` will disable sidebar, setting it to empty array `[]` will render sidebar slots content only.
 
 ## headerDepth
 
 - Type: `number`
 - Default: `2`
+- Details:
+  - [Layout → Page](../../guide/layout/page.md#setting-header-depth)
 
 Heading rendering depth.
 
@@ -147,37 +155,37 @@ Group order in sidebar.
 ## comment
 
 - Type: `boolean`
-- Default value: value in theme options
+- Default: value in theme options
 
 Whether to enable comments on the current page.
 
 ## lastUpdated
 
 - Type: `boolean`
-- Default value: value in theme options
+- Default: value in theme options
 
 Whether display lastUpdated time.
 
 ## editLink
 
 - Type: `boolean`
-- Default value: value in theme options
+- Default: value in theme options
 
 Whether to show edit link.
 
 ## contributors
 
 - Type: `boolean`
-- Default value: value in theme options
+- Default: value in theme options
 
 Whether to show contributors.
 
 ## prev
 
-- Type: `AutoLinkOptions | string | false`
+- Type: `AutoLinkConfig | string | false`
 
   ```ts
-  interface AutoLinkOptions {
+  interface AutoLinkConfig {
     text: string;
     icon: string;
     link: string;
@@ -188,10 +196,10 @@ Previous article link.
 
 ## next
 
-- Type: `AutoLinkOptions |string | false`
+- Type: `AutoLinkConfig |string | false`
 
   ```ts
-  interface AutoLinkOptions {
+  interface AutoLinkConfig {
     text: string;
     icon: string;
     link: string;
@@ -203,7 +211,7 @@ Next article link.
 ## footer
 
 - Type: `boolean | string | HTMLString`
-- Default value: the value configured globally
+- Default: the value configured globally
 
 Footer content.
 
@@ -216,7 +224,7 @@ For more details, please see [Page → Footer Support](../../guide/layout/footer
 ## copyright
 
 - Type: `string | false`
-- Default value: value in theme options
+- Default: value in theme options
 
 Copyright information
 
@@ -225,14 +233,14 @@ For more details, please see [Page → Footer Support](../../guide/layout/footer
 ## backToTop
 
 - Type: `boolean`
-- Default value: `true`
+- Default: `true`
 
 Whether display the back to top button.
 
 ## toc {#toc-heading}
 
 - Type: `boolean`
-- Default value: value in theme options
+- Default: value in theme options
 
 Whether display toc
 

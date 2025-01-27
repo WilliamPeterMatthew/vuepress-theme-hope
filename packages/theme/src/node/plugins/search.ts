@@ -1,107 +1,61 @@
 import {
-  entries,
-  fromEntries,
-  getLocaleConfig,
-  getRootLangPath,
+  getFullLocaleConfig,
+  getRootLang,
   isPlainObject,
   keys,
   startsWith,
 } from "@vuepress/helper";
-import type { DocsearchPluginOptions } from "@vuepress/plugin-docsearch";
+import type { DocSearchPluginOptions } from "@vuepress/plugin-docsearch";
 import type { SearchPluginOptions } from "@vuepress/plugin-search";
+import type { SlimSearchPluginOptions } from "@vuepress/plugin-slimsearch";
 import type { App, Page, Plugin } from "vuepress/core";
 import { colors } from "vuepress/utils";
-import type { SearchProOptions } from "vuepress-plugin-search-pro";
 
 import type {
   PluginsOptions,
   ThemeData,
   ThemePageFrontmatter,
 } from "../../shared/index.js";
-import { themeLocalesData } from "../locales/index.js";
+import { themeLocaleInfo } from "../locales/index.js";
 import { logger } from "../utils.js";
 
-let docsearchPlugin: (options: DocsearchPluginOptions) => Plugin;
-let searchPlugin: (options: SearchPluginOptions) => Plugin;
-let searchProPlugin: (options: SearchProOptions) => Plugin;
-let cut: (content: string, strict?: boolean | undefined) => string[];
+let docsearchPlugin: ((options: DocSearchPluginOptions) => Plugin) | null =
+  null;
+let searchPlugin: ((options: SearchPluginOptions) => Plugin) | null = null;
+let slimsearchPlugin: ((options: SlimSearchPluginOptions) => Plugin) | null =
+  null;
+let cut: ((content: string, strict?: boolean) => string[]) | null = null;
 
 try {
   ({ docsearchPlugin } = await import("@vuepress/plugin-docsearch"));
-} catch (e) {
+} catch {
   // Do nothing
 }
 
 try {
   ({ searchPlugin } = await import("@vuepress/plugin-search"));
-} catch (e) {
+} catch {
   // Do nothing
 }
 
 try {
-  ({ searchProPlugin } = await import("vuepress-plugin-search-pro"));
+  ({ slimsearchPlugin } = await import("@vuepress/plugin-slimsearch"));
   ({ cut } = await import("nodejs-jieba"));
-} catch (e) {
+} catch {
   // Do nothing
 }
-
-const DOCSEARCH_ZH_LOCALES = {
-  placeholder: "搜索文档",
-  translations: {
-    button: {
-      buttonText: "搜索文档",
-      buttonAriaLabel: "搜索文档",
-    },
-    modal: {
-      searchBox: {
-        resetButtonTitle: "清除查询条件",
-        resetButtonAriaLabel: "清除查询条件",
-        cancelButtonText: "取消",
-        cancelButtonAriaLabel: "取消",
-      },
-      startScreen: {
-        recentSearchesTitle: "搜索历史",
-        noRecentSearchesText: "没有搜索历史",
-        saveRecentSearchButtonTitle: "保存至搜索历史",
-        removeRecentSearchButtonTitle: "从搜索历史中移除",
-        favoriteSearchesTitle: "收藏",
-        removeFavoriteSearchButtonTitle: "从收藏中移除",
-      },
-      errorScreen: {
-        titleText: "无法获取结果",
-        helpText: "你可能需要检查你的网络连接",
-      },
-      footer: {
-        selectText: "选择",
-        navigateText: "切换",
-        closeText: "关闭",
-        searchByText: "搜索提供者",
-      },
-      noResultsScreen: {
-        noResultsText: "无法找到相关结果",
-        suggestedQueryText: "你可以尝试查询",
-        reportMissingResultsText: "你认为该查询应该有结果？",
-        reportMissingResultsLinkText: "点击反馈",
-      },
-    },
-  },
-};
-
-const SEARCH_ZH_LOCALES = {
-  placeholder: "搜索",
-};
 
 /**
  * @private
  *
- * Resolve options for @vuepress/plugin-docsearch, @vuepress/plugin-search and vuepress-plugin-search-pro
+ * Resolve options for @vuepress/plugin-docsearch, @vuepress/plugin-search and @vuepress/plugin-slimsearch
  */
 export const getSearchPlugin = (
   app: App,
   themeData: ThemeData,
   plugins: PluginsOptions,
 ): Plugin | null => {
-  const encryptedPaths = keys(themeData.encrypt.config || {});
+  const encryptedPaths = keys(themeData.encrypt.config ?? {});
   const isPageEncrypted = ({ path }: Page): boolean =>
     encryptedPaths.some((key) => startsWith(decodeURI(path), key));
   const { locales } = app.options;
@@ -115,62 +69,49 @@ export const getSearchPlugin = (
       return null;
     }
 
-    return docsearchPlugin({
-      locales: locales["/zh/"]
-        ? { "/zh/": DOCSEARCH_ZH_LOCALES }
-        : getRootLangPath(app) === "/zh/"
-          ? // eslint-disable-next-line @typescript-eslint/naming-convention
-            { "/": DOCSEARCH_ZH_LOCALES }
-          : {},
-      ...plugins.docsearch,
-    });
+    return docsearchPlugin(plugins.docsearch);
   }
 
-  if (plugins.searchPro) {
-    if (!searchProPlugin) {
+  if (plugins.slimsearch) {
+    if (!slimsearchPlugin) {
       logger.error(
-        `${colors.cyan("vuepress-plugin-search-pro")} is not installed!`,
+        `${colors.cyan("@vuepress/plugin-slimsearch")} is not installed!`,
       );
 
       return null;
     }
 
-    return searchProPlugin({
+    return slimsearchPlugin({
       indexContent: true,
       // Add supports for category and tags
       customFields: [
         {
           getter: (page: Page<Record<never, never>, ThemePageFrontmatter>) =>
             page.frontmatter.category,
-          formatter: getLocaleConfig({
+          formatter: getFullLocaleConfig({
             app,
-            name: "vuepress-theme-hope",
-            default: fromEntries(
-              entries(themeLocalesData).map(([localePath, config]) => [
-                localePath,
-                `${config.blogLocales.category}: $content`,
-              ]),
-            ),
+            default: themeLocaleInfo.map(([langs, { blogLocales }]) => [
+              langs,
+              `${blogLocales.category}: $content`,
+            ]),
           }),
         },
         {
           getter: (page: Page<Record<never, never>, ThemePageFrontmatter>) =>
             page.frontmatter.tag,
-          formatter: getLocaleConfig({
+          formatter: getFullLocaleConfig({
             app,
-            name: "vuepress-theme-hope",
-            default: fromEntries(
-              entries(themeLocalesData).map(([localePath, config]) => [
-                localePath,
-                `${config.blogLocales.tag}: $content`,
-              ]),
-            ),
+            default: themeLocaleInfo.map(([langs, { blogLocales }]) => [
+              langs,
+              `${blogLocales.tag}: $content`,
+            ]),
           }),
         },
       ],
       filter: (page) => !isPageEncrypted(page),
       ...(cut
         ? {
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             indexLocaleOptions: locales["/zh/"]
               ? {
                   "/zh/": {
@@ -178,9 +119,9 @@ export const getSearchPlugin = (
                       fieldName === "id" ? [text] : cut(text, true),
                   },
                 }
-              : getRootLangPath(app) === "/zh/"
+              : // eslint-disable-next-line @typescript-eslint/no-deprecated
+                getRootLang(app).startsWith("zh")
                 ? {
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     "/": {
                       tokenize: (text, fieldName) =>
                         fieldName === "id" ? [text] : cut(text, true),
@@ -189,7 +130,7 @@ export const getSearchPlugin = (
                 : {},
           }
         : {}),
-      ...(isPlainObject(plugins.searchPro) ? plugins.searchPro : {}),
+      ...(isPlainObject(plugins.slimsearch) ? plugins.slimsearch : {}),
     });
   }
 
@@ -204,12 +145,6 @@ export const getSearchPlugin = (
 
     return searchPlugin({
       isSearchable: (page) => !isPageEncrypted(page),
-      locales: locales["/zh/"]
-        ? { "/zh/": SEARCH_ZH_LOCALES }
-        : getRootLangPath(app) === "/zh/"
-          ? // eslint-disable-next-line @typescript-eslint/naming-convention
-            { "/": SEARCH_ZH_LOCALES }
-          : {},
       ...(isPlainObject(plugins.search) ? plugins.search : {}),
     });
   }

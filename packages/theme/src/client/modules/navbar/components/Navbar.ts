@@ -26,7 +26,7 @@ import type { NavbarLayoutOptions } from "../../../../shared/index.js";
 
 import "../styles/navbar.scss";
 
-declare const HAS_MULTIPLE_LANGUAGES: boolean;
+declare const __VP_MULTI_LANGUAGES__: boolean;
 
 export default defineComponent({
   name: "NavBar",
@@ -37,12 +37,6 @@ export default defineComponent({
     default: () => VNode[] | VNode | null;
 
     // Navbar
-    startBefore?: () => VNode[] | VNode | null;
-    startAfter?: () => VNode[] | VNode | null;
-    centerBefore?: () => VNode[] | VNode | null;
-    centerAfter?: () => VNode[] | VNode | null;
-    endBefore?: () => VNode[] | VNode | null;
-    endAfter?: () => VNode[] | VNode | null;
     screenTop?: () => VNode[] | VNode | null;
     screenBottom?: () => VNode[] | VNode | null;
   }>,
@@ -64,25 +58,23 @@ export default defineComponent({
 
     const navbarLayout = computed(
       () =>
-        themeLocale.value.navbarLayout ||
-        <NavbarLayoutOptions>{
+        themeLocale.value.navbarLayout ??
+        ({
           start: ["Brand"],
           center: ["Links"],
           end: ["Language", "Repo", "Outlook", "Search"],
-        },
+        } as NavbarLayoutOptions),
     );
 
     const navbarComponentMap: Record<string, Component | string> = {
       Brand: NavbarBrand,
-      Language: HAS_MULTIPLE_LANGUAGES ? LanguageDropdown : noopComponent,
+      Language: __VP_MULTI_LANGUAGES__ ? LanguageDropdown : noopComponent,
       Links: NavbarLinks,
       Repo: RepoLink,
       Outlook: OutlookButton,
-      Search: hasGlobalComponent("Docsearch")
-        ? resolveComponent("Docsearch")
-        : hasGlobalComponent("SearchBox")
-          ? resolveComponent("SearchBox")
-          : noopComponent,
+      Search: hasGlobalComponent("SearchBox")
+        ? resolveComponent("SearchBox")
+        : noopComponent,
     };
 
     const getNavbarComponent = (component: string): Component | string =>
@@ -97,13 +89,8 @@ export default defineComponent({
         {
           key: "navbar",
           id: "navbar",
-          class: [
-            "vp-navbar",
-            {
-              "auto-hide": autoHide.value,
-              "hide-icon": themeLocale.value.navbarIcon === false,
-            },
-          ],
+          class: ["vp-navbar", { "auto-hide": autoHide.value }],
+          "vp-navbar": "",
         },
         [
           h("div", { class: "vp-navbar-start" }, [
@@ -113,40 +100,33 @@ export default defineComponent({
                 emit("toggleSidebar");
               },
             }),
-            slots.startBefore?.(),
-            (navbarLayout.value.start || []).map((item) =>
+            navbarLayout.value.start?.map((item) =>
               h(
-                <ComponentOptions | FunctionalComponent>(
-                  getNavbarComponent(item)
-                ),
+                getNavbarComponent(item) as
+                  | ComponentOptions
+                  | FunctionalComponent,
               ),
             ),
-            slots.startAfter?.(),
           ]),
 
           h("div", { class: "vp-navbar-center" }, [
-            slots.centerBefore?.(),
-            (navbarLayout.value.center || []).map((item) =>
+            navbarLayout.value.center?.map((item) =>
               h(
-                <ComponentOptions | FunctionalComponent>(
-                  getNavbarComponent(item)
-                ),
+                getNavbarComponent(item) as
+                  | ComponentOptions
+                  | FunctionalComponent,
               ),
             ),
-            slots.centerAfter?.(),
           ]),
 
           h("div", { class: "vp-navbar-end" }, [
-            slots.endBefore?.(),
-            (navbarLayout.value.end || []).map((item) =>
+            navbarLayout.value.end?.map((item) =>
               h(
-                <ComponentOptions | FunctionalComponent>(
-                  getNavbarComponent(item)
-                ),
+                getNavbarComponent(item) as
+                  | ComponentOptions
+                  | FunctionalComponent,
               ),
             ),
-            slots.endAfter?.(),
-
             h(ToggleNavbarButton, {
               active: showScreen.value,
               onToggle: () => {
@@ -165,8 +145,8 @@ export default defineComponent({
           },
         },
         {
-          before: () => slots.screenTop?.(),
-          after: () => slots.screenBottom?.(),
+          before: slots.screenTop,
+          after: slots.screenBottom,
         },
       ),
     ];

@@ -1,34 +1,18 @@
-import { isLinkAbsolute, isLinkHttp } from "@vuepress/helper/client";
+import { isLinkAbsolute } from "@vuepress/helper/client";
 import type { PropType, VNode } from "vue";
 import { defineComponent, h, resolveComponent } from "vue";
 import { withBase } from "vuepress/client";
+import { generateIndexFromHash } from "vuepress-shared/client";
 
-import HopeIcon from "@theme-hope/components/HopeIcon";
 import { useNavigate, usePure } from "@theme-hope/composables/index";
-import {
-  ArticleIcon,
-  BookIcon,
-  FriendIcon,
-  LinkIcon,
-  ProjectIcon,
-} from "@theme-hope/modules/blog/components/icons/index";
 
 import type { ThemeBlogHomeProjectOptions } from "../../../../shared/index.js";
+import cssVariables from "../../../styles/variables.module.scss";
 
 import "../styles/project-panel.scss";
 
-const AVAILABLE_PROJECT_TYPES = [
-  "link",
-  "article",
-  "book",
-  "project",
-  "friend",
-];
-
 export default defineComponent({
   name: "ProjectPanel",
-
-  components: { ArticleIcon, BookIcon, FriendIcon, LinkIcon, ProjectIcon },
 
   props: {
     /** 项目列表 */
@@ -39,47 +23,38 @@ export default defineComponent({
   },
 
   setup(props) {
-    const pure = usePure();
+    const isPure = usePure();
     const navigate = useNavigate();
-
-    const renderIcon = (icon = "", alt = "icon"): VNode | null => {
-      // Built in icon
-      if (AVAILABLE_PROJECT_TYPES.includes(icon))
-        return h(resolveComponent(`${icon}-icon`));
-
-      // It’s a full image link
-      if (isLinkHttp(icon))
-        return h("img", { class: "vp-project-image", src: icon, alt });
-
-      // It’s an absolute image link
-      if (isLinkAbsolute(icon))
-        return h("img", {
-          class: "vp-project-image",
-          src: withBase(icon),
-          alt,
-        });
-
-      // Render as icon font
-      return h(HopeIcon, { icon });
-    };
 
     return (): VNode | null =>
       h(
         "div",
         { class: "vp-project-panel" },
-        props.items.map(({ icon, link, name, desc }, index) =>
+        props.items.map(({ icon, link, name, desc, background }) =>
           h(
-            "div",
+            "a",
             {
               class: [
                 "vp-project-card",
-                // TODO: magic number 9 is tricky here
-                { [`project${index % 9}`]: !pure.value },
+                {
+                  [`color${generateIndexFromHash(name, Number(cssVariables.colorNumber))}`]:
+                    !isPure.value && !background,
+                },
               ],
-              onClick: () => navigate(link),
+              ...(background ? { style: background } : {}),
+              href: isLinkAbsolute(link) ? withBase(link) : link,
+              onClick: (e) => {
+                navigate(link);
+                e.preventDefault();
+              },
             },
             [
-              renderIcon(icon, name),
+              icon
+                ? h(resolveComponent("VPIcon"), {
+                    class: "vp-project-icon",
+                    icon,
+                  })
+                : null,
               h("div", { class: "vp-project-name" }, name),
               h("div", { class: "vp-project-desc" }, desc),
             ],

@@ -9,16 +9,12 @@ The plugin provides you playground support.
 
 ## Settings
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8-36} title=".vuepress/config.ts"
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+```js {7-35} title=".vuepress/config.js"
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // playground config here
       playground: {
         // add presets here
@@ -29,9 +25,7 @@ export default {
           {
             name: "playground#language",
             component: "PlaygroundComponent",
-            propsGetter: (
-              playgroundData: PlaygroundData,
-            ): Record<string, string> => ({
+            propsGetter: (playgroundData) => ({
               // playground props
             }),
           },
@@ -54,52 +48,7 @@ export default {
 };
 ```
 
-@tab JS
-
-```js {8-36} title=".vuepress/config.js"
-import { mdEnhance } from "vuepress-plugin-md-enhance";
-
-export default {
-  plugins: [
-    mdEnhance({
-      // playground config here
-      playground: {
-        // add presets here
-        presets: [
-          "ts",
-          "vue",
-          "unocss",
-          {
-            name: "playground#language",
-            component: "PlaygroundComponent",
-            propsGetter: (
-              playgroundData: PlaygroundData
-            ): Record<string, string> => ({
-              // playground props
-            }),
-          },
-        ],
-        // configure built-in presets (optional)
-        config: {
-          ts: {
-            // ...
-          },
-          vue: {
-            // ...
-          },
-          unocss: {
-            // ...
-          },
-        },
-      },
-    }),
-  ],
-};
-```
-
-:::
-
-<!-- #region middle -->
+<!-- #region after -->
 
 ## Usage
 
@@ -133,11 +82,7 @@ Meanwhile, you can customize the default compilerOption through `playground.conf
 
 ::: info Vue Preset
 
-<!-- #endregion middle -->
-
 Vue preset is using the official playground by default, and do not support customizing options like [Vue Playground](./vue-playground.md). So if you are heavily relying on interacting vue playground, we suggest you to use [Vue Playground](./vue-playground.md) instead.
-
-<!-- #region after -->
 
 But if you only want a few demos instead of bundling a whole vue playground, you can use this preset to create a `<iframe>`.
 

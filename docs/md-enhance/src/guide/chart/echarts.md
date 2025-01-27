@@ -3,15 +3,17 @@ title: ECharts
 icon: chart-simple
 ---
 
-Let the Markdown file support chart in your VuePress site.
+<!-- #region before -->
+
+Add [echarts][] support to the Markdown files in your VuePress site.
+
+[echarts]: https://echarts.apache.org/en/index.html
 
 <!-- more -->
 
-<!-- #region before -->
-
 ## Settings
 
-Install [echarts](https://echarts.apache.org/en/index.html) in your project:
+Install [echarts][] in your project:
 
 ::: code-tabs#shell
 
@@ -39,11 +41,7 @@ Then enabling via:
 
 <!-- #endregion before -->
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8} title=".vuepress/config.ts"
+```js {7} title=".vuepress/config.js"
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
@@ -55,23 +53,6 @@ export default {
   ],
 };
 ```
-
-@tab JS
-
-```js {8} title=".vuepress/config.js"
-import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
-
-export default {
-  plugins: [
-    mdEnhancePlugin({
-      // Enable echarts
-      echarts: true,
-    }),
-  ],
-};
-```
-
-:::
 
 <!-- #region after -->
 
@@ -119,13 +100,13 @@ You can use top-level await and `fetch` to get data from network requests.
 
 ## Advanced
 
-You can import and call `defineEchartsConfig` in [client config file][client-config] to customize echarts.
+You can import and call `defineEChartsConfig` in [client config file][client-config] to customize echarts.
 
 ```ts title=".vuepress/client.ts"
 import { defineClientConfig } from "vuepress/client";
-import { defineEchartsConfig } from "vuepress-plugin-md-enhance/client";
+import { defineEChartsConfig } from "vuepress-plugin-md-enhance/client";
 
-defineEchartsConfig({
+defineEChartsConfig({
   options: {
     // global echarts options
   },

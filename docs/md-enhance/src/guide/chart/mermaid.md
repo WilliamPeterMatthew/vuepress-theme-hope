@@ -39,11 +39,7 @@ Then enabling via:
 
 <!-- #endregion before -->
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8} title=".vuepress/config.ts"
+```js {7} title=".vuepress/config.js"
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
@@ -55,23 +51,6 @@ export default {
   ],
 };
 ```
-
-@tab JS
-
-```js {8} title=".vuepress/config.js"
-import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
-
-export default {
-  plugins: [
-    mdEnhancePlugin({
-      // Enable mermaid
-      mermaid: true,
-    }),
-  ],
-};
-```
-
-:::
 
 <!-- #region after -->
 
@@ -94,18 +73,22 @@ Besides using mermaid, you can also use the following code blocks:
 - git-graph: `gitGraph`
 - journey: `journey`
 - mindmap: `mindmap`
+- kanban: `kanban`
 - pie: `pie`
 - quadrant: `quadrantChart`
 - requirement: `requirementDiagram`
-- sankey: `sankey-beta`
 - sequence: `sequenceDiagram`
 - state: `stateDiagram-v2`
 - timeline: `timeline`
+- architecture: `architecture-beta`
+- block: `block-beta`
+- packet: `packet-beta`
+- sankey: `sankey-beta`
 - xy: `xychart-beta`
 
 You do not need to declare diagram type and intent your code.
 
-When the diagram supports setting title, you can add the title directly after fence info:
+If the diagram supports setting title, you can add the title directly after fence info:
 
 ````md
 ```sequence Chart Title

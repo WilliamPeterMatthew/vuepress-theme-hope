@@ -91,7 +91,10 @@ By default, the type list path will be `/key/` (with `key` replaced by your actu
 
 :::
 
-Also, you need to set `blogLocales[key]` in theme locales with the actual type name, so that the theme can display the type name correctly.
+To let theme display the type name correctly, you need to:
+
+- Either set `blogLocales[key]` in theme locales with the actual type name,
+- Or set `title` in the frontmatter of the layout page.
 
 To get start with, we would like to show you some examples.
 
@@ -99,7 +102,7 @@ To get start with, we would like to show you some examples.
 
 1. Adding a type of slide pages.
 
-   All slide pages should have `layout: Slide` in frontmatter. And the sequence doesn't matter.
+   All slide pages should have `layout: SlidePage` in frontmatter. And the sequence doesn't matter.
 
 1. Adding an original type.
 

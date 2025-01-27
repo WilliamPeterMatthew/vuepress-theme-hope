@@ -1,6 +1,6 @@
 ---
 title: Vue 交互演示
-icon: fab fa-vuejs
+icon: b:vuejs
 ---
 
 此插件提供 Vue 交互演示支持。
@@ -15,7 +15,7 @@ icon: fab fa-vuejs
 
 :::
 
-<!-- #region before -->
+<!-- #region settings -->
 
 ## 配置
 
@@ -45,41 +45,20 @@ npm i -D @vue/repl
 
 之后启用它:
 
-<!-- #endregion before -->
+<!-- #endregion settings -->
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8} title=".vuepress/config.ts"
-import { mdEnhance } from "vuepress-plugin-md-enhance";
+```js {7} title=".vuepress/config.js"
+import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
   plugins: [
-    mdEnhance({
+    mdEnhancePlugin({
       // 启用 vue 交互演示
       vuePlayground: true,
     }),
   ],
 };
 ```
-
-@tab JS
-
-```js {8} title=".vuepress/config.js"
-import { mdEnhance } from "vuepress-plugin-md-enhance";
-
-export default {
-  plugins: [
-    mdEnhance({
-      // 启用 vue 交互演示
-      vuePlayground: true,
-    }),
-  ],
-};
-```
-
-:::
 
 <!-- #region after -->
 

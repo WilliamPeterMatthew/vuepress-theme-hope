@@ -1,3 +1,5 @@
+import noopComponent from "@vuepress/helper/noopComponent";
+import { isSupported } from "@vuepress/plugin-comment/pageview";
 import type {
   ReadingTime,
   ReadingTimeLocale,
@@ -20,13 +22,12 @@ import type {
   PageTag,
 } from "@theme-hope/modules/info/utils/index";
 
-import type { PageInfo } from "../../../../shared/index.js";
+import type { PageInfoType } from "../../../../shared/index.js";
 
 import "balloon-css/balloon.css";
 import "../styles/page-info.scss";
 
-declare const ENABLE_READING_TIME: boolean;
-declare const SUPPORT_PAGEVIEW: boolean;
+declare const __VP_READING_TIME__: boolean;
 
 export interface PageInfoProps {
   /**
@@ -105,10 +106,10 @@ export default defineComponent({
     CategoryInfo,
     DateInfo,
     OriginalInfo,
-    PageViewInfo: SUPPORT_PAGEVIEW ? PageViewInfo : (): null => null,
-    ReadingTimeInfo: ENABLE_READING_TIME ? ReadingTimeInfo : (): null => null,
+    PageViewInfo: isSupported ? PageViewInfo : noopComponent,
+    ReadingTimeInfo: __VP_READING_TIME__ ? ReadingTimeInfo : noopComponent,
     TagInfo,
-    WordInfo,
+    WordInfo: __VP_READING_TIME__ ? WordInfo : noopComponent,
   },
 
   props: {
@@ -118,8 +119,8 @@ export default defineComponent({
      * 待展示的文章信息
      */
     items: {
-      type: [Array, Boolean] as PropType<PageInfo[] | false>,
-      default: (): PageInfo[] => [
+      type: [Array, Boolean] as PropType<PageInfoType[] | false>,
+      default: (): PageInfoType[] => [
         "Author",
         "Original",
         "Date",
@@ -142,7 +143,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const pure = usePure();
+    const isPure = usePure();
 
     return (): VNode | null =>
       props.items
@@ -152,7 +153,7 @@ export default defineComponent({
             props.items.map((item) =>
               h(resolveComponent(`${item}Info`), {
                 ...props.info,
-                pure: pure.value,
+                isPure: isPure.value,
               }),
             ),
           )

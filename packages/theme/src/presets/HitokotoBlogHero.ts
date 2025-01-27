@@ -1,4 +1,4 @@
-import type { PropType, VNode } from "vue";
+import type { CSSProperties, PropType, VNode } from "vue";
 import {
   defineComponent,
   h,
@@ -9,7 +9,7 @@ import {
   watch,
 } from "vue";
 
-import DropTransition from "@theme-hope/components/transitions/DropTransition";
+import { DropTransition } from "@theme-hope/components/transitions/index";
 
 import "./hitokoto-blog-hero.scss";
 
@@ -54,8 +54,8 @@ export default defineComponent({
     alt: { type: String, required: true },
 
     /** Hero image style */
-    style: {
-      type: [String, Object] as PropType<string | Record<string, string>>,
+    imageStyle: {
+      type: [String, Object] as PropType<string | CSSProperties>,
       default: null,
     },
   },
@@ -68,7 +68,7 @@ export default defineComponent({
 
     const getHitokoto = (): Promise<void> =>
       fetch("https://v1.hitokoto.cn")
-        .then((res) => <Promise<HitokotoResult>>res.json())
+        .then((res) => res.json() as Promise<HitokotoResult>)
         .then(({ from, hitokoto }) => {
           text.value = hitokoto;
           author.value = from;
@@ -113,7 +113,7 @@ export default defineComponent({
           ? h("img", {
               key: "light",
               class: ["vp-blog-hero-image", { light: props.imageDark }],
-              style: props.style,
+              style: props.imageStyle,
               src: props.image,
               alt: props.alt,
             })
@@ -122,7 +122,7 @@ export default defineComponent({
           ? h("img", {
               key: "dark",
               class: "vp-blog-hero-image dark",
-              style: props.style,
+              style: props.imageStyle,
               src: props.imageDark,
               alt: props.alt,
             })

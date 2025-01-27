@@ -7,8 +7,7 @@ import FeaturePanel from "@theme-hope/components/FeaturePanel";
 import HeroInfo from "@theme-hope/components/HeroInfo";
 import HighlightPanel from "@theme-hope/components/HighlightPanel";
 import MarkdownContent from "@theme-hope/components/MarkdownContent";
-import DropTransition from "@theme-hope/components/transitions/DropTransition";
-import { usePure } from "@theme-hope/composables/index";
+import { DropTransition } from "@theme-hope/components/transitions/index";
 
 import type { ThemeProjectHomePageFrontmatter } from "../../shared/index.js";
 
@@ -24,7 +23,6 @@ export default defineComponent({
   }>,
 
   setup(_props, { slots }) {
-    const pure = usePure();
     const frontmatter = usePageFrontmatter<ThemeProjectHomePageFrontmatter>();
 
     const features = computed(() => {
@@ -46,9 +44,9 @@ export default defineComponent({
         "main",
         {
           id: "main-content",
-          class: ["vp-project-home ", { pure: pure.value }],
+          class: "vp-page vp-project-home",
           "aria-labelledby":
-            frontmatter.value.heroText === null ? "" : "main-title",
+            frontmatter.value.heroText === "" ? "" : "main-title",
         },
         [
           slots.top?.(),
@@ -57,9 +55,10 @@ export default defineComponent({
             "features" in highlight
               ? h(FeaturePanel, highlight)
               : h(HighlightPanel, highlight),
-          ) ||
+          ) ??
             (features.value
               ? h(DropTransition, { appear: true, delay: 0.24 }, () =>
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   h(FeaturePanel, { features: features.value! }),
                 )
               : null),

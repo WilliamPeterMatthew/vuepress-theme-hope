@@ -1,282 +1,158 @@
-import type { LocaleConfig } from "vuepress/shared";
+import type { MarkdownItPlantumlOptions } from "@mdit/plugin-plantuml";
 
 import type {
-  AttrsOptions,
-  FigureOptions,
-  ImgMarkOptions,
-  IncludeOptions,
-  KatexOptions,
-  MarkdownEnhanceLocaleData,
-  MathjaxOptions,
   PlaygroundGlobalOptions,
-  RevealJsOptions,
-  StylizeOptions,
-  TasklistOptions,
   VuePlaygroundOptions,
 } from "./typings/index.js";
 import type { CodeDemoOptions } from "../shared/index.js";
 
+export interface DeprecatedMarkdownEnhancePluginOptions {
+  /**
+   * @deprecated use `chartjs` instead
+   */
+  chartjs?: boolean;
+
+  /**
+   * @deprecated use `alert` from `@vuepress/plugin-markdown-hint` instead
+   */
+  alert?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-hint` instead
+   */
+  hint?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-math` instead
+   */
+  katex?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-math` instead
+   */
+  mathjax?: never;
+
+  /**
+   * @deprecated use `figure` from `@vuepress/plugin-markdown-image` instead
+   */
+  figure?: never;
+
+  /**
+   * @deprecated use `lazyload` in `@vuepress/plugin-markdown-image` instead
+   */
+  imgLazyload?: never;
+
+  /**
+   * @deprecated use `mark` from `@vuepress/plugin-markdown-image` instead
+   */
+  imgMark?: never;
+
+  /**
+   * @deprecated use `size` from `@vuepress/plugin-markdown-image` instead
+   */
+  imgSize?: never;
+
+  /**
+   * @deprecated use `obsidianSize` from `@vuepress/plugin-markdown-image` instead
+   */
+  obsidianImgSize?: never;
+
+  /**
+   * @deprecated use `tabs` from `@vuepress/plugin-markdown-tab` instead
+   */
+  tabs?: never;
+
+  /**
+   * @deprecated use `codeTabs` from `@vuepress/plugin-markdown-tab` instead
+   */
+  codetabs?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-revealjs` instead
+   */
+  revealJs?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-ext` instead
+   */
+  footnote?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-ext` instead
+   */
+  tasklist?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-ext` instead
+   */
+  gfm?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-ext` instead
+   */
+  vPre?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-ext` instead
+   */
+  breaks?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-ext` instead
+   */
+  linkify?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-ext` instead
+   */
+  component?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-stylize` instead
+   */
+  align?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-stylize` instead
+   */
+  attrs?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-stylize` instead
+   */
+  sup?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-stylize` instead
+   */
+  sub?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-stylize` instead
+   */
+  mark?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-stylize` instead
+   */
+  spoiler?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-stylize` instead
+   */
+  stylize?: never;
+
+  /**
+   * @deprecated use `@vuepress/plugin-markdown-include` instead
+   */
+  include?: never;
+}
+
 /**
  * md-enhance plugin configuration
  */
-export interface MarkdownEnhanceOptions {
-  /**
-   * Whether enable standard GFM support
-   *
-   * 是否启用标准的 GitHub Favor Markdown 支持
-   *
-   * @default false
-   */
-  gfm?: boolean;
-
-  /**
-   * Whether to enable hint container including
-   *
-   * - important
-   * - info
-   * - note
-   * - tip
-   * - warning
-   * - caution
-   * - details
-   *
-   * ⚠ The last 4 items conflict with default theme and will override it’s style.
-   *
-   * 是否启用提示容器
-   *
-   * - important
-   * - info
-   * - note
-   * - tip
-   * - warning
-   * - caution
-   * - details
-   *
-   * ⚠ 最后四个会和默认主题冲突，且会覆盖默认主题的样式与行为。
-   *
-   * @default false
-   */
-  hint?: boolean;
-
-  /**
-   * Whether to enable v-pre wrapper.
-   *
-   * 是否启用 v-pre 容器。
-   *
-   * @default false
-   */
-  vPre?: boolean;
-
-  /**
-   * Whether convert `\n` in paragraphs into `<br>`s
-   *
-   * 是否将段落中的 `\n` 转换为 `<br>`
-   *
-   * @description enabled in gfm mode
-   *
-   * @default false
-   */
-  breaks?: boolean;
-
-  /**
-   * Whether convert URL-like text into links
-   *
-   * 是否将文字中的链接格式文字转换为链接
-   *
-   * @description enabled in gfm mode
-   *
-   * @default false
-   */
-  linkify?: boolean;
-
-  /**
-   * Wether enable gfm alerts
-   *
-   * 是否启用 gfm 警告
-   *
-   * @default false
-   */
-  alert?: boolean;
-
-  /**
-   * Whether to enable tabs.
-   *
-   * 是否启用标签页分组。
-   *
-   * @default false
-   */
-  tabs?: boolean;
-
-  /**
-   * Whether to enable codetabs.
-   *
-   * 是否启用代码组。
-   *
-   * @default false
-   */
-  codetabs?: boolean;
-
-  /**
-   * Whether to enable align support
-   *
-   * 是否启用自定义对齐支持。
-   *
-   * @default false
-   */
-  align?: boolean;
-
-  /**
-   * Whether to enable attr support
-   *
-   * 是否启用属性支持。
-   *
-   * @default false
-   */
-  attrs?: AttrsOptions | boolean;
-
-  /**
-   * Whether to enable superscript format support
-   *
-   * 是否启用上角标格式支持。
-   *
-   * @default false
-   */
-  sup?: boolean;
-
-  /**
-   * Whether to enable subscript format support
-   *
-   * 是否启用下角标格式支持。
-   *
-   * @default false
-   */
-  sub?: boolean;
-
-  /**
-   * Whether render figure with standalone imag
-   *
-   * 是否将单独的图片渲染为 figure
-   *
-   * @default false
-   */
-  figure?: FigureOptions | boolean;
-
-  /**
-   * Whether to enable footnote format support
-   *
-   * 是否启用脚注格式支持。
-   *
-   * @default false
-   */
-  footnote?: boolean;
-
-  /**
-   * Whether enable native image lazy loading
-   *
-   * 是否启用原生的图片懒加载。
-   *
-   * @default false
-   */
-  imgLazyload?: boolean;
-
-  /**
-   * Whether to enable gfm image id mark support
-   *
-   * 是否启用 GFM 图片 ID 标记。
-   *
-   * @default false
-   */
-  imgMark?: ImgMarkOptions | boolean;
-
-  /**
-   * Whether to enable image size mark support
-   *
-   * 是否启用图片大小标记支持。
-   *
-   * @default false
-   */
-  imgSize?: boolean;
-
-  /**
-   * Whether to enable obsidian image size mark support
-   *
-   * 是否启用 obsidian 图片大小标记支持。
-   *
-   * @default false
-   */
-  obsidianImgSize?: boolean;
-
-  /**
-   * Whether to enable mark format support
-   *
-   * 是否启用标注支持。
-   *
-   * @default false
-   */
-  mark?: boolean;
-
-  /**
-   * Whether to enable tasklist format support
-   *
-   * 是否启用任务列表支持
-   *
-   * @default false
-   */
-  tasklist?: TasklistOptions | boolean;
-
-  /**
-   * Whether to enable include syntax support
-   *
-   * 是否启用导入语法支持
-   *
-   * @default false
-   */
-  include?: Partial<IncludeOptions> | boolean;
-
-  /**
-   * Whether to enable katex support
-   *
-   * @see https://katex.org/docs/options.html
-   *
-   * 是否启用 katex 语法支持
-   *
-   * @see https://katex.org/docs/options.html
-   *
-   * @default false
-   */
-  katex?:
-    | (KatexOptions & {
-        /**
-         * Whether enable copy plugin
-         *
-         * @default false
-         */
-        copy?: boolean;
-      })
-    | boolean;
-
-  /**
-   * Whether to enable mathjax support
-   *
-   * @see http://docs.mathjax.org/en/latest/options/index.html
-   *
-   * 是否启用 mathjax 语法支持
-   *
-   * @see http://docs.mathjax.org/en/latest/options/index.html
-   *
-   * @default false
-   */
-  mathjax?: MathjaxOptions | boolean;
-
-  /**
-   * Whether to enable component support
-   *
-   * 是否启用组件支持
-   *
-   * @default false
-   */
-  component?: boolean;
-
+export interface MarkdownEnhancePluginOptions
+  extends DeprecatedMarkdownEnhancePluginOptions {
   /**
    * Whether to enable chart support
    *
@@ -284,7 +160,7 @@ export interface MarkdownEnhanceOptions {
    *
    * @default false
    */
-  chart?: boolean;
+  chartjs?: boolean;
 
   /**
    * Whether to enable echarts support
@@ -323,6 +199,15 @@ export interface MarkdownEnhanceOptions {
   mermaid?: boolean;
 
   /**
+   * Whether enable plantuml support
+   *
+   * 是否启用 plantuml 支持
+   *
+   * @default false
+   */
+  plantuml?: MarkdownItPlantumlOptions[] | boolean;
+
+  /**
    * Whether to enable code-demo support
    *
    * 是否启用代码示例功能
@@ -330,22 +215,6 @@ export interface MarkdownEnhanceOptions {
    * @default false
    */
   demo?: Partial<CodeDemoOptions> | boolean;
-
-  /**
-   * Whether to enable reveal.js support
-   *
-   * 是否启用 Reveal.js 支持
-   *
-   * @default false
-   */
-  revealJs?: RevealJsOptions | boolean;
-
-  /**
-   * Keyword enhancement
-   *
-   * 关键词显示增强选项
-   */
-  stylize?: StylizeOptions;
 
   /**
    * Whether to enable playground support
@@ -393,11 +262,4 @@ export interface MarkdownEnhanceOptions {
    * @default 800
    */
   delay?: number;
-
-  /**
-   * Locale config
-   *
-   * 国际化配置选项
-   */
-  locales?: LocaleConfig<MarkdownEnhanceLocaleData>;
 }

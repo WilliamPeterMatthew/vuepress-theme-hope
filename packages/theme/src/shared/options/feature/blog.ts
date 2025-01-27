@@ -1,4 +1,4 @@
-import type { PageInfo } from "../../info.js";
+import type { PageInfoType } from "../../info.js";
 
 export interface BlogLocaleData extends Record<string, string> {
   /** 文章文字 */
@@ -64,6 +64,20 @@ export interface PaginationLocaleData {
   errorText: string;
 }
 
+/** @deprecated */
+export interface DeprecatedBlogLocaleData {
+  /**
+   * @deprecated Add the following styles to `.vuepress/styles/index.scss`:
+   *
+   * ```css
+   * .vp-blogger-avatar {
+   *   border-radius: 50%;
+   * }
+   * ```
+   */
+  roundAvatar?: never;
+}
+
 /**
  * 博客选项
  *
@@ -71,7 +85,8 @@ export interface PaginationLocaleData {
  *
  * @kind locale
  */
-export interface BlogLocaleOptions {
+// eslint-disable-next-line @typescript-eslint/no-deprecated
+export interface BlogLocaleOptions extends DeprecatedBlogLocaleData {
   /**
    * Name of the Blogger
    *
@@ -122,16 +137,7 @@ export interface BlogLocaleOptions {
    * }
    * ```
    */
-  medias?: Record<string, [string, string] | string>;
-
-  /**
-   * Whether clipping the avatar with round shape
-   *
-   * 是否剪裁头像为圆形形状
-   *
-   * @default false
-   */
-  roundAvatar?: boolean;
+  medias?: Record<string, { icon: string; link: string } | string>;
 
   /**
    * Whether to display blogger info in sidebar
@@ -167,9 +173,7 @@ export interface BlogLocaleOptions {
    *
    * @default ["Author", "Original", "Date", "PageView", "ReadingTime", "Category", "Tag"]
    */
-  articleInfo?: PageInfo[];
+  articleInfo?: PageInfoType[];
 }
 
-export interface BlogLocaleConfig extends Omit<BlogLocaleOptions, "media"> {
-  medias?: Record<string, string>;
-}
+export type BlogLocaleConfig = BlogLocaleOptions;

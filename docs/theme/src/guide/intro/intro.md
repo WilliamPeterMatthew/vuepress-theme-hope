@@ -52,19 +52,19 @@ The theme will only run with features you want, without being slowed down by oth
 
 The theme provides a lot of extended syntax support for Markdown, allowing you to insert more content in the body.
 
-- We have some built-in enhancement with [images](../markdown/image.md).
+- We have some built-in enhancement with [images](../markdown/grammar/image.md).
 
-- If you are a literature lover and want to place some essays, the theme provides [Custom Alignment](../markdown/align.md) and [footnote](../markdown/footnote.md).
+- If you are a literature lover and want to place some essays, the theme provides [Custom Alignment](../markdown/stylize/align.md) and [footnote](../markdown/content/footnote.md).
 
-- To store some knowledge notes, the theme provides [Custom container](../markdown/hint.md), [Mark](../markdown/mark.md), [Task list](../markdown/tasklist.md) and [Tex](../markdown/tex.md) support.
+- To store some knowledge notes, the theme provides [Custom container](../markdown/stylize/hint.md), [Mark](../markdown/stylize/mark.md), [Task list](../markdown/grammar/tasklist.md) [mindmap](../markdown/chart/markmap.md) and [math](../markdown/grammar/math.md) support.
 
-- If you are a programmer and need to show a lot of codes and demos, this theme provides light and dark themes for code blocks, [code tabs](../markdown/code-tabs.md) and the ["one-click copy" button](../feature/copy-code.md). At the same time, we also provide the [Code Demo](../markdown/demo.md), [Playground](../markdown/playground.md), [Kotlin Playground](../markdown/kotlin-playground.md) and [Vue Playground](../markdown/vue-playground.md) functions, which is convenient for you to show your own Vue, React components or other demos and provide playground for visitors.
+- If you are a programmer and need to show a lot of codes and demos, this theme provides [multiple themes for code blocks](../markdown/code/fence.md#code-block-themes), [code tabs](../markdown/code/code-tabs.md) and [copy button for code blocks](../markdown/code/fence.md#copy-button). At the same time, we also provide the [Code Demo](../markdown/code/demo.md), [Playground](../markdown/code/playground.md), [Kotlin Playground](../markdown/code/kotlin-playground.md) and [Vue Playground](../markdown/code/vue-playground.md) functions, which is convenient for you to show your own Vue, React components or other demos and provide playground for visitors.
 
-- If you are providing product documentation and presentation, the theme provides [tabs](../markdown/tabs.md), [slide](../markdown/revealjs.md), [chart](../markdown/chartjs.md), [echarts](../markdown/echarts.md), [flowchart](../markdown/flowchart.md), [mermaid diagram](../markdown/mermaid.md) functions.
+- If you are providing product documentation and presentation, the theme provides [tabs](../markdown/content/tabs.md), [slide](../markdown/content/revealjs.md), [chart](../markdown/chart/chartjs.md), [echarts](../markdown/chart/echarts.md), [flowchart](../markdown/chart/flowchart.md), [mermaid diagram](../markdown/chart/mermaid.md) and [plantuml](../markdown/chart/plantuml.md) functions.
 
-- To reorganize your content, the theme provides [File Include](../markdown/include.md) function.
+- To reorganize your content, the theme provides [File Include](../markdown/content/include.md) function.
 
-- To style your content, the theme provides [Subscript and Superscript](../markdown/sup-sub.md), [Attrs setting](../markdown/attrs.md) and [Stylize](../markdown/stylize.md) function.
+- To style your content, the theme provides [Subscript and Superscript](../markdown/stylize/sup-sub.md), [Attrs setting](../markdown/stylize/attrs.md) and [Stylize](../markdown/stylize/stylize.md) function.
 
 - The theme also provides you a lot of [useful components](../component/built-in.md).
 
@@ -76,13 +76,11 @@ In short, anyone can enjoy the convenience of Markdown's enhanced syntax.
 
 - [Icon Support](../interface/icon.md)
 
-- [Customizing Code Block Theme](../interface/code-theme.md)
-
 - [Theme colors](../interface/theme-color.md): allowing you to switch dynamically during browsing
 
 - More:
 
-  [Full Screen Button](../interface/others.md#fullscreen-button), [Back to top button](../interface/others.md#back-to-top-button), [Print button](../interface/others.md#print-button), [Full A11y support](../interface/accessibility.md) and [RTL layout](../interface/others.md#rtl-layout).
+  [Full Screen Button](../interface/others.md#fullscreen-button), [Back to top button](../interface/others.md#back-to-top-button), [Print button](../interface/others.md#print-button), [Full A11y support](../interface/others.md#full-a11y-support) and [RTL layout](../interface/others.md#rtl-layout).
 
 ### Layouts Improvement
 
@@ -98,9 +96,11 @@ In short, anyone can enjoy the convenience of Markdown's enhanced syntax.
 
 - [Brand-new Homepage with features and highlights](../layout/home.md)
 
+- [Portfolio HomePage](../layout/portfolio.md)
+
 - More:
 
-  Adds [breadcrumb](../layout/breadcrumb.md), [toc](../layout/page.md#header-list) and [footer](../layout/footer.md) support.
+  Adds [breadcrumb](../layout/page.md#breadcrumb), [toc](../layout/page.md#header-list) and [footer](../layout/footer.md) support.
 
 ### Page Meta
 
@@ -125,11 +125,14 @@ In short, anyone can enjoy the convenience of Markdown's enhanced syntax.
 - Search feature
 
   - [Crawler search support with docsearch](../feature/search.md#use-vuepressplugin-docsearch)
-  - [Powerful client search support with slimsearch](../feature/search.md#use-vuepress-plugin-search-pro).
+  - [Powerful client search support with slimsearch](../feature/search.md#use-vuepressplugin-slimsearch).
 
 - [Page Encryption](../feature/encrypt.md) feature to limit access.
 
-- [Copyright appending](../feature/copyright.md) while copying, or directly disable page copy and selection
+- Copyright
+
+  - [Copyright appending](../feature/copyright.md) while copying, or directly disable page copy and selection
+  - Add [Watermark](../feature/watermark.md)
 
 - Search Engine Optimization
 
@@ -155,22 +158,14 @@ The theme supports [blogging](../blog/intro.md), [with article list with sticky 
 
 The theme includes the following plugins, you can use them in other themes or directly.
 
-- <ProjectLink name="comment2">vuepress-plugin-comment2</ProjectLink>: Comment and pageviews
-
 - <ProjectLink name="components">vuepress-plugin-components</ProjectLink>: Provide some out of box plugins
 
 - <ProjectLink name="md-enhance">vuepress-plugin-md-enhance</ProjectLink>: Provide more Markdown syntax
-
-- <ProjectLink name="sass-palette">vuepress-plugin-sass-palette</ProjectLink>: Sass style plugin for all plugins and themes
 
 ::: tip
 
 Here are some other plugins that are not bundled by the theme, you can enable them according to your own needs.
 
-- <ProjectLink name="append-date">vuepress-plugin-append-date</ProjectLink>: Append date to page frontmatter
-
 - <ProjectLink name="lightgallery">vuepress-plugin-lightgallery</ProjectLink>: Image preview plugin based on lightgallery
-
-- <ProjectLink name="search-pro">vuepress-plugin-search-pro</ProjectLink>: Client search plugin
 
 :::

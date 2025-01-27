@@ -17,39 +17,6 @@ tag:
 
 你需要在自己的 VuePress 配置文件通过 `alias` 替换主题中使用的组件别名。
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { getDirname, path } from "vuepress/utils";
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-const __dirname = getDirname(import.meta.url);
-
-export default defineUserConfig({
-  theme: hopeTheme(
-    {
-      // 主题选项
-      // ...
-    },
-    { custom: true },
-  ),
-
-  alias: {
-    // 你可以在这里将别名定向到自己的组件
-    // 比如这里我们将主题的主页组件改为用户 .vuepress/components 下的 HomePage.vue
-    "@theme-hope/components/HomePage": path.resolve(
-      __dirname,
-      "./components/HomePage.vue",
-    ),
-  },
-});
-```
-
-@tab JS
-
 ```js title=".vuepress/config.js"
 import { getDirname, path } from "vuepress/utils";
 import { hopeTheme } from "vuepress-theme-hope";
@@ -76,8 +43,6 @@ export default {
 };
 ```
 
-:::
-
 可以支持的别名如下。
 
 ::: details 主题组件别名
@@ -91,18 +56,17 @@ export default {
 - `@theme-hope/components/HeroInfo` 主页 Logo 及介绍
 - `@theme-hope/components/HighlightPanel`: 主页亮点
 - `@theme-hope/components/HomePage` 主页
-- `@theme-hope/components/HopeIcon` 图标
 - `@theme-hope/components/MarkdownContent` Markdown 内容
 - `@theme-hope/components/NormalPage` 常规页面
 - `@theme-hope/components/PageFooter` 页脚
 - `@theme-hope/components/PageNav` 页面导航
 - `@theme-hope/components/PageTitle` 页面标题
+- `@theme-hope/components/PortfolioHero` 档案主页
 - `@theme-hope/components/SkipLink` 跳转到主内容
-- `@theme-hope/components/transitions/DropTransition`: 主题下坠渐变动画
-- `@theme-hope/components/transitions/FadeSlideY`: 主题竖直滑动渐变动画
 
 杂项:
 
+- `@theme-hope/components/transitions/index`: 主题动画
 - `@theme-hope/components/icons/index` 主题图标
 - `@theme-hope/composables/index` 主题可组合 API
 - `@theme-hope/utils/index` 主题通用函数
@@ -113,14 +77,14 @@ export default {
 
 组件:
 
-- `@theme-hope/modules/navbar/components/DropdownLink` 下拉列表
+- `@theme-hope/modules/navbar/components/NavbarDropdown` 下拉列表
 - `@theme-hope/modules/navbar/components/LanguageDropdown` 语言下拉列表
 - `@theme-hope/modules/navbar/components/NavActions` 导航栏功能
 - `@theme-hope/modules/navbar/components/Navbar` 导航栏
-- `@theme-hope/modules/navbar/components/NavbarBrand` 导航栏品牌信息
+- `@theme-hope/modules/navbar/components/NavbarBr和` 导航栏品牌信息
 - `@theme-hope/modules/navbar/components/NavbarLinks` 导航栏链接
 - `@theme-hope/modules/navbar/components/NavScreen` 移动视图下的导航屏
-- `@theme-hope/modules/navbar/components/NavScreenDropdown` 移动视图下导航栏下拉菜单
+- `@theme-hope/modules/navbar/components/NavScreenMenu` 移动视图下导航栏下拉菜单
 - `@theme-hope/modules/navbar/components/NavScreenLinks` 移动式视图下导航栏链接
 - `@theme-hope/modules/navbar/components/RepoLink` 仓库链接
 - `@theme-hope/modules/navbar/components/ToggleNavbarButton` 导航栏切换按钮
@@ -167,9 +131,9 @@ export default {
 
 杂项:
 
-- `@theme-hope/modules/blog/components/icons` 信息图标
-- `@theme-hope/modules/blog/composables/index` 信息可组合 API
-- `@theme-hope/modules/blog/utils/index` 信息通用函数
+- `@theme-hope/modules/info/components/icons` 信息图标
+- `@theme-hope/modules/info/composables/index` 信息可组合 API
+- `@theme-hope/modules/info/utils/index` 信息通用函数
 
 :::
 
@@ -180,23 +144,26 @@ export default {
 - `@theme-hope/modules/blog/components/ArticleItem` 文章项
 - `@theme-hope/modules/blog/components/ArticleList` 文章列表
 - `@theme-hope/modules/blog/components/ArticleType` 文章类型
+- `@theme-hope/modules/blog/components/ArticlesInfo`: 文章信息
 - `@theme-hope/modules/blog/components/BloggerInfo` 博主信息
 - `@theme-hope/modules/blog/components/BlogHero` 博客主页 Logo 与介绍
 - `@theme-hope/modules/blog/components/BlogHome` 博客主页
 - `@theme-hope/modules/blog/components/BlogWrapper` 博客常规布局
 - `@theme-hope/modules/blog/components/CategoryList` 分类列表
+- `@theme-hope/modules/blog/components/CategoriesInfo`: 分类信息
 - `@theme-hope/modules/blog/components/InfoList` 博客信息列表
 - `@theme-hope/modules/blog/components/InfoPanel` 博客信息面板
 - `@theme-hope/modules/blog/components/Pagination` 分页组件
 - `@theme-hope/modules/blog/components/ProjectPanel` 博客主页项目面板
-- `@theme-hope/modules/blog/components/SocialMedia` 社交媒体链接
+- `@theme-hope/modules/blog/components/SocialMedias` 社交媒体链接
 - `@theme-hope/modules/blog/components/TagList` 标签列表
+- `@theme-hope/modules/blog/components/TagsInfo`: 标签信息
 - `@theme-hope/modules/blog/components/TimelineItems` 时间线项目
 - `@theme-hope/modules/blog/components/TimelineList` 时间线列表
 
 杂项:
 
-- `@theme-hope/modules/blog/components/icons/index` 博客图标
+- `@theme-hope/modules/blog/components/icons` 博客图标
 - `@theme-hope/modules/blog/composables/index` 博客可组合 API
 
 :::
@@ -220,12 +187,13 @@ export default {
 
 组件:
 
-- `@theme-hope/modules/outlook/components/AppearanceMode` 主题外观模式
-- `@theme-hope/modules/outlook/components/AppearanceSwitch` 主题外观开关
+- `@theme-hope/modules/outlook/components/ColorMode` 主题颜色模式
+- `@theme-hope/modules/outlook/components/ColorModeSwitch` 主题颜色开关
 - `@theme-hope/modules/outlook/components/OutlookButton` 外观按钮
 - `@theme-hope/modules/outlook/components/OutlookSettings` 外观设置
 - `@theme-hope/modules/outlook/components/ThemeColor` 主题色
 - `@theme-hope/modules/outlook/components/ThemeColorPicker` 主题色选择器
+- `@theme-hope/modules/outlook/components/ToggleFullScreen` 全屏切换
 - `@theme-hope/modules/outlook/components/ToggleFullScreenButton` 全屏切换按钮
 
 杂项:
@@ -253,12 +221,11 @@ export default {
 
 ```ts title=".vuepress/config.ts"
 import { getDirname, path } from "vuepress/utils";
-import { defineUserConfig } from "vuepress";
 import { hopeTheme } from "vuepress-theme-hope";
 
 const __dirname = getDirname(import.meta.url);
 
-export default defineUserConfig({
+export default {
   theme: hopeTheme(
     {
       // 主题选项
@@ -275,7 +242,7 @@ export default defineUserConfig({
       "./components/HomePage.vue",
     ),
   },
-});
+};
 ```
 
 @tab HomePage.vue
@@ -301,12 +268,12 @@ import HopeHomePage from "vuepress-theme-hope/components/HomePage.js";
 **主题**:
 
 - `AutoLink`: `default`, `before`, `after`
-- `CommonWrapper`: `default`, `navbarStartBefore`, `navbarStartAfter`, `navbarCenterBefore`, `navbarCenterAfter`, `navbarEndBefore`, `navbarEndAfter`, `navScreenTop`, `navScreenBottom`, `sidebar`, `sidebarTop`, `sidebarBottom`
-- `HeroInfo`: `heroImage`, `heroInfo`, `heroBg`
+- `CommonWrapper`: `default`, `navScreenTop`, `navScreenBottom`, `sidebar`, `sidebarTop`, `sidebarBottom`
+- `HeroInfo`: `logo`, `info`, `bg`
 
-  - `heroInfo` 插槽将接收 `text` `tagline` 和 `isFullScreen` 属性。
-  - `heroImage` 插槽将接收 `image` `imageDark` `style` `alt` 和 `isFullScreen` 属性。
-  - `heroBg` 插槽将接收 `image` `bgStyle` 和 `isFullScreen` 属性。
+  - `logo` 插槽将接收 `image` `imageDark` `style` `alt` 和 `isFullScreen` 属性。
+  - `info` 插槽将接收 `text` `tagline` 和 `isFullScreen` 属性。
+  - `bg` 插槽将接收 `image` `bgStyle` 和 `isFullScreen` 属性。
 
 - `HomePage`: `top`, `center`, `bottom`
 - `NormalPage`: `top`, `contentBefore`, `contentAfter`, `bottom`, `tocBefore`, `tocAfter`
@@ -320,19 +287,25 @@ import HopeHomePage from "vuepress-theme-hope/components/HomePage.js";
   - `cover` 插槽将接收 `cover` 属性。
   - `info` 插槽将接收 `info` 属性。
 
-- `BlogHero`: `heroBg`, `heroInfo`
+- `BlogHero`: `bg`, `info`
 
-  - `heroInfo` 插槽将接收 `text` `tagline` `image` `imageDark` `style` `alt` 和 `isFullScreen` 属性。
-  - `heroBg` 插槽将接收 `image` `bgStyle` 和 `isFullScreen` 属性。
+  - `info` 插槽将接收 `text` `tagline` `image` `imageDark` `style` `alt` 和 `isFullScreen` 属性。
+  - `bg` 插槽将接收 `image` `bgStyle` 和 `isFullScreen` 属性。
+
+- `PortfolioHero`: `avatar` `bg`, `info`
+
+  - `avatar` 插槽将接收 `avatar` `avatarDark` `avatarStyle` 和 `alt` 属性。
+  - `info` 插槽将接收 `name` `welcome` `title` `titles` 和 `links` 属性。
+  - `bg` 插槽将接收 `image` `imageDark` 和 `bgStyle` 属性。
 
 **导航栏**:
 
-- `DropdownLink`: `title`
+- `NavbarDropdown`: `title`
 - `NavActions`: `before`, `after`
 - `Navbar`: `startBefore`, `startAfter`, `centerBefore`, `centerAfter`, `endBefore`, `endAfter`
 - `NavbarBrand`: `default`
 - `NavScreen`: `before`, `after`
-- `NavScreenDropdown`: `before`, `after`
+- `NavScreenMenu`: `before`, `after`
 
 **侧边栏**:
 

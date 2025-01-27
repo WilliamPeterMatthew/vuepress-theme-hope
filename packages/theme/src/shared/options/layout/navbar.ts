@@ -85,7 +85,7 @@ export interface NavbarLocaleOptions {
    *
    * @default $siteLocale.title
    */
-  navTitle?: string | false;
+  navbarTitle?: string;
 
   /**
    * Repository link
@@ -109,15 +109,6 @@ export interface NavbarLocaleOptions {
    * 导航栏仓库按钮的无障碍标签
    */
   repoLabel?: string;
-
-  /**
-   * Whether show icon in navbar
-   *
-   * 是否在导航栏中显示图标
-   *
-   * @default true
-   */
-  navbarIcon?: boolean;
 
   /**
    * Whether to hide navbar when scrolling down

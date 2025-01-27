@@ -19,8 +19,6 @@ import "balloon-css/balloon.css";
 import "vuepress-shared/client/styles/popup.scss";
 import "../styles/share-service.scss";
 
-declare const SHARE_CONTENT_SELECTOR: string;
-
 const renderIcon = (content: string, contentClass = ""): VNode => {
   const className = ["vp-share-icon", contentClass];
 
@@ -125,17 +123,14 @@ export default defineComponent({
         getMetaContent("og:description") ??
         getMetaContent("twitter:description");
       const url =
-        props.url ?? typeof window === "undefined"
+        (props.url ?? typeof window === "undefined")
           ? null
           : window.location.href;
       const cover = props.cover ?? getMetaContent("og:image");
       const image = document
-        .querySelector<HTMLImageElement>(
-          `${SHARE_CONTENT_SELECTOR} :not(a) > img`,
-        )
+        .querySelector<HTMLImageElement>("[vp-content] :not(a) > img")
         ?.getAttribute("src");
-      const tags =
-        props.tag ?? frontmatter.value["tag"] ?? frontmatter.value["tags"];
+      const tags = props.tag ?? frontmatter.value.tag ?? frontmatter.value.tags;
       const tag = isArray(tags)
         ? tags.filter(isString).join(",")
         : isString(tags)
@@ -215,7 +210,9 @@ export default defineComponent({
             class: ["vp-share-button", { plain }],
             "aria-label": name,
             "data-balloon-pos": "up",
-            onClick: () => share(),
+            onClick: () => {
+              share();
+            },
           },
           plain
             ? renderIcon(shape, "plain")

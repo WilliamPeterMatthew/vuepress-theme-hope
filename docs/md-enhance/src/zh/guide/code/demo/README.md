@@ -17,11 +17,7 @@ icon: splotch
 
 ## 配置
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8} title=".vuepress/config.ts"
+```js {7} title=".vuepress/config.js"
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
@@ -33,23 +29,6 @@ export default {
   ],
 };
 ```
-
-@tab JS
-
-```js {8} title=".vuepress/config.js"
-import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
-
-export default {
-  plugins: [
-    mdEnhancePlugin({
-      // 启用代码演示
-      demo: true,
-    }),
-  ],
-};
-```
-
-:::
 
 <!-- #region syntax -->
 
@@ -84,7 +63,7 @@ JSON 块是可选的，可用的配置详见 [配置](../../../config.md#demo)�
 
 :::
 
-该插件支持三种类型:
+此插件支持三种类型:
 
 - normal
 - vue

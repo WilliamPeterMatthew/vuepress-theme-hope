@@ -8,11 +8,11 @@ category:
 
 ## Running error
 
-Vite only supports "modern browsers" by default, see [Vite support](https://vitejs.dev/guide/build.html#browser-compatibility) for details.
+Vite only supports "modern browsers" by default, see [Vite support](https://vite.dev/guide/build.html#browser-compatibility) for details.
 
 ## Slow in a cold boot with Vite
 
-This is the expected behavior. We are adding more features, which means we have 2× to 8× lines of code comparing with `@vuepress/theme-default` according to the functions you are using. So transpiling and sending the theme and plugins code to browser is expected to increase from `0.8s - 2s` in `@vuepress/theme-default` to `3s - 10s` (range due to machine performance).
+This is the expected behavior. We are adding more features, which means we have 2× to 8× lines of code comparing with `@vuepress/theme-default` according to the functions you are using. So transforming and sending the theme and plugins code to browser is expected to increase from `0.8s - 2s` in `@vuepress/theme-default` to `3s - 10s` (range due to machine performance).
 
 ::: info Tree-shaking burden
 
@@ -52,31 +52,7 @@ don't worry, the above extra overhead mainly exists in code boot. Due to the lar
 
 In VuePress2, importing web CSS via `@import` in `index.scss` has no effect. You may need to manually import it in the `head` option of your VuePress configuration.
 
-<!-- ```js 5-13}
-import { defineUserConfig } from "vuepress";
-
-export default defineUserConfig({
-  head: [
-    [
-      "link",
-      {
-        rel: "preload",
-        as: "style",
-        onload: 'this.onload=null;this.rel="stylesheet"',
-        href: "//at.alicdn.com/t/c/font_2410206_5vb9zlyghj.css",
-      },
-    ],
-  ],
-
-  // ...
-});
-``` -->
-
-::: code-tabs#language
-
-@tab TS
-
-```ts {5-11}
+```js {5-11}
 import { defineUserConfig } from "vuepress";
 
 export default defineUserConfig({
@@ -93,26 +69,6 @@ export default defineUserConfig({
   // ...
 });
 ```
-
-@tab JS
-
-```js {3-9}
-export default {
-  head: [
-    [
-      "link",
-      {
-        rel: "stylesheet",
-        href: "YOUR_CSS_URL",
-      },
-    ],
-  ],
-
-  // ...
-};
-```
-
-:::
 
 ::: info Reason
 

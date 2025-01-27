@@ -3,7 +3,7 @@ import { isArray, isPlainObject, isString } from "@vuepress/helper/shared";
 import type { Author, AuthorInfo } from "../types/index.js";
 
 const isAuthorInfo = (author: unknown): author is AuthorInfo =>
-  isPlainObject(author) && isString(author["name"]);
+  isPlainObject(author) && isString(author.name);
 
 export const getAuthor = (
   author: Author | false | undefined,
@@ -36,16 +36,14 @@ export const getAuthor = (
 
 export const getStringArray = (
   value: string[] | string | undefined,
-  optionName?: string,
+  optionName: string,
 ): string[] => {
   if (value) {
     if (isArray(value) && value.every(isString)) return value;
     if (isString(value)) return [value];
 
     console.error(
-      `Expect ${
-        optionName || "value"
-      } to be \`string[] | string | undefined\`, but got`,
+      `Expect ${optionName} to be \`string[] | string | undefined\`, but got`,
       value,
     );
   }

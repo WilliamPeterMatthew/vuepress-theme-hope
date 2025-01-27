@@ -1,7 +1,7 @@
 import { container } from "@mdit/plugin-container";
 import { encodeData } from "@vuepress/helper";
 import type { PluginSimple } from "markdown-it";
-import type Token from "markdown-it/lib/token.js";
+import type Token from "markdown-it/lib/token.mjs";
 
 const echartsRender = (tokens: Token[], index: number): string => {
   const token = tokens[index];
@@ -25,10 +25,11 @@ export const echarts: PluginSimple = (md) => {
 
     if (realInfo === "echarts") return echartsRender(tokens, index);
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return fence!(...args);
   };
 
-  md.renderer.rules["echarts"] = echartsRender;
+  md.renderer.rules.echarts = echartsRender;
 
   container(md, {
     name: "echarts",
@@ -59,7 +60,7 @@ export const echarts: PluginSimple = (md) => {
             isJavaScript = true;
           }
 
-        // Set to an unexist token type
+        // Set to an unknown token type
         tokens[i].type = "echarts_empty";
         // Hide token
         tokens[i].hidden = true;

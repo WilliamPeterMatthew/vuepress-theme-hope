@@ -1,13 +1,13 @@
 import type { PropType, VNode } from "vue";
-import { computed, defineComponent, h } from "vue";
+import { computed, defineComponent, h, ref, resolveComponent } from "vue";
 import { useRoute } from "vuepress/client";
 
 import AutoLink from "@theme-hope/components/AutoLink";
-import HopeIcon from "@theme-hope/components/HopeIcon";
 import SidebarLinks from "@theme-hope/modules/sidebar/components/SidebarLinks";
 import { isActiveSidebarItem } from "@theme-hope/modules/sidebar/utils/index";
+import { isActiveItem } from "@theme-hope/utils/index";
 
-import type { ResolvedSidebarGroupItem } from "../utils/index.js";
+import type { SidebarGroupItem } from "../utils/index.js";
 
 import "../styles/sidebar-group.scss";
 
@@ -21,7 +21,7 @@ export default defineComponent({
      * 侧边栏分组配置
      */
     config: {
-      type: Object as PropType<ResolvedSidebarGroupItem>,
+      type: Object as PropType<SidebarGroupItem>,
       required: true,
     },
 
@@ -40,10 +40,15 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const route = useRoute();
+
+    const hasBeenToggled = ref(false);
+
     const active = computed(() => isActiveSidebarItem(route, props.config));
 
-    const exact = computed(() =>
-      isActiveSidebarItem(route, props.config, true),
+    const exact = computed(() => isActiveItem(route, props.config));
+
+    const shouldOpen = computed(
+      () => props.open || (props.config.expanded && !hasBeenToggled.value),
     );
 
     return (): VNode => {
@@ -63,6 +68,7 @@ export default defineComponent({
             class: [
               "vp-sidebar-header",
               {
+                // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 clickable: collapsible || link,
                 exact: exact.value,
                 active: active.value,
@@ -71,32 +77,33 @@ export default defineComponent({
             ...(collapsible
               ? {
                   type: "button",
-                  onClick: () => emit("toggle"),
-                  onKeydown: (event: KeyboardEvent): void => {
-                    if (event.key === "Enter") emit("toggle");
+                  onClick: (): void => {
+                    hasBeenToggled.value = true;
+                    emit("toggle");
                   },
                 }
               : {}),
           },
           [
             // Icon
-            h(HopeIcon, { icon }),
+            h(resolveComponent("VPIcon"), { icon, sizing: "both" }),
             // Title
             link
               ? h(AutoLink, {
-                  class: "vp-sidebar-title",
+                  class: "vp-sidebar-title no-external-link-icon",
                   config: { text, link },
-                  noExternalLinkIcon: true,
                 })
               : h("span", { class: "vp-sidebar-title" }, text),
             // Arrow
             collapsible
-              ? h("span", { class: ["vp-arrow", props.open ? "down" : "end"] })
+              ? h("span", {
+                  class: ["vp-arrow", shouldOpen.value ? "down" : "end"],
+                })
               : null,
           ],
         ),
 
-        props.open || !collapsible
+        shouldOpen.value || !collapsible
           ? h(SidebarLinks, { key: prefix, config: children })
           : null,
       ]);

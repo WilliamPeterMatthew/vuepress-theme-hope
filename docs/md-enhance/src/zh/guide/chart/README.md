@@ -9,15 +9,15 @@ index: false
 
 <!-- #region intro -->
 
-该插件提供了 4 种方法让您将图表插入到 Markdown 文件中。
+此插件提供了 6 种方法让你将图表插入到 Markdown 文件中。
 
 - Chart.js：一个轻量级、易于使用、高度可定制的图表库。
 
-  与 Echarts 相比，Chart.js 更轻量。
+  与 ECharts 相比，Chart.js 更轻量。
 
-- Echarts：一个强大的、交互式的浏览器图表和可视化库。
+- ECharts：一个强大的、交互式的浏览器图表和可视化库。
 
-  与 Chart.js 相比，Echarts 更强大。
+  与 Chart.js 相比，ECharts 更强大。
 
 - flowchart: Markdown 扩展，用于生成流程图和序列图。
 
@@ -27,9 +27,13 @@ index: false
 
   运行环境非常重，不推荐使用。
 
-- Mermaid：以与 Markdown 类似的方式从文本生成图表和流程图。
+- Mermaid：从 Markdown 生成图表和流程图。
 
   常用图表的强大集合。
+
+- Plantuml: 基于 Java 的 UML 图表
+
+  没有任何运行时，极其轻量。
 
 <!-- #endregion intro -->
 
@@ -41,7 +45,7 @@ index: false
 
 ### Chart.js
 
-::: chart 一个散点图案例
+::: chartjs 一个散点图案例
 
 ```json
 {
@@ -75,7 +79,7 @@ index: false
 
 - [查看详情](./chartjs.md)
 
-### Echarts
+### ECharts
 
 ::: echarts 一个折线图案例
 
@@ -170,5 +174,67 @@ flowchart TB
 ```
 
 - [查看详情](./mermaid.md)
+
+### Plantuml
+
+@startuml
+scale 5 as 150 pixels
+
+clock clk with period 1
+binary "启用" as en
+binary "读/写" as rw
+binary "数据有效" as dv
+concise "数据总线" as db
+concise "地址总线" as addr
+
+@6 as :write_beg
+@10 as :write_end
+
+@15 as :read_beg
+@19 as :read_end
+
+@0
+en is low
+db is "0x0"
+addr is "0x03f"
+rw is low
+dv is 0
+
+@:write_beg-3
+en is high
+@:write_beg-2
+db is "0xDEADBEEF"
+@:write_beg-1
+dv is 1
+@:write_beg
+rw is high
+
+@:write_end
+rw is low
+dv is low
+@:write_end+1
+rw is low
+db is "0x0"
+addr is "0x23"
+
+@12
+dv is high
+@13
+db is "0xFFFF"
+
+@20
+en is low
+dv is low
+@21
+db is "0x0"
+
+highlight :write_beg to :write_end #Gold:写
+highlight :read_beg to :read_end #lightBlue:读
+
+db@:write_beg-1 <-> @:write_end : 设置时间
+db@:write_beg-1 -> addr@:write_end+1 : 保持
+@enduml
+
+- [查看详情](./plantuml.md)
 
 <!-- #endregion demo -->

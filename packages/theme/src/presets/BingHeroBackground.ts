@@ -53,17 +53,19 @@ export default defineComponent({
     const showInfo = ref(false);
 
     const currentWallpaper = computed(() => {
-      const info = bingStorage.value.data[bingStorage.value.index];
-      const langCode = lang.value.toLowerCase().split("-").shift();
+      const { index, data } = bingStorage.value;
 
-      if (info) {
-        const { url, wallpaper, downloadable, locales } = info;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const langCode = lang.value.toLowerCase().split("-").shift()!;
+
+      if (data[index]) {
+        const { url, wallpaper, downloadable, locales } = data[index];
 
         return {
           url,
           wallpaper,
           downloadable,
-          ...(locales[langCode!] ?? locales["en"]),
+          ...(locales[langCode] ?? locales.en),
         };
       }
 
@@ -72,7 +74,7 @@ export default defineComponent({
 
     const getImage = (): Promise<BingWallpaperInfo[]> =>
       fetch("https://bing-wallpaper.vuejs.press/api/wallpaper").then(
-        (response) => <Promise<BingWallpaperInfo[]>>response.json(),
+        (response) => response.json() as Promise<BingWallpaperInfo[]>,
       );
 
     const prev = (): void => {
@@ -95,7 +97,7 @@ export default defineComponent({
 
     return (): VNode => {
       const { title, headline, url, backstage, quickFact, copyright } =
-        currentWallpaper.value || {};
+        currentWallpaper.value ?? {};
 
       return h(ClientOnly, () =>
         url
@@ -140,15 +142,23 @@ export default defineComponent({
 
                   h("button", {
                     class: "bing-switch-prev",
+                    title: "prev image",
+                    type: "button",
                     disabled: bingStorage.value.index === 0,
-                    onClick: () => prev(),
+                    onClick: () => {
+                      prev();
+                    },
                   }),
                   h("button", {
                     class: "bing-switch-next",
+                    title: "next image",
+                    type: "button",
                     disabled:
                       bingStorage.value.index ===
                       bingStorage.value.data.length - 1,
-                    onClick: () => next(),
+                    onClick: () => {
+                      next();
+                    },
                   }),
                 ],
               ),

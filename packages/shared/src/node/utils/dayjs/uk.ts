@@ -1,5 +1,5 @@
-// eslint-disable-next-line import/no-named-default
-import type { Dayjs, default as dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
+import type dayjs from "dayjs";
 
 import type { Locale } from "./locale.js";
 
@@ -21,7 +21,7 @@ const plural = (word: string, num: number): string => {
     ? forms[0]
     : num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20)
       ? forms[1]
-      : forms[2]; // eslint-disable-line
+      : forms[2];
 };
 
 const relativeTimeWithPlural = (
@@ -60,7 +60,7 @@ const locale: Partial<Locale> = {
   ),
   weekdaysShort: "ндл_пнд_втр_срд_чтв_птн_сбт".split("_"),
   weekdaysMin: "нд_пн_вт_ср_чт_пт_сб".split("_"),
-  // @ts-ignore
+  // @ts-expect-error: dayjs locale is not correctly typed
   months,
   monthsShort: "січ_лют_бер_квіт_трав_черв_лип_серп_вер_жовт_лист_груд".split(
     "_",
@@ -70,22 +70,22 @@ const locale: Partial<Locale> = {
     future: "за %s",
     past: "%s тому",
     s: "декілька секунд",
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     m: relativeTimeWithPlural,
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     mm: relativeTimeWithPlural,
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     h: relativeTimeWithPlural,
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     hh: relativeTimeWithPlural,
     d: "день",
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     dd: relativeTimeWithPlural,
     M: "місяць",
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     MM: relativeTimeWithPlural,
     y: "рік",
-    // @ts-ignore
+    // @ts-expect-error: dayjs locale is not correctly typed
     yy: relativeTimeWithPlural,
   },
   ordinal: (n) => n,

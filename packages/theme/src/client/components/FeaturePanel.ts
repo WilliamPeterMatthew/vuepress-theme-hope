@@ -1,9 +1,7 @@
 import { isLinkExternal } from "@vuepress/helper/client";
 import type { FunctionalComponent, VNode } from "vue";
-import { h } from "vue";
+import { h, resolveComponent } from "vue";
 import { RouteLink, withBase } from "vuepress/client";
-
-import HopeIcon from "@theme-hope/components/HopeIcon";
 
 import type {
   ThemeProjectHomeFeatureOptions,
@@ -63,7 +61,7 @@ const FeaturePanel: FunctionalComponent<
           style: color ? { color } : {},
         },
         [
-          slots.image?.(props) || [
+          slots.image?.(props) ?? [
             image
               ? h("img", {
                   class: ["vp-feature-image", { light: imageDark }],
@@ -80,7 +78,7 @@ const FeaturePanel: FunctionalComponent<
               : null,
           ],
 
-          slots.info?.(props) || [
+          slots.info?.(props) ?? [
             header ? h("h2", { class: "vp-feature-header" }, header) : null,
             description
               ? h("p", {
@@ -96,7 +94,7 @@ const FeaturePanel: FunctionalComponent<
                 features.map(({ icon, title, details, link }) => {
                   const children = [
                     h("h3", { class: "vp-feature-title" }, [
-                      h(HopeIcon, { icon }),
+                      h(resolveComponent("VPIcon"), { icon }),
                       h("span", { innerHTML: title }),
                     ]),
                     h("p", {

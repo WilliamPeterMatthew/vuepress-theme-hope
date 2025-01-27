@@ -9,38 +9,15 @@ tag:
   - Interface
 ---
 
-In dark mode, the page uses a dark background to make you comfortable.
+The theme supports darkmode and allows you to customize it.
 
 <!-- more -->
-
-## Try it
-
-Toggle the button below to see effects.
-
-<AppearanceSwitch />
 
 ## Options
 
 You can config darkmode through `darkmode` in theme options.
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {7} title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    darkmode: "your option",
-  }),
-});
-```
-
-@tab JS
-
-```js {7} title=".vuepress/config.js"
+```js {5} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -50,8 +27,6 @@ export default {
 };
 ```
 
-:::
-
 Available options:
 
 - `"switch"`: switch between dark, light and auto (default)
@@ -60,12 +35,26 @@ Available options:
 - `"enable"`: only dark mode
 - `"disable"`: disable dark mode
 
-::: info Global Variables
+::: tip Try it
 
-You can use `$isDarkmode` in any Markdown file to get darkmode status.
+Toggle the button to see effects: <ColorModeSwitch />
 
 :::
 
+## Getting Status
+
+- In Markdown files or Vue Template, you can access `$isDarkmode` to get darkmode status directly.
+
+- In scripts, you can import `useDarkmode` from `@vuepress/client/helper` to get darkmode status:
+
+  ```ts
+  import { useDarkmode } from "@vuepress/client/helper";
+
+  const { isDarkmode } = useDarkmode();
+
+  console.log(isDarkmode.value); // get darkmode status
+  ```
+
 <script setup lang="ts">
-import AppearanceSwitch from "@theme-hope/modules/outlook/components/AppearanceSwitch"
+import ColorModeSwitch from "@theme-hope/modules/outlook/components/ColorModeSwitch"
 </script>

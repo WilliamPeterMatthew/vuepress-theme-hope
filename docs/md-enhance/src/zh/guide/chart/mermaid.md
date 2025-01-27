@@ -39,11 +39,7 @@ npm i -D mermaid
 
 <!-- #endregion before -->
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8} title=".vuepress/config.ts"
+```js {7} title=".vuepress/config.js"
 import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
 
 export default {
@@ -55,23 +51,6 @@ export default {
   ],
 };
 ```
-
-@tab JS
-
-```js {8} title=".vuepress/config.js"
-import { mdEnhancePlugin } from "vuepress-plugin-md-enhance";
-
-export default {
-  plugins: [
-    mdEnhancePlugin({
-      // 启用 mermaid
-      mermaid: true,
-    }),
-  ],
-};
-```
-
-:::
 
 <!-- #region after -->
 
@@ -94,13 +73,17 @@ export default {
 - git-graph: `gitGraph`
 - journey: `journey`
 - mindmap: `mindmap`
+- kanban: `kanban`
 - pie: `pie`
 - quadrant: `quadrantChart`
 - requirement: `requirementDiagram`
-- sankey: `sankey-beta`
 - sequence: `sequenceDiagram`
 - state: `stateDiagram-v2`
 - timeline: `timeline`
+- architecture: `architecture-beta`
+- block: `block-beta`
+- packet: `packet-beta`
+- sankey: `sankey-beta`
 - xy: `xychart-beta`
 
 你不需要再声明图表类型，也不需要缩进图表代码。

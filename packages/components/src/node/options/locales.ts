@@ -1,21 +1,12 @@
 import type { LocaleConfig } from "vuepress/shared";
 
 import type {
-  BackToTopLocaleData,
   PDFLocaleData,
   SiteInfoLocaleData,
+  VidstackLocaleData,
 } from "../../shared/index.js";
 
 export interface ComponentLocaleOptions {
-  /**
-   * @deprecated Please use '@vuepress/plugin-back-to-top'
-   *
-   * BackToTop button Locales config
-   *
-   * 返回顶部按钮国际化配置
-   */
-  backToTop?: LocaleConfig<BackToTopLocaleData>;
-
   /**
    * PDF Locales config
    *
@@ -29,4 +20,11 @@ export interface ComponentLocaleOptions {
    * 站点信息 组件国际化配置
    */
   siteInfo?: LocaleConfig<SiteInfoLocaleData>;
+
+  /**
+   * VidStack Locales config
+   *
+   * VidStack 组件国际化配置
+   */
+  vidstack?: LocaleConfig<VidstackLocaleData>;
 }

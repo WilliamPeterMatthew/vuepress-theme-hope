@@ -36,11 +36,11 @@ For example:
 
 The following plugins are used internally and can not be disabled:
 
+- [@vuepress/plugin-sass-palette][sass-palette]: Sass plugin for plugins and themes
+
 - [@vuepress/plugin-theme-data][theme-data]: Composition API plugin for theme data
 
 - <ProjectLink name="components">vuepress-plugin-components</ProjectLink>: Provides common components out of the box.
-
-- <ProjectLink name="sass-palette">vuepress-plugin-sass-palette</ProjectLink>: Sass style plugin for all plugins and themes
 
 ### Automatically Enabled Plugins
 
@@ -48,23 +48,29 @@ The following plugins are enabled by default, and you can disable them:
 
 - [@vuepress/plugin-active-header-links][active-header-links]: Automatically update route hash based on current header
 
+- [@vuepress/plugin-back-to-top][back-to-top]: Provides back to top button
+
 - [@vuepress/plugin-catalog][catalog]: Provides catalog page generation and `<Catalog />` component
 
 - [@vuepress/plugin-copy-code][copy-code]: Provides copy button for code blocks.
 
-- [@vuepress/plugin-external-link-icon][external-link-icon]: Add external link icon for external links in Markdown.
-
 - [@vuepress/plugin-git][git]: Git-based info plugin
+
+- [@vuepress/plugin-links-check][links-check]: check links in markdown files
+
+- [@vuepress/plugin-markdown-hint][markdown-hint]: Markdown hint containers
+
+- [@vuepress/plugin-markdown-image][markdown-image]: Markdown image enhancement
 
 - [@vuepress/plugin-nprogress][nprogress]: progress bar
 
 - [@vuepress/plugin-photo-swipe][photo-swipe]: Image preview plugin based on photo-swipe
 
-- [@vuepress/plugin-prismjs][prismjs]: Code highlighting plugin using Prism.js
-
 - [@vuepress/plugin-reading-time][reading-time]: Reading time and word count
 
 - [@vuepress/plugin-seo][seo]: SEO enhancement plugin
+
+- [@vuepress/plugin-shiki][shiki]: Code highlighting plugin using Shiki
 
 - [@vuepress/plugin-sitemap][sitemap]: Sitemap plugin
 
@@ -78,7 +84,15 @@ The following plugins are bundled by theme, you can enable them via configuratio
 
 - [@vuepress/plugin-copyright][copyright]: Append copyright information when copying or disable copy and selection.
 
-- <ProjectLink name="comment2">vuepress-plugin-comment2</ProjectLink>: Provides comment and pageview function
+- [@vuepress/plugin-comment][comment]: Provides comment and pageview function
+
+- [@vuepress/plugin-markdown-math][markdown-math]: Formula support
+
+- [@vuepress/plugin-notice][notice]: Provides notice
+
+- [@vuepress/plugin-rtl][rtl]: Provides rtl support
+
+- [@vuepress/plugin-watermark][watermark]: Watermark plugin
 
 ### Plugins with Built-in Support
 
@@ -88,30 +102,43 @@ These plugins are supported by theme, but you need to install them manually whil
 
 - [@vuepress/plugin-search][search]: Simple client search plugin
 
+- [@vuepress/plugin-slimsearch][slimsearch]: Client search plugin using SlimSearch
+
 - [@vuepress/plugin-feed][feed]: Feed support
+
+- [@vuepress/plugin-prismjs][prismjs]: Code highlighting plugin using Prism.js
 
 - [@vuepress/plugin-pwa][pwa]: PWA support
 
 - [@vuepress/plugin-redirect][redirect]: Redirect pages
 
-- <ProjectLink name="search-pro">vuepress-plugin-search-pro</ProjectLink>: Professional Client search plugin
-
-[active-header-links]: https://ecosystem.vuejs.press/plugins/active-header-links.html
-[blog]: https://ecosystem.vuejs.press/plugins/blog/
-[catalog]: https://ecosystem.vuejs.press/plugins/catalog.html
-[copy-code]: https://ecosystem.vuejs.press/plugins/copy-code.html
-[copyright]: https://ecosystem.vuejs.press/plugins/copyright.html
-[docsearch]: https://ecosystem.vuejs.press/plugins/docsearch.html
-[external-link-icon]: https://ecosystem.vuejs.press/plugins/external-link-icon.html
-[feed]: https://ecosystem.vuejs.press/plugins/feed/
-[git]: https://ecosystem.vuejs.press/plugins/git.html
-[nprogress]: https://ecosystem.vuejs.press/plugins/nprogress.html
-[photo-swipe]: https://ecosystem.vuejs.press/plugins/photo-swipe.html
-[prismjs]: https://ecosystem.vuejs.press/plugins/prismjs.html
-[pwa]: https://ecosystem.vuejs.press/plugins/pwa/
-[reading-time]: https://ecosystem.vuejs.press/plugins/reading-time.html
-[redirect]: https://ecosystem.vuejs.press/plugins/redirect.html
-[search]: https://ecosystem.vuejs.press/plugins/search.html
-[seo]: https://ecosystem.vuejs.press/plugins/seo/
-[sitemap]: https://ecosystem.vuejs.press/plugins/sitemap/
-[theme-data]: https://ecosystem.vuejs.press/plugins/theme-data.html
+[active-header-links]: https://ecosystem.vuejs.press/plugins/development/active-header-links.html
+[back-to-top]: https://ecosystem.vuejs.press/plugins/features/back-to-top.html
+[blog]: https://ecosystem.vuejs.press/plugins/blog/blog/
+[catalog]: https://ecosystem.vuejs.press/plugins/features/catalog.html
+[copy-code]: https://ecosystem.vuejs.press/plugins/features/copy-code.html
+[comment]: https://ecosystem.vuejs.press/plugins/blog/comment/
+[copyright]: https://ecosystem.vuejs.press/plugins/features/copyright.html
+[docsearch]: https://ecosystem.vuejs.press/plugins/search/docsearch.html
+[feed]: https://ecosystem.vuejs.press/plugins/blog/feed/
+[git]: https://ecosystem.vuejs.press/plugins/development/git.html
+[links-check]: https://ecosystem.vuejs.press/plugins/markdown/links-check.html
+[markdown-hint]: https://ecosystem.vuejs.press/plugins/markdown/markdown-hint.html
+[markdown-image]: https://ecosystem.vuejs.press/plugins/markdown/markdown-image.html
+[markdown-math]: https://ecosystem.vuejs.press/plugins/markdown/markdown-math.html
+[notice]: https://ecosystem.vuejs.press/plugins/features/notice.html
+[nprogress]: https://ecosystem.vuejs.press/plugins/features/nprogress.html
+[photo-swipe]: https://ecosystem.vuejs.press/plugins/features/photo-swipe.html
+[prismjs]: https://ecosystem.vuejs.press/plugins/markdown/prismjs.html
+[pwa]: https://ecosystem.vuejs.press/plugins/pwa/pwa/
+[reading-time]: https://ecosystem.vuejs.press/plugins/development/reading-time.html
+[redirect]: https://ecosystem.vuejs.press/plugins/tools/redirect.html
+[rtl]: https://ecosystem.vuejs.press/plugins/development/rtl.html
+[sass-palette]: https://ecosystem.vuejs.press/plugins/development/sass-palette/
+[search]: https://ecosystem.vuejs.press/plugins/search/search.html
+[seo]: https://ecosystem.vuejs.press/plugins/seo/seo/
+[shiki]: https://ecosystem.vuejs.press/plugins/markdown/shiki.html
+[sitemap]: https://ecosystem.vuejs.press/plugins/seo/sitemap/
+[slimsearch]: https://ecosystem.vuejs.press/plugins/search/slimsearch.html
+[theme-data]: https://ecosystem.vuejs.press/plugins/development/theme-data.html
+[watermark]: https://ecosystem.vuejs.press/plugins/features/watermark.html

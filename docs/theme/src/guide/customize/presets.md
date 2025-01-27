@@ -29,7 +29,7 @@ Components:
 
 Usage:
 
-Override `@theme-hope/modules/blog/components/BlogHero` and import the above component into the `heroBg` slot of the original `BlogHero`.
+Override `@theme-hope/modules/blog/components/BlogHero` and import the above component into the `bg` slot of the original `BlogHero`.
 
 ::: details Code Example
 
@@ -60,7 +60,7 @@ import BingHeroBackground from "vuepress-theme-hope/presets/BingHeroBackground.j
 
 <template>
   <BlogHero>
-    <template #heroBg>
+    <template #bg>
       <BingHeroBackground />
     </template>
   </BlogHero>
@@ -79,7 +79,7 @@ Components:
 
 Usage:
 
-Override `@theme-hope/modules/blog/components/BlogHero`, import the above component into the `heroInfo` slot of the original `BlogHero`, and pass in the slot properties as they are.
+Override `@theme-hope/modules/blog/components/BlogHero`, import the above component into the `info` slot of the original `BlogHero`, and pass in the slot properties as they are.
 
 ::: details Code Example
 
@@ -110,8 +110,8 @@ import HitokotoBlogHero from "vuepress-theme-hope/presets/HitokotoBlogHero.js";
 
 <template>
   <BlogHero>
-    <template #heroInfo="heroInfo">
-      <HitokotoBlogHero v-bind="heroInfo" />
+    <template #info="info">
+      <HitokotoBlogHero v-bind="info" />
     </template>
   </BlogHero>
 </template>
@@ -120,6 +120,51 @@ import HitokotoBlogHero from "vuepress-theme-hope/presets/HitokotoBlogHero.js";
 :::
 
 ## Composable Related
+
+### Transparent Navbar
+
+Make navbar transparent in certain pages while at page top.
+
+```ts
+const setupTransparentNavbar: (options?: {
+  /**
+   * @default 'blog-homepage'
+   */
+  type?: "homepage" | "blog-homepage" | "all";
+
+  /**
+   * Transparent threshold
+   *
+   * @default 50
+   */
+  threshold?: number;
+
+  /**
+   * Text color in lightmode
+   */
+  light?: string;
+
+  /**
+   * Text color in darkmode
+   */
+  dark?: string;
+}) => void;
+```
+
+::: details Code Example
+
+```ts title=".vuepress/client.ts"
+import { defineClientConfig } from "vuepress/client";
+import { setupTransparentNavbar } from "vuepress-theme-hope/presets/transparentNavbar.js";
+
+export default defineClientConfig({
+  setup: () => {
+    setupTransparentNavbar({ type: "homepage" });
+  },
+});
+```
+
+:::
 
 ### Running time
 
@@ -170,6 +215,170 @@ export default defineClientConfig({
 
 :::
 
+### Snowfall
+
+Add snowfall effect to the site.
+
+```ts
+const setupSnowFall: (options: {
+  /**
+   * Image of snowflake
+   */
+  image?: string;
+
+  /**
+   * Count of snowflakes
+   *
+   * @default 25
+   */
+  count?: number;
+
+  /**
+   * Min size of snowflake in pixels
+   *
+   * @default 5
+   */
+  minSize?: number;
+
+  /**
+   * Max size of snowflake in pixels
+   *
+   * @default 10
+   */
+  maxSize?: number;
+
+  /**
+   * Speed of snowflake
+   *
+   * @default 1
+   */
+  speed?: number;
+}) => void;
+```
+
+::: details Code Example
+
+```ts title=".vuepress/client.ts"
+import { defineClientConfig } from "vuepress/client";
+import { setupSnowFall } from "vuepress-theme-hope/presets/setupSnowFall.js";
+
+export default defineClientConfig({
+  setup() {
+    setupSnowFall();
+  },
+});
+```
+
+:::
+
+## Config Related
+
+### Custom Blog Types
+
+- Recent Updated:
+
+  ```ts
+  // vuepress-theme-hope/presets/getRecentUpdatedArticles.js
+  export interface RecentUpdateArticlesOptions {
+    /**
+     * Path of this blog type
+     *
+     * @default "/recent-updated/"
+     */
+    path?: string;
+
+    /**
+     * Locale text for the blog type
+     *
+     * @example {
+     *  '/': 'Recent Updated',
+     *  '/zh/': '最近更新',
+     * }
+     */
+    locales?: Record<string, string>;
+  }
+
+  export const getRecentUpdatedArticles: (
+    options: RecentUpdateArticlesOptions,
+  ) => BlogTypeOptions;
+  ```
+
+  ::: details Code Example
+
+  ```ts
+  import { getRecentUpdatedArticles } from "vuepress-theme-hope/presets/getSlides.js";
+
+  export default {
+    theme: hopeTheme({
+      plugins: {
+        blog: {
+          type: [
+            getRecentUpdatedArticles({
+              locales: {
+                "/": "Recent Updated",
+                "/zh/": "最近更新",
+              },
+            }),
+          ],
+        },
+      },
+    }),
+  };
+  ```
+
+  :::
+
+- Slides:
+
+  ```ts
+  // vuepress-theme-hope/presets/getSlides.js
+  export interface SlidesOptions {
+    /**
+     * Path of this blog type
+     *
+     * @default "/slides/"
+     */
+    path?: string;
+
+    /**
+     * Locales for the blog type
+     *
+     * @example {
+     *  '/': 'Slides',
+     *  '/zh/': '幻灯片',
+     * }
+     */
+    locales?: Record<string, string>;
+  }
+
+  export const getSlides = (options: SlidesOptions) => BlogTypeOptions;
+  ```
+
+  ::: details Code Example
+
+  ```ts
+  import { getSlides } from "vuepress-theme-hope/presets/getSlides.js";
+
+  export default {
+    theme: hopeTheme({
+      plugins: {
+        blog: {
+          type: [
+            getSlides({
+              locales: {
+                "/": "Slides",
+                "/zh/": "幻灯片",
+              },
+            }),
+          ],
+        },
+      },
+    }),
+  };
+  ```
+
+  :::
+
 ## Style Related
 
 You can create a [client config file](../../cookbook/vuepress/config.md#client-config-file) and import the following files through the `import` statement.
@@ -181,10 +390,15 @@ You can create a [client config file](../../cookbook/vuepress/config.md#client-c
 ### Blog
 
 - `"vuepress-theme-hope/presets/left-blog-info.scss"`: Move the blogger information to the left of the article list.
+- `"vuepress-theme-hope/presets/round-blogger-avatar.scss"`: Clip blogger avatar to round shape
+- `"vuepress-theme-hope/presets/squircle-blogger-avatar.scss"`: Clip blogger avatar to a squircle
 
 ### Others
 
 - `"vuepress-theme-hope/presets/bounce-icon.scss"`: Add a mouseover bounce effect to the page icon.
+- `"vuepress-theme-hope/presets/hide-navbar-icon.scss"`: Hide navbar icon.
+- `"vuepress-theme-hope/presets/hide-sidebar-icon.scss"`: Hide sidebar icon.
+- `"vuepress-theme-hope/presets/hr-driving-car.scss"`: Add a driving car to all hr elements
 
 ## More
 

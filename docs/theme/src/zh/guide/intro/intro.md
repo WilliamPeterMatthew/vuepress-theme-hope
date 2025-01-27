@@ -52,19 +52,19 @@ VuePress 在一定程度上扩展了 Markdown 语法，但仍然缺少一些常�
 
 主题为 Markdown 提供了大量的扩展语法支持，让你在正文插入更多的内容。
 
-- 如果你是一名文学爱好者想放置一些随笔，主题提供了 [自定义对齐](../markdown/align.md) 与 [脚注](../markdown/footnote.md)。
+- 如果你是一名文学爱好者想放置一些随笔，主题提供了 [自定义对齐](../markdown/stylize/align.md) 与 [脚注](../markdown/content/footnote.md)。
 
-- 我们对 [图片进行了一些内置增强](../markdown/image.md)。
+- 我们对 [图片进行了一些内置增强](../markdown/grammar/image.md)。
 
-- 如果你希望存放一些知识笔记，主题提供了 [自定义容器](../markdown/hint.md)、[标记](../markdown/mark.md)、[任务列表](../markdown/tasklist.md) 与 [公式](../markdown/tex.md) 支持。
+- 如果你希望存放一些知识笔记，主题提供了 [自定义容器](../markdown/stylize/hint.md)、[标记](../markdown/stylize/mark.md)、[任务列表](../markdown/grammar/tasklist.md)、[思维导图](../markdown/chart/markmap.md) 与 [数学公式](../markdown/grammar/math.md) 支持。
 
-- 如果你是一名程序员需要大量展示代码与 demo，本主题为代码块提供了浅色与深色两种主题，[代码组](../markdown/code-tabs.md) 与 ["一键复制" 按钮](../feature/copy-code.md)。同时我们还提供 [代码演示](../markdown/demo.md)，[Playground](../markdown/playground.md) [Kotlin Playground](../markdown/kotlin-playground.md) 和 [Vue Playground](../markdown/vue-playground.md) 功能，方便你展示自己的 Vue、React 组件或者其他 demo。
+- 如果你是一名程序员需要大量展示代码与 demo，本主题为代码块提供了[多种主题](../markdown/code/fence.md#代码主题)，[代码组](../markdown/code/code-tabs.md) 与 [代码块复制按钮](../markdown/code/fence.md#复制按钮)。同时我们还提供 [代码演示](../markdown/code/demo.md)，[Playground](../markdown/code/playground.md) [Kotlin Playground](../markdown/code/kotlin-playground.md) 和 [Vue Playground](../markdown/code/vue-playground.md) 功能，方便你展示自己的 Vue、React 组件或者其他 demo。
 
-- 如果你需要提供产品文档与展示，主题提供了 [选项卡](../markdown/tabs.md)、[幻灯片](../markdown/revealjs.md)、[图表](../markdown/chartjs.md)、[echarts](../markdown/echarts.md)、[流程图](../markdown/flowchart.md) 与 [Mermaid 图表](../markdown/mermaid.md) 功能。
+- 如果你需要提供产品文档与展示，主题提供了 [选项卡](../markdown/content/tabs.md)、[幻灯片](../markdown/content/revealjs.md)、[图表](../markdown/chart/chartjs.md)、[echarts](../markdown/chart/echarts.md)、[流程图](../markdown/chart/flowchart.md)、 [Mermaid 图表](../markdown/chart/mermaid.md) 与 [Plant UML](../markdown/chart/plantuml.md) 功能。
 
-- 为了重新组织您的内容，主题提供了[文件包含](../markdown/include.md)功能。
+- 为了重新组织你的内容，主题提供了[文件包含](../markdown/content/include.md)功能。
 
-- 为了设置内容的样式，主题提供了[下标和上标](../markdown/sup-sub.md)、[属性设置](../markdown/attrs.md)和 [样式化](../markdown/stylize. md) 功能，并为您提供了很多[有用的组件](../component/built-in.md)。
+- 为了设置内容的样式，主题提供了[下标和上标](../markdown/stylize/sup-sub.md)、[属性设置](../markdown/stylize/attrs.md)和 [样式化](../markdown/stylize/stylize.md) 功能，并为你提供了很多[有用的组件](../component/built-in.md)。
 
 总之，任何人都可以享受 Markdown 增强语法带来的便利。
 
@@ -74,13 +74,11 @@ VuePress 在一定程度上扩展了 Markdown 语法，但仍然缺少一些常�
 
 - [图标支持](../interface/icon.md)
 
-- [自定义代码块主题](../interface/code-theme.md)
-
-- [主题颜色](../interface/theme-color.md): 允许您在浏览过程中动态切换
+- [主题颜色](../interface/theme-color.md): 允许你在浏览过程中动态切换
 
 - 更多:
 
-  [全屏按钮](../interface/others.md#全屏按钮)、[返回顶部按钮](../interface/others.md#返回顶部按钮)、[打印按钮](../interface/others.md#打印按钮)、[无障碍完整支持](../interface/accessibility.md) 和 [RTL 布局](../interface/others.md#rtl-布局)。
+  [全屏按钮](../interface/others.md#全屏按钮)、[返回顶部按钮](../interface/others.md#返回顶部按钮)、[打印按钮](../interface/others.md#打印按钮)、[无障碍完整支持](../interface/others.md#完整无障碍支持) 和 [RTL 布局](../interface/others.md#rtl-布局)。
 
 ### 布局改进
 
@@ -94,11 +92,13 @@ VuePress 在一定程度上扩展了 Markdown 语法，但仍然缺少一些常�
   - 支持图标和路径前缀。
   - 从 [页面标题](../layout/sidebar.md#通过标题自动生成) 和 [文件结构](../layout/sidebar.md#通过文件结构自动生成) 自动生成。
 
-- [全新主页外观，支持特性与亮点](../layout/home.md)
+- [全新主页，支持特性与亮点](../layout/home.md)
+
+- [档案主页](../layout/portfolio.md)
 
 - 更多:
 
-  增加 [路径导航](../layout/breadcrumb.md), [页面标题](../layout/page#标题列表) 与 [页脚](../layout/footer.md) 支持。
+  增加 [路径导航](../layout/page.md#路径导航), [页面标题](../layout/page#标题列表) 与 [页脚](../layout/footer.md) 支持。
 
 ### 页面元数据
 
@@ -123,11 +123,14 @@ VuePress 在一定程度上扩展了 Markdown 语法，但仍然缺少一些常�
 - 搜索功能
 
   - [基于 docsearch 的爬虫搜索支持](../feature/search.md#使用-vuepressplugin-docsearch)
-  - [基于 slimsearch 的强大客户端搜索支持](../feature/search.md#使用-vuepress-plugin-search-pro)。
+  - [基于 slimsearch 的强大客户端搜索支持](../feature/search.md#使用-vuepressplugin-slimsearch)。
 
 - [页面加密](../feature/encrypt.md) 功能来限制访问。
 
-- 复制时 [附加版权信息](../feature/copyright.md)，或直接禁用页面复制和选择
+- 版权
+
+  - 复制时 [附加版权信息](../feature/copyright.md)，或直接禁用页面复制和选择
+  - 为站点 [添加水印](../feature/watermark.md)
 
 - 搜索引擎优化
 
@@ -153,22 +156,14 @@ VuePress 在一定程度上扩展了 Markdown 语法，但仍然缺少一些常�
 
 本主题包含了以下内建插件，如果有需要，你也可以单独进行使用或搭配其他主题。
 
-- <ProjectLink name="comment2" path="/zh/">vuepress-plugin-comment2</ProjectLink>: 评论与浏览量功能
-
 - <ProjectLink name="components" path="/zh/">vuepress-plugin-components</ProjectLink>: 提供一些开箱即用的插件
 
 - <ProjectLink name="md-enhance" path="/zh/">vuepress-plugin-md-enhance</ProjectLink>: 提供更多 Markdown 语法
-
-- <ProjectLink name="sass-palette" path="/zh/">vuepress-plugin-sass-palette</ProjectLink>: 面向全部插件和主题的 Sass 配置插件
 
 ::: tip
 
 这里还有一些其他没有被主题捆绑的插件，你可以根据自己的需求自行启用。
 
-- <ProjectLink name="append-date" path="/zh/">vuepress-plugin-append-date</ProjectLink>: 向 Frontmatter 添加时间
-
 - <ProjectLink name="lightgallery" path="/zh/">vuepress-plugin-lightgallery</ProjectLink>: 基于 lightgallery 图片浏览插件
-
-- <ProjectLink name="search-pro" path="/zh/">vuepress-plugin-search-pro</ProjectLink>: 客户端搜索插件
 
 :::

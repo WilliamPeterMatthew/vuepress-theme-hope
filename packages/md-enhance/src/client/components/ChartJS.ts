@@ -1,4 +1,4 @@
-import { decodeData } from "@vuepress/helper/client";
+import { LoadingIcon, decodeData, wait } from "@vuepress/helper/client";
 import { useMutationObserver } from "@vueuse/core";
 import type { Chart, ChartConfiguration } from "chart.js";
 import type { PropType, VNode } from "vue";
@@ -7,15 +7,15 @@ import {
   defineComponent,
   h,
   onMounted,
+  onUnmounted,
   ref,
   shallowRef,
   watch,
 } from "vue";
-import { LoadingIcon } from "vuepress-shared/client";
 
 import { getDarkmodeStatus } from "../utils/index.js";
 
-import "../styles/chart.scss";
+import "../styles/chartjs.scss";
 
 declare const MARKDOWN_ENHANCE_DELAY: number;
 
@@ -23,7 +23,7 @@ const parseChartConfig = (
   config: string,
   type: "js" | "json",
 ): ChartConfiguration => {
-  if (type === "json") return <ChartConfiguration>JSON.parse(config);
+  if (type === "json") return JSON.parse(config) as ChartConfiguration;
 
   // eslint-disable-next-line @typescript-eslint/no-implied-eval
   const runner = new Function(
@@ -35,9 +35,9 @@ __chart_js_config__=config;
 }
 return __chart_js_config__;\
 `,
-  );
+  ) as () => ChartConfiguration;
 
-  return <ChartConfiguration>runner();
+  return runner();
 };
 
 export default defineComponent({
@@ -96,28 +96,26 @@ export default defineComponent({
 
     let loaded = false;
 
-    let chart: Chart | null;
+    let chartjs: Chart | null;
 
     const renderChart = async (isDarkmode: boolean): Promise<void> => {
-      const [{ default: Chart }] = await Promise.all([
+      const [{ default: ChartJs }] = await Promise.all([
         import(/* webpackChunkName: "chart" */ "chart.js/auto"),
         loaded
           ? Promise.resolve()
-          : ((loaded = true),
-            new Promise((resolve) =>
-              setTimeout(resolve, MARKDOWN_ENHANCE_DELAY),
-            )),
+          : ((loaded = true), wait(MARKDOWN_ENHANCE_DELAY)),
       ]);
 
-      Chart.defaults.borderColor = isDarkmode ? "#ccc" : "#36A2EB";
-      Chart.defaults.color = isDarkmode ? "#fff" : "#000";
-      Chart.defaults.maintainAspectRatio = false;
+      ChartJs.defaults.borderColor = isDarkmode ? "#ccc" : "#36A2EB";
+      ChartJs.defaults.color = isDarkmode ? "#fff" : "#000";
+      ChartJs.defaults.maintainAspectRatio = false;
 
       const data = parseChartConfig(config.value, props.type);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const ctx = chartCanvasElement.value!.getContext("2d")!;
 
-      chart?.destroy();
-      chart = new Chart(ctx, data);
+      chartjs?.destroy();
+      chartjs = new ChartJs(ctx, data);
 
       loading.value = false;
     };
@@ -138,6 +136,11 @@ export default defineComponent({
       );
 
       watch(isDarkmode, (value) => renderChart(value), { immediate: true });
+    });
+
+    onUnmounted(() => {
+      chartjs?.destroy();
+      chartjs = null;
     });
 
     return (): (VNode | null)[] => [

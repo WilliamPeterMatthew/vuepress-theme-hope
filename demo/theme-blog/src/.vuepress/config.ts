@@ -1,10 +1,10 @@
-import { defineUserConfig } from "vuepress/cli";
+import { defineUserConfig } from "vuepress";
 import { getDirname, path } from "vuepress/utils";
 
 import theme from "./theme.js";
 
 const __dirname = getDirname(import.meta.url);
-const base = <"/" | `/${string}/`>process.env["BASE"] || "/";
+const base = (process.env.BASE as "/" | `/${string}/` | undefined) ?? "/";
 
 export default defineUserConfig({
   base,

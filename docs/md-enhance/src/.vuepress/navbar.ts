@@ -1,15 +1,5 @@
-import { createRequire } from "node:module";
-
 import { navbar } from "docs-shared";
-import { fs } from "vuepress/utils";
-
-const { version } = <{ version: string }>(
-  fs.readJsonSync(
-    createRequire(import.meta.url).resolve(
-      "vuepress-plugin-md-enhance/package.json",
-    ),
-  )
-);
+import pkg from "vuepress-plugin-md-enhance/package.json" with { type: "json" };
 
 export const enNavbar = navbar([
   "/",
@@ -17,28 +7,14 @@ export const enNavbar = navbar([
     text: "Guide",
     prefix: "/guide/",
     icon: "lightbulb",
-    children: [
-      "",
-      "grammar/",
-      "content/",
-      "stylize/",
-      "chart/",
-      "code/",
-      "others",
-    ],
+    children: ["", "chart/", "code/"],
   },
   "/config",
   "/demo",
   {
-    text: version,
+    text: pkg.version,
     icon: "bookmark",
-    children: [
-      "/migration",
-      {
-        text: "V1 Docs",
-        link: "https://vuepress-theme-hope.github.io/v1/md-enhance/",
-      },
-    ],
+    link: "",
   },
 ]);
 
@@ -48,27 +24,13 @@ export const zhNavbar = navbar([
     text: "指南",
     prefix: "/zh/guide/",
     icon: "lightbulb",
-    children: [
-      "",
-      "grammar/",
-      "content/",
-      "stylize/",
-      "chart/",
-      "code/",
-      "others",
-    ],
+    children: ["", "chart/", "code/"],
   },
   "/zh/config",
   "/zh/demo",
   {
-    text: version,
+    text: pkg.version,
     icon: "bookmark",
-    children: [
-      "/zh/migration",
-      {
-        text: "V1 文档",
-        link: "https://vuepress-theme-hope.github.io/v1/md-enhance/zh/",
-      },
-    ],
+    link: "",
   },
 ]);

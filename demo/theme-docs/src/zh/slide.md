@@ -1,7 +1,7 @@
 ---
 title: 幻灯片页
 icon: person-chalkboard
-layout: Slide
+layout: SlidePage
 ---
 
 <!-- markdownlint-disable MD024 MD051 -->
@@ -327,7 +327,7 @@ $$
 
 <!-- .element: class="r-fit-text" -->
 
-Transition 可以通过reveal.js 中的 `transition` 选项全局设置，也可以通过在特定幻灯片添加 `data-transition` 属性局部设置.
+Transition 可以通过 reveal.js 中的 `transition` 选项全局设置，也可以通过在特定幻灯片添加 `data-transition` 属性局部设置.
 
 可能的值:
 

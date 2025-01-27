@@ -5,13 +5,14 @@ import { RouteLink, useSiteLocaleData, withBase } from "vuepress/client";
 import { getAuthor } from "vuepress-shared/client";
 
 import { useNavigate, useThemeLocaleData } from "@theme-hope/composables/index";
-import SocialMedia from "@theme-hope/modules/blog/components/SocialMedia";
+import SocialMedias from "@theme-hope/modules/blog/components/SocialMedias";
 import {
   useArticles,
+  useBlogLocaleData,
   useBlogOptions,
   useCategoryMap,
   useTagMap,
-  useTimelines,
+  useTimeline,
 } from "@theme-hope/modules/blog/composables/index";
 
 import "../styles/blogger-info.scss";
@@ -20,32 +21,32 @@ export default defineComponent({
   name: "BloggerInfo",
 
   setup() {
+    const blogLocale = useBlogLocaleData();
     const blogOptions = useBlogOptions();
     const siteLocale = useSiteLocaleData();
     const themeLocale = useThemeLocaleData();
     const articles = useArticles();
     const categoryMap = useCategoryMap();
     const tagMap = useTagMap();
-    const timelines = useTimelines();
+    const timelines = useTimeline();
     const navigate = useNavigate();
 
     const bloggerName = computed(
       () =>
-        blogOptions.value.name ||
-        getAuthor(themeLocale.value.author)[0]?.name ||
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        blogOptions.value.name ??
+        getAuthor(themeLocale.value.author)[0]?.name ??
         siteLocale.value.title,
     );
 
     const bloggerAvatar = computed(
-      () => blogOptions.value.avatar || themeLocale.value.logo,
+      () => blogOptions.value.avatar ?? themeLocale.value.logo,
     );
-
-    const locale = computed(() => themeLocale.value.blogLocales);
 
     const intro = computed(() => blogOptions.value.intro);
 
     return (): VNode => {
-      const { article, category, tag, timeline } = locale.value;
+      const { article, category, tag, timeline } = blogLocale.value;
       const countItems: [string, number, string][] = [
         [articles.value.path, articles.value.items.length, article],
         [categoryMap.value.path, keys(categoryMap.value.map).length, category],
@@ -67,21 +68,20 @@ export default defineComponent({
               class: "vp-blogger",
               ...(intro.value
                 ? {
-                    style: { cursor: "pointer" },
-                    "aria-label": locale.value.intro,
+                    "aria-label": blogLocale.value.intro,
                     "data-balloon-pos": "down",
                     role: "link",
-                    onClick: () => navigate(intro.value!),
+                    onClick: (): void => {
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                      navigate(intro.value!);
+                    },
                   }
                 : {}),
             },
             [
               bloggerAvatar.value
                 ? h("img", {
-                    class: [
-                      "vp-blogger-avatar",
-                      { round: blogOptions.value.roundAvatar },
-                    ],
+                    class: "vp-blogger-avatar",
                     src: withBase(bloggerAvatar.value),
                     property: "image",
                     alt: "Blogger Avatar",
@@ -116,7 +116,7 @@ export default defineComponent({
               ]),
             ),
           ),
-          h(SocialMedia),
+          h(SocialMedias),
         ],
       );
     };

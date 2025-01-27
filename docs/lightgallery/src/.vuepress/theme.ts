@@ -16,12 +16,12 @@ export default theme("lightgallery", {
     },
   },
 
-  plugins: {
-    mdEnhance: {
-      codetabs: true,
-      imgMark: true,
-    },
+  markdown: {
+    codeTabs: true,
+    imgMark: true,
+  },
 
+  plugins: {
     photoSwipe: false,
   },
 });

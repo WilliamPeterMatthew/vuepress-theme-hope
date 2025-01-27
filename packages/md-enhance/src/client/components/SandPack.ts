@@ -1,7 +1,10 @@
-import { deepAssign } from "@vuepress/helper/client";
+import { decodeData, deepAssign } from "@vuepress/helper/client";
 import { useMutationObserver } from "@vueuse/core";
 import type {
+  SandpackFiles,
+  SandpackOptions,
   SandpackPredefinedTemplate,
+  SandpackSetup,
   SandpackThemeProp,
 } from "sandpack-vue3";
 import { Sandpack } from "sandpack-vue3";
@@ -9,14 +12,18 @@ import type { PropType, VNode } from "vue";
 import { computed, defineComponent, h, onMounted, ref } from "vue";
 
 import { useSandpackConfig } from "../helpers/index.js";
-import {
-  getDarkmodeStatus,
-  getSandpackCustomSetup,
-  getSandpackFiles,
-  getSandpackOptions,
-} from "../utils/index.js";
+import { getDarkmodeStatus } from "../utils/index.js";
 
 import "../styles/sandpack.scss";
+
+const getSandpackFiles = (files: string): SandpackFiles =>
+  JSON.parse(decodeData(files)) as SandpackFiles;
+
+const getSandpackOptions = (options: string): SandpackOptions =>
+  JSON.parse(decodeData(options)) as SandpackOptions;
+
+const getSandpackCustomSetup = (customSetup: string): SandpackSetup =>
+  JSON.parse(decodeData(customSetup)) as SandpackSetup;
 
 export default defineComponent({
   name: "SandPack",
@@ -89,8 +96,10 @@ export default defineComponent({
     const options = computed(() =>
       deepAssign({}, sandpackConfig.options, getSandpackOptions(props.options)),
     );
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const template = computed(() => props.template || sandpackConfig.template);
     const theme = computed(() =>
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       props.theme || isDarkmode.value ? "dark" : "light",
     );
     const customSetup = computed(() =>
@@ -118,9 +127,17 @@ export default defineComponent({
     });
 
     return (): (VNode | null)[] => [
-      h("div", { class: "sandpack-wrapper" }, [
+      h("div", { class: "vp-container sandpack-wrapper" }, [
         props.title
-          ? h("div", { class: "header" }, decodeURIComponent(props.title))
+          ? h(
+              "div",
+              { class: "vp-container-header" },
+              h(
+                "div",
+                { class: "vp-container-title" },
+                decodeURIComponent(props.title),
+              ),
+            )
           : null,
         h(
           "div",

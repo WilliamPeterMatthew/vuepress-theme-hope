@@ -3,15 +3,15 @@ import { computed, defineComponent, h } from "vue";
 import type { PageHeader } from "vuepress/client";
 import { RouteLink } from "vuepress/client";
 
-import DropTransition from "@theme-hope/components/transitions/DropTransition";
+import { DropTransition } from "@theme-hope/components/transitions/index";
 import { useThemeLocaleData } from "@theme-hope/composables/index";
 import {
   useBlogOptions,
-  useTimelines,
+  useTimeline,
 } from "@theme-hope/modules/blog/composables/index";
 import TOC from "@theme-hope/modules/info/components/TOC";
 
-import { ArticleInfoType } from "../../../../shared/index.js";
+import { PageInfo } from "../../../../shared/index.js";
 
 import "../styles/timeline-items.scss";
 
@@ -21,11 +21,11 @@ export default defineComponent({
   setup() {
     const blogOptions = useBlogOptions();
     const themeLocale = useThemeLocaleData();
-    const timelines = useTimelines();
+    const timelines = useTimeline();
 
     const hint = computed(
       () =>
-        blogOptions.value.timeline ||
+        blogOptions.value.timeline ??
         themeLocale.value.blogLocales.timelineTitle,
     );
 
@@ -68,7 +68,7 @@ export default defineComponent({
                             class: "timeline-title",
                             to: path,
                           },
-                          () => info[ArticleInfoType.title],
+                          () => info[PageInfo.title],
                         ),
                       ]),
                     ),

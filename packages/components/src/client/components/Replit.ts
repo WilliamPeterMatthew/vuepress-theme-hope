@@ -1,7 +1,7 @@
 /* eslint-disable vue/no-unused-properties */
+import { LoadingIcon } from "@vuepress/helper/client";
 import type { VNode } from "vue";
 import { computed, defineComponent, h, ref } from "vue";
-import { LoadingIcon } from "vuepress-shared/client";
 
 import { useSize } from "../composables/index.js";
 
@@ -73,14 +73,11 @@ export default defineComponent({
     },
 
     /**
-     * Replit theme
+     * Whether to enable dark mode
      *
-     * Replit 主题
+     * 是否启用暗黑模式
      */
-    theme: {
-      type: String,
-      default: "light",
-    },
+    darkmode: Boolean,
 
     /**
      * The default file to open in the editor
@@ -89,7 +86,7 @@ export default defineComponent({
      */
     file: {
       type: String,
-      default: () => null,
+      default: "",
     },
 
     /**
@@ -97,7 +94,7 @@ export default defineComponent({
      *
      * 加载状态
      */
-    autoLoad: Boolean,
+    clickToLoad: Boolean,
 
     /**
      * Load button text
@@ -116,18 +113,22 @@ export default defineComponent({
     const shouldLoad = ref(false);
     const loaded = ref(false);
 
+    /**
+     * @see https://docs.replit.com/hosting/embedding-repls#how-to-embed-a-repl
+     */
     const replLink = computed(() => {
       if (props.link) {
         const url = new URL(props.link);
 
         url.searchParams.set("embed", "true");
+        url.searchParams.set("theme", props.darkmode ? "dark" : "light");
 
         return url.toString();
       }
 
       return props.user && props.repl
-        ? `https://replit.com/@${props.user}/${props.repl}${
-            props.file?.length ? `#${props.file}` : ""
+        ? `https://replit.com/@${props.user}/${props.repl}?embed=true&theme=${props.darkmode ? "dark" : "light"}${
+            props.file ? `#${props.file}` : ""
           }`
         : null;
     });
@@ -137,8 +138,19 @@ export default defineComponent({
         ? h(
             "div",
             { class: "replit-wrapper" },
-            props.autoLoad || shouldLoad.value
-              ? [
+            props.clickToLoad && !shouldLoad.value
+              ? h(
+                  "button",
+                  {
+                    type: "button",
+                    class: "replit-button",
+                    onClick: () => {
+                      shouldLoad.value = true;
+                    },
+                  },
+                  props.text,
+                )
+              : [
                   h("iframe", {
                     ref: el,
                     class: "replit-iframe",
@@ -153,18 +165,7 @@ export default defineComponent({
                     },
                   }),
                   loaded.value ? null : h(LoadingIcon),
-                ]
-              : h(
-                  "button",
-                  {
-                    type: "button",
-                    class: "replit-button",
-                    onClick: () => {
-                      shouldLoad.value = true;
-                    },
-                  },
-                  props.text,
-                ),
+                ],
           )
         : null;
   },

@@ -13,20 +13,19 @@ tag:
 
 可用组件:
 
-- ArtPlayer
-- Badge
-- BiliBili
-- CodePen
-- FontIcon
-- PDF
-- Replit
-- Share
-- StackBlitz
-- SiteInfo
-- VPBanner
-- VPCard
-- VidStack
-- XiGua
+- ArtPlayer: 由 ArtPlayer 驱动的视频播放器。
+- Badge: 多彩的徽章组件
+- BiliBili: 嵌入 BiliBili 视频
+- CodePen: 嵌入 CodePen 演示
+- FontIcon: 字体图标组件。
+- PDF: 嵌入 PDF 查看器
+- Share: 通过社交媒体分享当前页面
+- StackBlitz: 嵌入 StackBlitz 演示
+- SiteInfo: 显示站点
+- VPBanner: 一个横幅组件
+- VPCard: 一个卡片组件
+- VidStack: 由 VidStack 驱动的音频/视频播放器
+- XiGua: 嵌入 XiGua 视频
 
 为了启用组件，你需要将 `plugins.components.components` 设置为一个组件名的数组。
 
@@ -34,49 +33,13 @@ tag:
 
 ::: note
 
-`<Badge />` 默认可用的，以便与 `@vuepress/theme-default` 行为一直。
+`<Badge />` 是默认可用的，以便与 `@vuepress/theme-default` 行为一致。
 
 `<FontIcon />` 总会被启用，因为它被主题内部用于提供 [图标功能](../interface/icon.md)。
 
 :::
 
-::: code-tabs#language
-
-@tab TS
-
-```ts {8-10} title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-export default defineUserConfig({
-  theme: hopeTheme({
-    plugins: {
-      components: {
-        // 你想使用的组件
-        components: [
-          "ArtPlayer",
-          "Badge",
-          "BiliBili",
-          "CodePen",
-          "PDF",
-          "Replit",
-          "Share",
-          "SiteInfo",
-          "StackBlitz",
-          "VPBanner",
-          "VPCard",
-          "VidStack",
-          "XiGua",
-        ],
-      },
-    },
-  }),
-});
-```
-
-@tab JS
-
-```js {7-9} title=".vuepress/config.js"
+```js {8-22} title=".vuepress/config.js"
 import { hopeTheme } from "vuepress-theme-hope";
 
 export default {
@@ -90,7 +53,6 @@ export default {
           "BiliBili",
           "CodePen",
           "PDF",
-          "Replit",
           "Share",
           "SiteInfo",
           "StackBlitz",
@@ -105,8 +67,6 @@ export default {
 };
 ```
 
-:::
-
 ## 杂项
 
 ### Badge
@@ -118,6 +78,7 @@ export default {
 - <Badge text="tip" type="tip" vertical="middle" />
 - <Badge text="warning" type="warning" vertical="middle" />
 - <Badge text="danger" type="danger" vertical="middle" />
+- <Badge text="important" type="important" vertical="middle" />
 - <Badge text="info" type="info" vertical="middle" />
 - <Badge text="note" type="note" vertical="middle" />
 
@@ -147,9 +108,9 @@ export default {
 
 ## 媒体
 
-## VidStack
+### VidStack
 
-> 先安装 `vidstack@1` 。
+> 先安装 `vidstack@next` 。
 
 <!-- @include: @components/zh/guide/media/vid-stack.md#demo -->
 
@@ -188,12 +149,6 @@ PDF 浏览器组件。
 <!-- @include: @components/zh/guide/code/code-pen.md#demo -->
 
 有关可用属性，请参阅 <ProjectLink name="components" path="/zh/guide/code/code-pen.html">CodePen</ProjectLink> 页面。
-
-### Replit
-
-<!-- @include: @components/zh/guide/code/repl-it.md#demo -->
-
-有关可用属性，请参阅 <ProjectLink name="components" path="/zh/guide/code/repl-it.html">Replit</ProjectLink> 页面。
 
 ### StackBlitz
 

@@ -17,38 +17,6 @@ When setting `{ custom: true }` in [Behavior options](../../config/theme/behavio
 
 You need to replace the component alias used in the theme with `alias` option in your own VuePress config file.
 
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/config.ts"
-import { getDirname, path } from "vuepress/utils";
-import { defineUserConfig } from "vuepress";
-import { hopeTheme } from "vuepress-theme-hope";
-
-const __dirname = getDirname(import.meta.url);
-
-export default defineUserConfig({
-  theme: hopeTheme(
-    {
-      // your theme config here
-    },
-    { custom: true },
-  ),
-
-  alias: {
-    // Here you can redirect aliases to your own components
-    // For example, here we change the theme's home page component to HomePage.vue under user .vuepress/components
-    "@theme-hope/components/HomePage": path.resolve(
-      __dirname,
-      "./components/HomePage.vue",
-    ),
-  },
-});
-```
-
-@tab JS
-
 ```js title=".vuepress/config.js"
 import { getDirname, path } from "vuepress/utils";
 import { hopeTheme } from "vuepress-theme-hope";
@@ -74,8 +42,6 @@ export default {
 };
 ```
 
-:::
-
 Here are list of aliases.
 
 ::: details Theme components alias
@@ -89,18 +55,18 @@ Components:
 - `@theme-hope/components/HeroInfo`: homepage logo and introduction
 - `@theme-hope/components/HighlightPanel`: homepage highlights
 - `@theme-hope/components/HomePage`: home page
-- `@theme-hope/components/HopeIcon`: icon
 - `@theme-hope/components/MarkdownContent`: Markdown content
 - `@theme-hope/components/NormalPage`: normal page
 - `@theme-hope/components/PageFooter`: page footer
 - `@theme-hope/components/PageNav`: page navigation
 - `@theme-hope/components/PageTitle`: page title
+- `@theme-hope/components/PortfolioHero`: portfolio hero
 - `@theme-hope/components/SkipLink`: skip to main content
-- `@theme-hope/components/transitions/DropTransition`: drop transition component
-- `@theme-hope/components/transitions/FadeSlideY`: fade slide y transition component
+- `@theme-hope/components/transitions`: drop transition component
 
 Miscellaneous:
 
+- `@theme-hope/components/transitions/index`: theme transitions
 - `@theme-hope/components/icons/index`: theme icons
 - `@theme-hope/composables/index`: theme Composition API
 - `@theme-hope/utils/index`: theme utility functions
@@ -111,14 +77,14 @@ Miscellaneous:
 
 Components:
 
-- `@theme-hope/modules/navbar/components/DropdownLink`: dropdown list
+- `@theme-hope/modules/navbar/components/NavbarDropdown`: dropdown list
 - `@theme-hope/modules/navbar/components/LanguageDropdown`: language dropdown
 - `@theme-hope/modules/navbar/components/NavActions`: navbar functions
 - `@theme-hope/modules/navbar/components/Navbar`: navbar
 - `@theme-hope/modules/navbar/components/NavbarBrand`: navbar brand information
 - `@theme-hope/modules/navbar/components/NavbarLinks`: navbar links
 - `@theme-hope/modules/navbar/components/NavScreen`: navigation screen in mobile view
-- `@theme-hope/modules/navbar/components/NavScreenDropdown`: mobile view navbar dropdown menu
+- `@theme-hope/modules/navbar/components/NavScreenMenu`: mobile view navbar dropdown menu
 - `@theme-hope/modules/navbar/components/NavScreenLinks`: mobile view navbar links
 - `@theme-hope/modules/navbar/components/RepoLink`: repository link
 - `@theme-hope/modules/navbar/components/ToggleNavbarButton`: navbar toggle button
@@ -165,9 +131,9 @@ Components:
 
 Miscellaneous:
 
-- `@theme-hope/modules/blog/components/icons`: info icons
-- `@theme-hope/modules/blog/composables/index`: info Composables API
-- `@theme-hope/modules/blog/utils/index`: info utility functions
+- `@theme-hope/modules/info/components/icons`: info icons
+- `@theme-hope/modules/info/composables/index`: info Composables API
+- `@theme-hope/modules/info/utils/index`: info utility functions
 
 :::
 
@@ -178,23 +144,26 @@ Components:
 - `@theme-hope/modules/blog/components/ArticleItem`: article item
 - `@theme-hope/modules/blog/components/ArticleList`: article list
 - `@theme-hope/modules/blog/components/ArticleType`: article type
+- `@theme-hope/modules/blog/components/ArticlesInfo`: article info
 - `@theme-hope/modules/blog/components/BloggerInfo`: blogger info
 - `@theme-hope/modules/blog/components/BlogHero`: blog homepage logo and introduction
 - `@theme-hope/modules/blog/components/BlogHome`: blog home page
 - `@theme-hope/modules/blog/components/BlogWrapper`: common wrapper for blog page
 - `@theme-hope/modules/blog/components/CategoryList`: Category list
+- `@theme-hope/modules/blog/components/CategoriesInfo`: Category info
 - `@theme-hope/modules/blog/components/InfoList`: blog info list
 - `@theme-hope/modules/blog/components/InfoPanel`: blog info panel
 - `@theme-hope/modules/blog/components/Pagination`: pagination
 - `@theme-hope/modules/blog/components/ProjectPanel`: blog homepage project panel
-- `@theme-hope/modules/blog/components/SocialMedia`: social media links
+- `@theme-hope/modules/blog/components/SocialMedias`: social media links
 - `@theme-hope/modules/blog/components/TagList`: tag list
+- `@theme-hope/modules/blog/components/TagsInfo`: tag info
 - `@theme-hope/modules/blog/components/TimelineItems`: timeline items
 - `@theme-hope/modules/blog/components/TimelineList`: timeline List
 
 Miscellaneous:
 
-- `@theme-hope/modules/blog/components/icons/index`: blog icons
+- `@theme-hope/modules/blog/components/icons`: blog icons
 - `@theme-hope/modules/blog/composables/index`: blog Composables API
 
 :::
@@ -216,12 +185,13 @@ Miscellaneous:
 
 ::: details Appearance module component alias
 
-- `@theme-hope/modules/outlook/components/AppearanceMode`: theme mode
-- `@theme-hope/modules/outlook/components/AppearanceSwitch`: theme appearance switch
+- `@theme-hope/modules/outlook/components/ColorMode`: theme color mode
+- `@theme-hope/modules/outlook/components/ColorModeSwitch`: theme color mode switch
 - `@theme-hope/modules/outlook/components/OutlookButton`: appearance button
 - `@theme-hope/modules/outlook/components/OutlookSettings`: appearance settings
 - `@theme-hope/modules/outlook/components/ThemeColor`: theme color
 - `@theme-hope/modules/outlook/components/ThemeColorPicker`: theme color picker
+- `@theme-hope/modules/outlook/components/ToggleFullScreen`: fullscreen
 - `@theme-hope/modules/outlook/components/ToggleFullScreenButton`: fullscreen toggle button
 
 Miscellaneous:
@@ -249,12 +219,11 @@ For example, if your site has strong social attributes, and you want to display 
 
 ```ts title=".vuepress/config.ts"
 import { getDirname, path } from "vuepress/utils";
-import { defineUserConfig } from "vuepress";
 import { hopeTheme } from "vuepress-theme-hope";
 
 const __dirname = getDirname(import.meta.url);
 
-export default defineUserConfig({
+export default {
   theme: hopeTheme(
     {
       // your theme config here
@@ -270,7 +239,7 @@ export default defineUserConfig({
       "./components/HomePage.vue",
     ),
   },
-});
+};
 ```
 
 @tab HomePage.vue
@@ -296,12 +265,12 @@ Components that provide slots are as follows:
 **Theme**:
 
 - `AutoLink`: `default`, `before`, `after`
-- `CommonWrapper`: `default`, `navbarStartBefore`, `navbarStartAfter`, `navbarCenterBefore`, `navbarCenterAfter`, `navbarEndBefore`, `navbarEndAfter`, `navScreenTop`, `navScreenBottom`, `sidebar`, `sidebarTop`, `sidebarBottom`
-- `HeroInfo`: `heroImage`, `heroInfo`, `heroBg`
+- `CommonWrapper`: `default`, `navScreenTop`, `navScreenBottom`, `sidebar`, `sidebarTop`, `sidebarBottom`
+- `HeroInfo`: `logo`, `info`, `bg`
 
-  - `heroInfo` slot will receive `text` `tagline` and `isFullScreen` props.
-  - `heroImage` slot will receive `image` `imageDark` `style` `alt` and `isFullScreen` props.
-  - `heroBg` slot will receive `image` `bgStyle` and `isFullScreen` props.
+  - `info` slot will receive `text` `tagline` and `isFullScreen` props.
+  - `logo` slot will receive `image` `imageDark` `style` `alt` and `isFullScreen` props.
+  - `bg` slot will receive `image` `bgStyle` and `isFullScreen` props.
 
 - `HomePage`: `top`, `center`, `bottom`
 - `NormalPage`: `top`, `contentBefore`, `contentAfter`, `bottom`, `tocBefore`, `tocAfter`
@@ -315,19 +284,25 @@ Components that provide slots are as follows:
   - `cover` slot will receive `cover` props.
   - `info` slot will receive `info` props.
 
-- `BlogHero`: `heroBg`, `heroInfo`
+- `BlogHero`: `bg`, `info`
 
-  - `heroInfo` slot will receive `text` `tagline` `image` `imageDark` `style` `alt` and `isFullScreen` props.
-  - `heroBg` slot will receive `image` `bgStyle` and `isFullScreen` props.
+  - `info` slot will receive `text` `tagline` `image` `imageDark` `style` `alt` and `isFullScreen` props.
+  - `bg` slot will receive `image` `bgStyle` and `isFullScreen` props.
+
+- `PortfolioHero`: `avatar` `bg`, `info`
+
+  - `avatar` slot will receive `avatar` `avatarDark` `avatarStyle` and `alt` props.
+  - `info` slot will receive `name` `welcome` `title` `titles` and `links` props.
+  - `bg` slot will receive `image` `imageDark` and `bgStyle` props.
 
 **NavBar**:
 
-- `DropdownLink`: `title`
+- `NavbarDropdown`: `title`
 - `NavActions`: `before`, `after`
 - `Navbar`: `startBefore`, `startAfter`, `centerBefore`, `centerAfter`, `endBefore`, `endAfter`
 - `NavbarBrand`: `default`
 - `NavScreen`: `before`, `after`
-- `NavScreenDropdown`: `before`, `after`
+- `NavScreenMenu`: `before`, `after`
 
 **SideBar**:
 

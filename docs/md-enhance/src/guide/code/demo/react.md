@@ -1,6 +1,6 @@
 ---
 title: React Code Demo
-icon: fab fa-react
+icon: b:react
 ---
 
 ## Syntax
@@ -58,7 +58,8 @@ export default () => {
       <code>vuepress-theme-hope</code> is
       <span id="powerful" onClick={handler}>
         {message}
-      </span>!
+      </span>
+      !
     </div>
   );
 };
@@ -113,7 +114,3 @@ export default class App extends React.Component {
 ::::
 
 <!-- #endregion demo -->
-
-```
-
-```

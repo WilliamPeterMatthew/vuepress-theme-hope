@@ -34,33 +34,17 @@ You need to set up a config object in the config file `.vuepress/config.ts` (or 
 
 To get correct hints, importing `defineUserConfig` from `vuepress` and wrapping the config object is recommended:
 
-::: code-tabs#language
-
-@tab TS
-
-```ts{2,4,6} title=".vuepress/config.ts"
+```ts {2,4,6} title=".vuepress/config.ts"
 import { defineUserConfig } from "vuepress";
 
 export default defineUserConfig({
-   // put your config here
+  // put your config here
 });
 ```
-
-@tab JS
-
-```js{2,4,6} title=".vuepress/config.ts"
-import { defineUserConfig } from "vuepress";
-
-export default defineUserConfig({
-   // put your config here
-});
-```
-
-:::
 
 In the template, in order to avoid the configuration file being too long, we use the ESM feature natively provided by JavaScript to split the theme configuration, navigation bar and sidebar configuration into separate files.
 
-The template extracts theme functions to `.vuepress/theme.js` and exports them via `export default`.
+The template extracts theme functions to `.vuepress/theme.ts` and exports them via `export default`.
 
 `.vuepress/theme.ts`:
 
@@ -69,7 +53,7 @@ import { hopeTheme } from "vuepress-theme-hope";
 
 // We export the theme object by default
 export default hopeTheme({
-  // theme configuration
+  // theme config
 });
 ```
 
@@ -87,7 +71,7 @@ import theme from "./theme.js";
 export default defineUserConfig({
   //...
 
-  // This is equivalent to `theme: hopeTheme({/* your config */})`
+  // This is equivalent to `theme: hopeTheme({/* theme config */})`
   theme,
 
   //...
@@ -149,9 +133,7 @@ If you want to use additional plugins, please import the plugin yourself and pas
 
 ::: info Style Config
 
-VuePress Theme Hope is using `.vuepress/styles` folder to store style config like other themes.
-
-In this folder you can:
+VuePress Theme Hope is using `.vuepress/styles` folder to store style config. In this folder you can:
 
 - Create `index.scss` to inject additional CSS styles
 - Create `config.scss` for styling config

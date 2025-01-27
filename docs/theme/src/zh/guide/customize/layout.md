@@ -55,31 +55,9 @@ $navbar-height = 80px;
 
 ### 通过添加/覆盖布局
 
-您可以通过 [客户端配置文件](../../cookbook/vuepress/config.md#客户端配置文件) 中的“layouts”选项添加新布局或覆盖现有布局。
+你可以通过 [客户端配置文件](../../cookbook/vuepress/config.md#客户端配置文件) 中的“layouts”选项添加新布局或覆盖现有布局。
 
 <!-- #region layout -->
-
-::: code-tabs#language
-
-@tab TS
-
-```ts title=".vuepress/client.ts"
-import { defineClientConfig } from "vuepress/client";
-import Changelog from "./layouts/Changelog.vue";
-import Layout from "./layouts/Layout.vue";
-
-export default defineClientConfig({
-  // 你可以在这里添加或覆盖布局
-  layouts: {
-    // 例如，在这里我们将 vuepress-theme-hope 的默认布局更改为 layouts/Layout.vue
-    Layout,
-    // 我们还添加了一个 Changelog 布局
-    Changelog,
-  },
-});
-```
-
-@tab JS
 
 ```js title=".vuepress/client.js"
 import { defineClientConfig } from "vuepress/client";
@@ -96,8 +74,6 @@ export default defineClientConfig({
   },
 });
 ```
-
-:::
 
 <!-- #endregion layout -->
 
@@ -124,7 +100,7 @@ export default defineClientConfig({
 - Slide: 仅当幻灯片启用时有效
 - BlogCategory: 仅当博客启用时有效
 - BlogHome: 仅当博客启用时有效
-- BlogTyp: 仅当博客启用时有效
+- BlogType: 仅当博客启用时有效
 - Timeline: 仅当博客启用时有效
 
 ### 通过覆盖组件

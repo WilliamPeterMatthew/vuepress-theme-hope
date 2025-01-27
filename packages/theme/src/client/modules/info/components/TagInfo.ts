@@ -1,11 +1,13 @@
 import type { PropType, VNode } from "vue";
 import { defineComponent, h } from "vue";
-import { usePageData, useRouter } from "vuepress/client";
 import { generateIndexFromHash } from "vuepress-shared/client";
 
+import { useNavigate, usePure } from "@theme-hope/composables/index";
 import { TagIcon } from "@theme-hope/modules/info/components/icons";
 import { useMetaLocale } from "@theme-hope/modules/info/composables/index";
 import type { PageTag } from "@theme-hope/modules/info/utils/index";
+
+import cssVariables from "../../../styles/variables.module.scss";
 
 import "../styles/tag-info.scss";
 
@@ -24,26 +26,12 @@ export default defineComponent({
       type: Array as PropType<PageTag[]>,
       default: () => [],
     },
-
-    /**
-     * Whether in pure mode
-     *
-     * 是否处于纯净模式
-     */
-    pure: Boolean,
   },
 
   setup(props) {
-    const router = useRouter();
-    const page = usePageData();
     const metaLocale = useMetaLocale();
-
-    const navigate = (event: Event, path = ""): void => {
-      if (path && page.value.path !== path) {
-        event.preventDefault();
-        void router.push(path);
-      }
-    };
+    const navigate = useNavigate();
+    const isPure = usePure();
 
     return (): VNode | null =>
       props.tag.length
@@ -51,8 +39,8 @@ export default defineComponent({
             "span",
             {
               class: "page-tag-info",
-              "aria-label": `${metaLocale.value.tag}${props.pure ? "" : "🏷"}`,
-              ...(props.pure ? {} : { "data-balloon-pos": "up" }),
+              "aria-label": `${metaLocale.value.tag}${isPure.value ? "" : "🏷"}`,
+              ...(isPure.value ? {} : { "data-balloon-pos": "up" }),
             },
             [
               h(TagIcon),
@@ -64,13 +52,15 @@ export default defineComponent({
                     class: [
                       "page-tag-item",
                       {
-                        // TODO: magic number 9 is tricky here
-                        [`tag${generateIndexFromHash(name, 9)}`]: !props.pure,
+                        [`color${generateIndexFromHash(name, Number(cssVariables.colorNumber))}`]:
+                          !isPure.value,
                         clickable: path,
                       },
                     ],
                     role: path ? "navigation" : "",
-                    onClick: (event: Event) => navigate(event, path),
+                    onClick: () => {
+                      if (path) navigate(path);
+                    },
                   },
                   name,
                 ),

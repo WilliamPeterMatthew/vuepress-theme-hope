@@ -1,7 +1,7 @@
-import { createRequire } from "node:module";
-
 import { Logger, ensureEndingSlash } from "@vuepress/helper";
 import { getDirname, path } from "vuepress/utils";
+
+import pkg from "../../package.json" with { type: "json" };
 
 const __dirname = getDirname(import.meta.url);
 
@@ -19,6 +19,4 @@ export const TEMPLATE_FOLDER = ensureEndingSlash(
   path.resolve(__dirname, "../../templates"),
 );
 
-export const VERSION = (<Record<string, unknown> & { version: string }>(
-  createRequire(import.meta.url)("vuepress-theme-hope/package.json")
-)).version;
+export const VERSION = pkg.version;

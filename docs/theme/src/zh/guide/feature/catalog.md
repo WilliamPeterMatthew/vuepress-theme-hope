@@ -1,7 +1,6 @@
 ---
 title: 目录页面
 icon: network-wired
-order: 6
 category:
   - 功能
 tag:
@@ -37,5 +36,5 @@ VuePress Theme Hope 通过 [`@vuepress/plugin-catalog`][catalog] 提供目录组
 
 :::
 
-[catalog]: https://ecosystem.vuejs.press/zh/plugins/catalog.html
-[catalog-config]: https://ecosystem.vuejs.press/zh/plugins/catalog.html#options
+[catalog]: https://ecosystem.vuejs.press/zh/plugins/features/catalog.html
+[catalog-config]: https://ecosystem.vuejs.press/zh/plugins/features/catalog.html#options
